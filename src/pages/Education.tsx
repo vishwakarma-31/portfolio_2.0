@@ -5,7 +5,7 @@ import { Calendar, MapPin, Award, BookOpen } from 'lucide-react'
 const Education = () => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
-  const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   const education = [
     {
@@ -13,32 +13,32 @@ const Education = () => {
       school: 'B.Tech (Information Technology)',
       mascot: '🎓',
       year: '2022-2026',
-      achievements: ['GPA: 6.8', 'Field: Information Technology'],
+      achievements: ['GPA: 6.2', 'Field: Information Technology'],
       skills: ['Operating system', 'Computer Networks', 'DataBase Management', 'OOPs', 'Big Data', 'Machine Learning'],
       description: 'Gained a solid foundation in computing concepts through hands-on labs, industry-oriented coursework, and collaborative projects.'
     },
     {
-      degree: 'Dr Virendra Swarup Education Centre',
+      degree: 'Jai Narayan Vidhya Mandir Inter College',
       school: '12th (CBSE)',
       mascot: '📖',
       year: '2021-2022',
-      achievements: ['Percentage: 63.4%', 'Field: Science'],
+      achievements: ['Percentage: 56.5%', 'Field: Science'],
       skills: ['Maths', 'Physics', 'Chemistry', 'Computer'],
       description: 'Gained strong foundational knowledge in Mathematics, Physics, and Chemistry, developing a keen analytical mindset and problem-solving approach.'
     },
     {
-      degree: 'Dr Virendra Swarup Education Centre',
-      school: '10th (CBSE)',
+      degree: 'Jai Narayan Vidhya Mandir Inter College',
+      school: '10th (UP)',
       mascot: '📖',
       year: '2019-2020',
-      achievements: ['Percentage: 70.12%', 'Field: Science'],
+      achievements: ['Percentage: 74.5%', 'Field: Science'],
       skills: ['Maths', 'Physics', 'Chemistry', 'Computer'],
       description: 'Gained strong foundational knowledge in Mathematics, Physics, and Chemistry, developing a keen analytical mindset and problem-solving approach.'
     }
   ]
 
   return (
-    <div className={`min-h-screen relative overflow-hidden pt-24 pb-16 ${isDark ? 'bg-gradient-to-b from-[#020617] via-[#0a0f1f] to-[#000D1A]/90' : 'bg-gradient-to-b from-[#f0f4f8] via-[#e2e8f0] to-[#cbd5e1]'}`}>
+    <div className={`min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         <div className="text-center mb-16 page-element">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-6 animate-on-scroll">

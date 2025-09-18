@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { useGSAPAnimations } from '../hooks/useGSAPAnimations'
 import { MagneticButton } from '../components/MagneticButton'
+import Spline from '@splinetool/react-spline'
 
 import { Github, ExternalLink, Code, Palette, Database, Zap, Sparkles, Star, Download } from 'lucide-react'
 import { gsap } from 'gsap'
@@ -97,11 +98,28 @@ const Home = () => {
             </span>
           </div>
 
-          <h1 className="hero-title text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent page-element animate-on-scroll stagger-1">
-            <span className="hero-title-word">Hi,</span>{' '}
-            <span className="hero-title-word">I'm</span>{' '}
-            <span className="hero-title-word">Aryan Vishwakarma</span>
-          </h1>
+          {/* Name and 3D Robot Section */}
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 mb-6">
+            <h1 className="hero-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent page-element animate-on-scroll stagger-1 lg:text-right">
+              <span className="hero-title-word">Hi,</span>{' '}
+              <span className="hero-title-word">I'm</span>{' '}
+              <br className="lg:hidden" />
+              <span className="hero-title-word">Aryan Vishwakarma</span>
+            </h1>
+            
+            {/* 3D Spline Robot */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              // className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden glass-card glow-border-enter"
+            >
+              <Spline
+                scene="https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode"
+                className="w-full h-full"
+              />
+            </motion.div>
+          </div>
 
           <p className={`hero-description text-xl ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-8 max-w-2xl mx-auto page-element animate-on-scroll stagger-2`}>
             A passionate Full Stack Developer creating amazing digital experiences with modern technologies
@@ -207,7 +225,7 @@ const Home = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full blur-xl opacity-30 animate-pulse"></div>
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-sm">
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                    src="/images/Aaryannn.jpg"
                     alt="Aryan Vishwakarma"
                     className="w-full h-full object-cover"
                   />
@@ -313,8 +331,8 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
           >
             {[
-              { number: '3+', label: 'Years Coding', icon: Code },
-              { number: '15+', label: 'Projects Built', icon: Database },
+              { number: '1+', label: 'Years Coding', icon: Code },
+              { number: '5+', label: 'Projects Built', icon: Database },
               { number: '8+', label: 'Technologies', icon: Zap },
               { number: '100%', label: 'Passion', icon: Star }
             ].map((stat, index) => (

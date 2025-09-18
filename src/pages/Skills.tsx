@@ -127,7 +127,7 @@ const Skills = () => {
     <motion.div
       ref={containerRef}
       style={{ y: springY, opacity }}
-      className={`pt-24 pb-16 min-h-screen p-8 ${isDark ? 'bg-gradient-to-b from-[#020617] via-[#0a0f1f] to-[#000D1A]/90 text-slate-100' : 'bg-gradient-to-b from-[#f0f4f8] via-[#e2e8f0] to-[#cbd5e1] text-gray-900'}`}
+      className={`pt-24 pb-16 min-h-screen p-8 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}
     >
       <div className="max-w-7xl mx-auto space-y-12 pb-8">
         <motion.div
