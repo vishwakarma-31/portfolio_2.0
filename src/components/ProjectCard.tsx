@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 interface ProjectCardProps {
   title: string;
@@ -22,6 +23,9 @@ export default function ProjectCard({
   github,
   index
 }: ProjectCardProps) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -29,7 +33,15 @@ export default function ProjectCard({
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
       whileHover={{ y: -10 }}
-      className="glass rounded-xl overflow-hidden hover-lift group glow-border-enter"
+      className={`
+        rounded-xl overflow-hidden hover-lift group glow-border-enter
+        backdrop-filter backdrop-blur-xl transition-all duration-300
+        ${
+          isDark 
+            ? 'bg-gradient-to-br from-slate-800/80 to-gray-900/90 border border-slate-700/60 shadow-lg shadow-black/30' 
+            : 'bg-gradient-to-br from-white/90 to-gray-50/80 border border-gray-200/60 shadow-lg shadow-gray-500/10'
+        }
+      `}
     >
       {/* Project Image */}
       <div className="relative h-48 bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center overflow-hidden">
@@ -73,10 +85,16 @@ export default function ProjectCard({
 
       {/* Project Content */}
       <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+        <h3 className={`
+          text-xl font-semibold mb-2 group-hover:text-primary transition-colors
+          ${isDark ? 'text-white' : 'text-gray-900'}
+        `}>
           {title}
         </h3>
-        <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+        <p className={`
+          mb-4 text-sm leading-relaxed
+          ${isDark ? 'text-gray-300' : 'text-gray-600'}
+        `}>
           {description}
         </p>
         

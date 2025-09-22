@@ -6,8 +6,7 @@ export interface NavItem {
 }
 
 export interface ThemeContextType {
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
+  theme: 'dark';
 }
 
 export interface MousePosition {
@@ -98,4 +97,17 @@ export interface AccessibilitySettings {
   highContrast?: boolean;
   screenReaderMode?: boolean;
   keyboardNavigation?: boolean;
+}
+
+// Page transition types
+export interface PageTransitionProps {
+  children: React.ReactNode;
+}
+
+export type TransitionType = 'slide' | 'fade' | 'zoom';
+
+export interface TransitionConfig {
+  slide: { type: string; ease: string; duration: number };
+  fade: { duration: number; ease: string };
+  zoom: { type: string; bounce: number; duration: number };
 }

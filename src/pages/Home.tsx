@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
-import { useGSAPAnimations } from '../hooks/useGSAPAnimations'
 import { MagneticButton } from '../components/MagneticButton'
-import Spline from '@splinetool/react-spline'
+import SplineLoader from '../components/SplineLoader'
+import PerformanceMonitor from '../utils/performanceMonitor'
 
-import { Github, ExternalLink, Code, Palette, Database, Zap, Sparkles, Star, Download } from 'lucide-react'
+import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
 import { gsap } from 'gsap'
 // ScrollTrigger plugin is registered globally in App.tsx
 
@@ -14,7 +14,6 @@ const Home = () => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const containerRef = useRef(null)
-  const gsapRef = useGSAPAnimations()
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,6 +29,8 @@ const Home = () => {
   const springScale = useSpring(scale, { stiffness: 300, damping: 30 })
 
   useEffect(() => {
+    PerformanceMonitor.markStart('home-page-mount')
+    
     // Only run animations if we're on the home page to prevent conflicts during page transitions
     if (window.location.pathname !== '/') return
 
@@ -48,9 +49,9 @@ const Home = () => {
           from: 'random'
         }
       })
-
     }, containerRef)
 
+    PerformanceMonitor.markEnd('home-page-mount')
     return () => ctx.revert()
   }, [])
 
@@ -111,12 +112,14 @@ const Home = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 1, delay: 0.2 }}
               // className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden glass-card glow-border-enter"
             >
-              <Spline
+              <SplineLoader
                 scene="https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode"
                 className="w-full h-full"
+                fallbackContent="My 3D avatar is loading..."
+                showLoadingState={true}
               />
             </motion.div>
           </div>

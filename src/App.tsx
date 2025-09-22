@@ -1,11 +1,12 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import TransitionManager from './components/TransitionManager'
 import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
 import LoadingSpinner from './components/LoadingSpinner'
 import InteractiveCursorBackground from './components/InteractiveCursorBackground'
+import { useRoutePreloader, useRouteCache, usePerformanceMonitoring } from './hooks/useRouteOptimization'
 
 const Home = lazy(() => import('./pages/Home'))
 const Skills = lazy(() => import('./pages/Skills'))
@@ -16,12 +17,16 @@ const Education = lazy(() => import('./pages/Education'))
 
 const AppContent: React.FC = () => {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  // Theme is always 'dark' now, but keeping for consistency
+  const isDark = true
 
-  const location = useLocation()
+  // Initialize performance optimizations
+  useRoutePreloader()
+  useRouteCache()
+  usePerformanceMonitoring()
 
   return (
-      <div className={`space-theme relative min-h-screen overflow-hidden ${isDark ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white">
           {/* Interactive starfield background (site-wide) */}
           <ThreeBackground />
           {/* Cursor-reactive gradient/ripple layer */}

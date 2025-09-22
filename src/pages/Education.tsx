@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { useTheme } from '../context/ThemeContext'
 import { Calendar, MapPin, Award, BookOpen } from 'lucide-react'
+import { motion } from 'framer-motion'
+import UnifiedCard from '../components/UnifiedCard'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Education = () => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
+  const { ref: containerRef } = useScrollReveal({
+    threshold: 0.1,
+    once: true
+  });
 
   const education = [
     {
@@ -49,70 +57,126 @@ const Education = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8" ref={containerRef as any}>
           {education.map((edu, index) => (
-            <div
+            <UnifiedCard
               key={index}
-              className={`animate-on-scroll stagger-${(index % 5) + 2} relative border rounded-xl p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
-                isDark ? 'bg-gray-900/50 border-gray-700 hover:border-teal-500' : 'bg-white/50 border-gray-200 hover:border-teal-500'
-              } backdrop-blur-lg ${
-                hoveredIndex === index ? 'border-teal-500 scale-[1.05] shadow-lg' : ''
-              }`}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              animationType="education"
+              index={index}
+              className={`
+                h-full transition-all duration-300
+                ${hoveredIndex === index ? 'border-teal-500 scale-[1.02] shadow-lg' : ''}
+              `}
+              onClick={() => setHoveredIndex(hoveredIndex === index ? null : index)}
             >
-              <div className="space-y-6">
+              <div 
+                className="p-8 space-y-6"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl animate-bounce">{edu.mascot}</span>
-                    <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    <motion.span 
+                      className="text-3xl"
+                      animate={{ 
+                        rotateY: hoveredIndex === index ? 360 : 0,
+                        scale: hoveredIndex === index ? 1.2 : 1
+                      }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      {edu.mascot}
+                    </motion.span>
+                    <motion.h3 
+                      className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    >
                       {edu.degree}
-                    </h3>
+                    </motion.h3>
                   </div>
-                  <p className={`text-lg flex items-center gap-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                    <BookOpen className="w-5 h-5 text-teal-500 animate-pulse" />
+                  <motion.p 
+                    className={`text-lg flex items-center gap-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <motion.div
+                      animate={{ rotate: hoveredIndex === index ? 360 : 0 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <BookOpen className="w-5 h-5 text-teal-500" />
+                    </motion.div>
                     {edu.school}
-                  </p>
-                  <p className={`flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    <Calendar className="w-4 h-4 animate-pulse" />
+                  </motion.p>
+                  <motion.p 
+                    className={`flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                  >
+                    <Calendar className="w-4 h-4" />
                     {edu.year}
-                  </p>
+                  </motion.p>
                 </div>
 
-                <p className={`text-sm italic border-l-2 border-teal-500 pl-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <motion.p 
+                  className={`text-sm italic border-l-2 border-teal-500 pl-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
                   {edu.description}
-                </p>
+                </motion.p>
 
-                <div className="space-y-3">
+                <motion.div 
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
                   <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    <Award className="w-4 h-4 text-yellow-500 animate-pulse" />
+                    <Award className="w-4 h-4 text-yellow-500" />
                     Key Achievements
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {edu.achievements.map((achievement, achIndex) => (
-                      <div
+                      <motion.div
                         key={achIndex}
-                        className="px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 flex items-center gap-2 text-sm hover:bg-teal-500/20 transition-all duration-300 hover:scale-105"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.7 + achIndex * 0.1 }}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 flex items-center gap-2 text-sm hover:bg-teal-500/20 transition-all duration-300 cursor-pointer"
                       >
-                        <Award className="w-4 h-4 animate-pulse" />
+                        <Award className="w-4 h-4" />
                         <span>{achievement}</span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex flex-wrap gap-2">
+                <motion.div 
+                  className="flex flex-wrap gap-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                >
                   {edu.skills.map((skill, skillIndex) => (
-                    <span
+                    <motion.span
                       key={skillIndex}
-                      className="px-2 py-1 text-xs rounded bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 transition-all duration-300 hover:scale-105 animate-pulse"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.9 + skillIndex * 0.05 }}
+                      whileHover={{ scale: 1.05, y: -1 }}
+                      className="px-2 py-1 text-xs rounded bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 transition-all duration-300 cursor-pointer"
                     >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </UnifiedCard>
           ))}
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
-import { Sun, Moon, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import type { NavItem } from '../types'
 
 interface NavbarProps {
@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({
   ],
   brandName = 'Aryan Vishwakarma'
 }) => {
-  const { theme, toggleTheme } = useTheme()
+  const { theme } = useTheme()
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -91,26 +91,6 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             <div className="flex items-center space-x-4">
-              <motion.button
-                onClick={toggleTheme}
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="p-2 rounded-lg text-gray-200 hover:text-cyan-300 hover:bg-cyan-400/10 transition-colors backdrop-blur-sm"
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={theme}
-                    initial={{ rotate: -180, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 180, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                  </motion.div>
-                </AnimatePresence>
-              </motion.button>
-
               <div className="md:hidden">
                 <motion.button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

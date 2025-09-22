@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { SkillCategory } from '../types'
+import UnifiedCard from '../components/UnifiedCard'
 import {
   Code,
   Palette,
@@ -147,16 +148,18 @@ const Skills = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories.map((category, index) => (
-            <div
+            <UnifiedCard
               key={category.title}
-              className={`animate-on-scroll stagger-${(index % 5) + 1}`}
+              animationType="skills"
+              index={index}
+              className="animate-on-scroll stagger-advanced-1"
             >
               <SkillCard
                 category={category}
                 index={index}
                 isDark={isDark}
               />
-            </div>
+            </UnifiedCard>
           ))}
         </div>
 
@@ -209,61 +212,92 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number; isDark: bool
   const isInView = useInView(cardRef, { once: true, margin: "-100px" })
 
   return (
-    <motion.div
+    <div 
       ref={cardRef}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{
-        y: -10,
-        transition: { duration: 0.3 }
-      }}
-      className={`group relative overflow-hidden rounded-lg p-[2px] bg-gradient-to-r ${category.bgColor} bg-[length:400%_400%] animate-gradient-xy hover:bg-[length:100%_100%] transition-all duration-700 shadow-lg`}
+      className="p-6 h-full"
     >
-      <div className={`rounded-lg overflow-hidden shadow-md transition-transform duration-500 group-hover:scale-105 p-6 glow-border-enter ${isDark ? 'bg-gradient-to-br from-slate-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-100'}`}>
-        <div className="flex items-center gap-4 mb-6">
-          <motion.div
-            className={`p-3 rounded-xl ${isDark ? 'bg-gray-800/50' : 'bg-gray-100'}`}
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.6 }}
-          >
-            <category.icon className={`w-8 h-8 ${category.color}`} />
-          </motion.div>
-          <h3 className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
-            {category.title}
-          </h3>
-        </div>
+      <div className="flex items-center gap-4 mb-6">
+        <motion.div
+          className={`p-3 rounded-xl ${isDark ? 'bg-gray-800/50' : 'bg-gray-100'}`}
+          whileHover={{ rotate: 360 }}
+          transition={{ duration: 0.6 }}
+        >
+          <category.icon className={`w-8 h-8 ${category.color}`} />
+        </motion.div>
+        <h3 className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
+          {category.title}
+        </h3>
+      </div>
 
-        <div className="space-y-3">
-          {category.skills.map((skill, skillIndex) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-              transition={{ duration: 0.5, delay: skillIndex * 0.1 }}
-              className="space-y-2"
-            >
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">{skill.icon}</span>
-                  <span className="font-medium">{skill.name}</span>
-                </div>
-                <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {skill.level}%
-                </span>
-              </div>
-              <div className={`w-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2 overflow-hidden`}>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-                  transition={{ duration: 1, delay: skillIndex * 0.1, ease: "easeOut" }}
-                  className={`h-2 rounded-full bg-gradient-to-r ${category.color.replace('text-', 'from-')} to-cyan-400`}
-                />
-              </div>
-            </motion.div>
-          ))}
+      <div className="space-y-3">
+        {category.skills.map((skill, skillIndex) => (
+          <EnhancedSkillBar 
+            key={skill.name}
+            skill={skill}
+            skillIndex={skillIndex}
+            isInView={isInView}
+            isDark={isDark}
+            category={category}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const EnhancedSkillBar: React.FC<{
+  skill: any;
+  skillIndex: number;
+  isInView: boolean;
+  isDark: boolean;
+  category: SkillCategory;
+}> = ({ skill, skillIndex, isInView, isDark, category }) => {
+  const [currentValue, setCurrentValue] = useState(0);
+  
+  useEffect(() => {
+    if (isInView) {
+      const timer = setTimeout(() => {
+        setCurrentValue(skill.level);
+      }, skillIndex * 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView, skillIndex, skill.level]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+      transition={{ duration: 0.5, delay: skillIndex * 0.1 }}
+      className="space-y-2"
+    >
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <motion.span 
+            className="text-lg"
+            initial={{ scale: 0 }}
+            animate={isInView ? { scale: 1 } : { scale: 0 }}
+            transition={{ duration: 0.3, delay: skillIndex * 0.1 + 0.2 }}
+          >
+            {skill.icon}
+          </motion.span>
+          <span className="font-medium">{skill.name}</span>
         </div>
+        <motion.span 
+          className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ delay: skillIndex * 0.1 + 0.5 }}
+        >
+          {Math.round(currentValue)}%
+        </motion.span>
+      </div>
+      <div className={`w-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2 overflow-hidden`}>
+        <motion.div
+          className={`h-2 rounded-full bg-gradient-to-r ${category.color.replace('text-', 'from-')} to-cyan-400`}
+          initial={{ width: 0 }}
+          style={{ width: `${currentValue}%` }}
+          transition={{ duration: 1, delay: skillIndex * 0.1, ease: "easeOut" }}
+        />
       </div>
     </motion.div>
   )

@@ -307,8 +307,6 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
           mousePosition={mousePosition}
         />
       </ParallaxLayer>
-      {/* <MorphingGeometry mousePosition={mousePosition} />
-      <LiquidSphere mousePosition={mousePosition} /> */}
       
       {/* Optional depth fog disabled for clarity */}
     </Canvas>

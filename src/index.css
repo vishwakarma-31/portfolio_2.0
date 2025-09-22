@@ -410,3 +410,173 @@ html {
     transform: translateY(-10px) rotate(2deg);
   }
 }
+
+/* Advanced scroll reveal animations */
+@keyframes slideInFromBottomAdvanced {
+  from {
+    opacity: 0;
+    transform: translateY(80px) rotateX(25deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+@keyframes slideInFromLeftAdvanced {
+  from {
+    opacity: 0;
+    transform: translateX(-80px) rotateY(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+  }
+}
+
+@keyframes slideInFromRightAdvanced {
+  from {
+    opacity: 0;
+    transform: translateX(80px) rotateY(15deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+  }
+}
+
+@keyframes scaleInAdvanced {
+  from {
+    opacity: 0;
+    transform: scale(0.7) rotateZ(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateZ(0);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+/* Card theme styles */
+.card-theme-light {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.8) 100%);
+  border: 1px solid rgba(229,231,235,0.6);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  color: #1f2937;
+}
+
+.card-theme-dark {
+  background: linear-gradient(135deg, rgba(17,24,39,0.8) 0%, rgba(31,41,55,0.9) 100%);
+  border: 1px solid rgba(75,85,99,0.4);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  color: #f9fafb;
+}
+
+.card-theme-light:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(249,250,251,0.9) 100%);
+  border-color: rgba(6,182,212,0.4);
+  box-shadow: 0 8px 32px rgba(6,182,212,0.15);
+}
+
+.card-theme-dark:hover {
+  background: linear-gradient(135deg, rgba(17,24,39,0.9) 0%, rgba(31,41,55,0.95) 100%);
+  border-color: rgba(6,182,212,0.6);
+  box-shadow: 0 8px 32px rgba(6,182,212,0.25);
+}
+
+/* Unified glass effects that respect theme */
+.glass-unified {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-unified.light {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-unified.dark {
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.glass-unified.light:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 12px 40px rgba(6, 182, 212, 0.15);
+}
+
+.glass-unified.dark:hover {
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 0 12px 40px rgba(6, 182, 212, 0.25);
+}
+
+/* Advanced reveal animations */
+.reveal-advanced-up {
+  animation: slideInFromBottomAdvanced 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.reveal-advanced-left {
+  animation: slideInFromLeftAdvanced 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.reveal-advanced-right {
+  animation: slideInFromRightAdvanced 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.reveal-advanced-scale {
+  animation: scaleInAdvanced 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Typing animation */
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid #06b6d4;
+  white-space: nowrap;
+  animation: typewriter 2s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #06b6d4;
+  }
+}
+
+/* Progress bar animations */
+.progress-animated {
+  animation: progressFill 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Stagger delays for advanced animations */
+.stagger-advanced-1 { animation-delay: 0.1s; }
+.stagger-advanced-2 { animation-delay: 0.2s; }
+.stagger-advanced-3 { animation-delay: 0.3s; }
+.stagger-advanced-4 { animation-delay: 0.4s; }
+.stagger-advanced-5 { animation-delay: 0.5s; }
+.stagger-advanced-6 { animation-delay: 0.6s; }
+.stagger-advanced-7 { animation-delay: 0.7s; }
+.stagger-advanced-8 { animation-delay: 0.8s; }

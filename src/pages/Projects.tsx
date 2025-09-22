@@ -1,10 +1,18 @@
 import React from 'react'
 import { useTheme } from '../context/ThemeContext'
 import { Github, ExternalLink } from 'lucide-react'
+import { motion } from 'framer-motion'
+import UnifiedCard from '../components/UnifiedCard'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Projects = () => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+
+  const { ref: containerRef } = useScrollReveal({
+    threshold: 0.1,
+    once: true
+  });
 
   const projects = [
     {
@@ -44,67 +52,116 @@ const Projects = () => {
 
   return (
     <div className={`pt-24 pb-16 min-h-screen p-8 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
-      <div className="max-w-7xl mx-auto space-y-12">
+      <div className="max-w-7xl mx-auto space-y-12" ref={containerRef as any}>
         {projects.map((project, index) => (
-          <div
+          <UnifiedCard
             key={index}
-            className={`animate-on-scroll stagger-${(index % 5) + 1} flex flex-col md:flex-row items-center group rounded-lg p-[2px] bg-gradient-to-r from-cyan-500 via-purple-500 to-emerald-500 bg-[length:400%_400%] animate-gradient-xy hover:bg-[length:100%_100%] transition-all duration-700 shadow-lg hover:shadow-2xl`}
+            animationType="project"
+            index={index}
+            className="overflow-hidden"
           >
-            <div className="md:w-1/2 overflow-hidden rounded-lg">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-            </div>
+            <div className="flex flex-col md:flex-row items-center group">
+              {/* Project Image */}
+              <div className="md:w-1/2 overflow-hidden">
+                <motion.img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
 
-            <div className={`md:w-1/2 rounded-lg overflow-hidden shadow-md transition-transform duration-500 group-hover:scale-105 p-6 glow-border-enter ${isDark ? 'bg-gradient-to-br from-slate-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-100'}`}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="text-emerald-400 text-sm font-mono mb-2 tracking-wide uppercase animate-pulse">
-                    Featured Project
+              {/* Project Content */}
+              <div className="md:w-1/2 p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <motion.div 
+                      className="text-emerald-400 text-sm font-mono mb-2 tracking-wide uppercase"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    >
+                      Featured Project
+                    </motion.div>
+                    <motion.h2 
+                      className={`text-3xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      {project.title}
+                    </motion.h2>
                   </div>
-                  <h2 className={`text-3xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
-                    {project.title}
-                  </h2>
+
+                  <motion.div 
+                    className="flex gap-4"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                  >
+                    <motion.a
+                      href={project.links.github}
+                      whileHover={{ scale: 1.2, rotate: 12 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`
+                        transition-all duration-300
+                        ${isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-gray-500 hover:text-emerald-600'}
+                      `}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Github size={22} />
+                    </motion.a>
+                    {project.links.demo && (
+                      <motion.a
+                        href={project.links.demo}
+                        whileHover={{ scale: 1.2, rotate: -12 }}
+                        whileTap={{ scale: 0.9 }}
+                        className={`
+                          transition-all duration-300
+                          ${isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-gray-500 hover:text-emerald-600'}
+                        `}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink size={22} />
+                      </motion.a>
+                    )}
+                  </motion.div>
                 </div>
 
-                <div className="flex gap-4">
-                  <a
-                    href={project.links.github}
-                    className="text-slate-400 hover:text-emerald-400 transition-all duration-300 transform hover:scale-125 hover:rotate-12"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github size={22} />
-                  </a>
-                  <a
-                    href={project.links.demo}
-                    className="text-slate-400 hover:text-emerald-400 transition-all duration-300 transform hover:scale-125 hover:-rotate-12"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink size={22} />
-                  </a>
-                </div>
-              </div>
+                <motion.p 
+                  className={`mb-6 text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                  {project.description}
+                </motion.p>
 
-              <p className={`mb-6 text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-3">
-                {project.tags.map((tag, tagIndex) => (
-                  <span
-                    key={tagIndex}
-                    className="px-3 py-1 text-sm font-medium rounded-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-gray-900 shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 animate-pulse"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <motion.div 
+                  className="flex flex-wrap gap-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  {project.tags.map((tag, tagIndex) => (
+                    <motion.span
+                      key={tagIndex}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.7 + tagIndex * 0.1 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      className="px-3 py-1 text-sm font-medium rounded-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-gray-900 shadow-lg hover:shadow-xl transform transition-all duration-300"
+                    >
+                      {tag}
+                    </motion.span>
+                  ))}
+                </motion.div>
               </div>
             </div>
-          </div>
+          </UnifiedCard>
         ))}
       </div>
     </div>
