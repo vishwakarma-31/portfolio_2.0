@@ -1,13 +1,10 @@
 import React from 'react'
-import { useTheme } from '../context/ThemeContext'
 import { Award, Calendar, MapPin, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Experience = () => {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
@@ -80,7 +77,7 @@ const Experience = () => {
 
 
   return (
-    <div className={`min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
+    <div className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div
@@ -90,9 +87,9 @@ const Experience = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-6">
-            Certifications
+            Experience
           </h1>
-          <p className={`max-w-2xl mx-auto text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+          <p className="max-w-2xl mx-auto text-lg text-gray-300">
             Professional Certifications and achievements in technology and development
           </p>
         </motion.div>
@@ -114,11 +111,8 @@ const Experience = () => {
                 <div className="p-6">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`
-                      p-3 rounded-lg group-hover:scale-110 transition-transform duration-300
-                      ${isDark ? 'bg-blue-500/20' : 'bg-blue-500/10'}
-                    `}>
-                      <Icon className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                    <div className="p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 bg-blue-500/20">
+                      <Icon className="w-6 h-6 text-blue-400" />
                     </div>
                     {item.certificateUrl && (
                       <motion.a
@@ -127,10 +121,7 @@ const Experience = () => {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1, rotate: 12 }}
                         whileTap={{ scale: 0.9 }}
-                        className={`
-                          p-2 rounded-lg transition-all duration-300
-                          ${isDark ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-500 hover:text-cyan-600'}
-                        `}
+                        className="p-2 rounded-lg transition-all duration-300 text-gray-400 hover:text-cyan-400"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </motion.a>
@@ -138,31 +129,22 @@ const Experience = () => {
                   </div>
 
                   {/* Content */}
-                  <h3 className={`
-                    text-xl font-semibold mb-2 group-hover:text-cyan-400 transition-colors
-                    ${isDark ? 'text-white' : 'text-gray-900'}
-                  `}>
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-cyan-400 transition-colors text-white">
                     {item.title}
                   </h3>
                   
-                  <p className={`font-medium mb-2 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                  <p className="font-medium mb-2 text-blue-400">
                     {item.company}
                   </p>
                   
-                  <div className={`
-                    flex items-center gap-4 mb-4 text-sm
-                    ${isDark ? 'text-gray-400' : 'text-gray-500'}
-                  `}>
+                  <div className="flex items-center gap-4 mb-4 text-sm text-gray-400">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>{item.period}</span>
                     </div>
                   </div>
                   
-                  <p className={`
-                    text-sm leading-relaxed mb-4
-                    ${isDark ? 'text-gray-300' : 'text-gray-600'}
-                  `}>
+                  <p className="text-sm leading-relaxed mb-4 text-gray-300">
                     {item.description}
                   </p>
 
@@ -176,14 +158,7 @@ const Experience = () => {
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.3, delay: i * 0.05 }}
                           whileHover={{ scale: 1.05 }}
-                          className={`
-                            px-2 py-1 text-xs rounded-full transition-all duration-200
-                            ${
-                              isDark 
-                                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30' 
-                                : 'bg-cyan-500/10 text-cyan-700 border border-cyan-500/20 hover:bg-cyan-500/20'
-                            }
-                          `}
+                          className="px-2 py-1 text-xs rounded-full transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30"
                         >
                           {tech}
                         </motion.span>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
 import { Menu, X } from 'lucide-react'
 import type { NavItem } from '../types'
 
@@ -19,9 +18,8 @@ const Navbar: React.FC<NavbarProps> = ({
     { name: 'Education', path: '/education' },
     { name: 'Contact', path: '/contact' },
   ],
-  brandName = 'Aryan Vishwakarma'
+  brandName = ' '
 }) => {
-  const { theme } = useTheme()
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

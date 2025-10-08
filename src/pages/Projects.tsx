@@ -1,13 +1,10 @@
 import React from 'react'
-import { useTheme } from '../context/ThemeContext'
 import { Github, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Projects = () => {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
@@ -51,118 +48,136 @@ const Projects = () => {
   ]
 
   return (
-    <div className={`pt-24 pb-16 min-h-screen p-8 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
-      <div className="max-w-7xl mx-auto space-y-12" ref={containerRef as any}>
-        {projects.map((project, index) => (
-          <UnifiedCard
-            key={index}
-            animationType="project"
-            index={index}
-            className="overflow-hidden"
-          >
-            <div className="flex flex-col md:flex-row items-center group">
-              {/* Project Image */}
-              <div className="md:w-1/2 overflow-hidden">
-                <motion.img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
+    <div className="min-h-screen pt-24 pb-16 text-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-6">
+            My Projects
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg text-gray-300">
+            A showcase of my latest work and technical achievements
+          </p>
+        </motion.div>
 
-              {/* Project Content */}
-              <div className="md:w-1/2 p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <motion.div 
-                      className="text-emerald-400 text-sm font-mono mb-2 tracking-wide uppercase"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                      Featured Project
-                    </motion.div>
-                    <motion.h2 
-                      className={`text-3xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                      {project.title}
-                    </motion.h2>
-                  </div>
+        <div 
+          ref={containerRef as any}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {projects.map((project, index) => (
+            <UnifiedCard
+              key={index}
+              animationType="project"
+              index={index}
+              className="group"
+            >
+              <div className="relative h-full flex flex-col">
+                {/* Project Image */}
+                <div className="relative h-48 overflow-hidden rounded-t-xl">
+                  <motion.img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    whileHover={{ scale: 1.05 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  
+                  {/* Featured Badge */}
+                  {project.featured && (
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        Featured
+                      </span>
+                    </div>
+                  )}
 
-                  <motion.div 
-                    className="flex gap-4"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                  >
+                  {/* Project Links */}
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <motion.a
                       href={project.links.github}
-                      whileHover={{ scale: 1.2, rotate: 12 }}
-                      whileTap={{ scale: 0.9 }}
-                      className={`
-                        transition-all duration-300
-                        ${isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-gray-500 hover:text-emerald-600'}
-                      `}
                       target="_blank"
                       rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
                     >
-                      <Github size={22} />
+                      <Github className="w-4 h-4" />
                     </motion.a>
                     {project.links.demo && (
                       <motion.a
                         href={project.links.demo}
-                        whileHover={{ scale: 1.2, rotate: -12 }}
-                        whileTap={{ scale: 0.9 }}
-                        className={`
-                          transition-all duration-300
-                          ${isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-gray-500 hover:text-emerald-600'}
-                        `}
                         target="_blank"
                         rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
                       >
-                        <ExternalLink size={22} />
+                        <ExternalLink className="w-4 h-4" />
                       </motion.a>
                     )}
-                  </motion.div>
+                  </div>
                 </div>
 
-                <motion.p 
-                  className={`mb-6 text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  {project.description}
-                </motion.p>
+                {/* Project Content */}
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-400 transition-colors text-white">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4 flex-1">
+                    {project.description}
+                  </p>
 
-                <motion.div 
-                  className="flex flex-wrap gap-3"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  {project.tags.map((tag, tagIndex) => (
-                    <motion.span
-                      key={tagIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: 0.7 + tagIndex * 0.1 }}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      className="px-3 py-1 text-sm font-medium rounded-full bg-gradient-to-r from-emerald-400 to-cyan-500 text-gray-900 shadow-lg hover:shadow-xl transform transition-all duration-300"
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tech, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: i * 0.05 }}
+                        whileHover={{ scale: 1.05 }}
+                        className="px-3 py-1 text-xs rounded-full transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30"
+                      >
+                        {tech}
+                      </motion.span>
+                    ))}
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 mt-auto">
+                    <motion.a
+                      href={project.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1 text-center py-2 px-4 bg-gray-800/50 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-700/50 hover:border-gray-500 transition-all duration-300 text-sm"
                     >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </motion.div>
+                      View Code
+                    </motion.a>
+                    {project.links.demo && (
+                      <motion.a
+                        href={project.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 text-center py-2 px-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg font-medium hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 text-sm"
+                      >
+                        Live Demo
+                      </motion.a>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </UnifiedCard>
-        ))}
+            </UnifiedCard>
+          ))}
+        </div>
       </div>
     </div>
   )

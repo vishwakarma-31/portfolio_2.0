@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import { useTheme } from '../context/ThemeContext'
 import { Mail, MapPin, Send } from 'lucide-react'
 
 const Contact = () => {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,7 +32,7 @@ const Contact = () => {
                 <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
                   Get in Touch
                 </h2>
-                <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className="text-lg text-gray-300">
                   Have a question or want to work together? Drop me a message!
                 </p>
               </div>
@@ -47,7 +44,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold">Email</h3>
-                    <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className="text-gray-400">
                       gAryan133@gmail.com
                     </p>
                   </div>
@@ -59,7 +56,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold">Location</h3>
-                    <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className="text-gray-400">
                       Kanpur, Uttar Pradesh
                     </p>
                   </div>
@@ -67,7 +64,7 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className={`backdrop-blur-xl p-8 rounded-3xl shadow-2xl border ${isDark ? 'border-white/10 bg-white/5' : 'border-white/20 bg-white/30'} transition-all duration-300 animate-on-scroll stagger-3`}>
+            <div className="backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/10 bg-white/5 transition-all duration-300 animate-on-scroll stagger-3">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 gap-6">
                   <div className="animate-on-scroll stagger-4">
@@ -75,7 +72,7 @@ const Contact = () => {
                       type="text"
                       name="name"
                       placeholder="Your Name"
-                      className={`w-full px-4 py-3 rounded-xl border ${isDark ? 'border-gray-700/50 bg-white/5 text-white' : 'border-gray-300/50 bg-white/30 text-gray-800'} focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105`}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
                       value={formData.name}
                       onChange={handleChange}
                     />
@@ -86,7 +83,7 @@ const Contact = () => {
                       type="email"
                       name="email"
                       placeholder="Your Email"
-                      className={`w-full px-4 py-3 rounded-xl border ${isDark ? 'border-gray-700/50 bg-white/5 text-white' : 'border-gray-300/50 bg-white/30 text-gray-800'} focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105`}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -97,7 +94,7 @@ const Contact = () => {
                       type="text"
                       name="subject"
                       placeholder="Subject"
-                      className={`w-full px-4 py-3 rounded-xl border ${isDark ? 'border-gray-700/50 bg-white/5 text-white' : 'border-gray-300/50 bg-white/30 text-gray-800'} focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105`}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
                       value={formData.subject}
                       onChange={handleChange}
                     />
@@ -108,7 +105,7 @@ const Contact = () => {
                       name="message"
                       placeholder="Your Message"
                       rows={4}
-                      className={`w-full px-4 py-3 rounded-xl border resize-none ${isDark ? 'border-gray-700/50 bg-white/5 text-white' : 'border-gray-300/50 bg-white/30 text-gray-800'} focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105`}
+                      className="w-full px-4 py-3 rounded-xl border resize-none border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
                       value={formData.message}
                       onChange={handleChange}
                     />

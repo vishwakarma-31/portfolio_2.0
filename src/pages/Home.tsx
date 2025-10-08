@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
 import { MagneticButton } from '../components/MagneticButton'
 import SplineLoader from '../components/SplineLoader'
 import PerformanceMonitor from '../utils/performanceMonitor'
@@ -11,8 +10,6 @@ import { gsap } from 'gsap'
 // ScrollTrigger plugin is registered globally in App.tsx
 
 const Home = () => {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
   const containerRef = useRef(null)
 
   const { scrollYProgress } = useScroll({
@@ -100,7 +97,7 @@ const Home = () => {
           </div>
 
           {/* Name and 3D Robot Section */}
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 mb-6">
+          <div className="flex flex-col lg:flex-row items-center justify-center mb-6">
             <h1 className="hero-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent page-element animate-on-scroll stagger-1 lg:text-right">
               <span className="hero-title-word">Hi,</span>{' '}
               <span className="hero-title-word">I'm</span>{' '}
@@ -110,21 +107,21 @@ const Home = () => {
             
             {/* 3D Spline Robot */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              // initial={{ opacity: 0, scale: 0.8 }}
+              // animate={{ opacity: 1, scale: 1 }}
+              // transition={{ duration: 1, delay: 0.2 }}
               // className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden glass-card glow-border-enter"
             >
               <SplineLoader
                 scene="https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode"
-                className="w-full h-full"
-                fallbackContent="My 3D avatar is loading..."
-                showLoadingState={true}
+                className="w-96 h-96"
+                // fallbackContent="My 3D avatar is loading..."
+                // showLoadingState={true}
               />
             </motion.div>
           </div>
 
-          <p className={`hero-description text-xl ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-8 max-w-2xl mx-auto page-element animate-on-scroll stagger-2`}>
+          <p className="hero-description text-xl text-gray-300 mb-8 max-w-2xl mx-auto page-element animate-on-scroll stagger-2">
             A passionate Full Stack Developer creating amazing digital experiences with modern technologies
           </p>
 
@@ -140,11 +137,7 @@ const Home = () => {
             <MagneticButton>
               <Link
                 to="/contact"
-                className={`border-2 px-8 py-3 rounded-lg font-semibold transition-all duration-300 inline-block ${
-                  isDark
-                    ? 'border-gray-600 text-gray-300 hover:bg-gray-800'
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-                }`}
+                className="border-2 border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-3 rounded-lg font-semibold transition-all duration-300 inline-block"
               >
                 Get In Touch
               </Link>
@@ -158,7 +151,7 @@ const Home = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
-              className={`${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors p-3 rounded-full hover:bg-white/10`}
+              className="text-gray-400 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
             >
               <Github size={24} />
             </motion.a>
@@ -168,7 +161,7 @@ const Home = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, rotate: -5 }}
               whileTap={{ scale: 0.9 }}
-              className={`${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors p-3 rounded-full hover:bg-white/10`}
+              className="text-gray-400 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
             >
               <ExternalLink size={24} />
             </motion.a>
@@ -210,7 +203,7 @@ const Home = () => {
             <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
               About Me
             </h2>
-            <p className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-700'} max-w-3xl mx-auto leading-relaxed`}>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Passionate about creating digital experiences that matter
             </p>
           </motion.div>
@@ -273,11 +266,11 @@ const Home = () => {
             >
               <div className="glass-card p-8 rounded-2xl glow-border-enter">
                 <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I'm Aryan!</h3>
-                <p className={`text-lg leading-relaxed mb-6 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className="text-lg leading-relaxed mb-6 text-gray-300">
                   I'm a passionate Full Stack Developer with a love for creating beautiful, functional, and scalable web applications. 
                   With expertise in modern technologies and a keen eye for design, I transform ideas into digital realities.
                 </p>
-                <p className={`text-lg leading-relaxed mb-6 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className="text-lg leading-relaxed mb-6 text-gray-300">
                   When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, 
                   or sharing knowledge with the developer community. I believe in continuous learning and staying ahead of the curve.
                 </p>
@@ -312,11 +305,7 @@ const Home = () => {
                     href="#contact"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-center border-2 ${
-                      isDark
-                        ? 'border-gray-600 text-gray-300 hover:bg-gray-800'
-                        : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-                    }`}
+                    className="px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-center border-2 border-gray-600 text-gray-300 hover:bg-gray-800"
                   >
                     Let's Connect
                   </motion.a>
@@ -349,7 +338,7 @@ const Home = () => {
               >
                 <stat.icon className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-gradient mb-2">{stat.number}</div>
-                <div className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</div>
+                <div className="text-sm font-medium text-gray-400">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

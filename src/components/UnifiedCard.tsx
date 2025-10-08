@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
 
 interface UnifiedCardProps {
   children: React.ReactNode;
@@ -21,8 +20,6 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   hoverEffects = true,
   glowEffect = true
 }) => {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
 
   const getAnimationVariants = () => {
     switch (animationType) {
@@ -104,7 +101,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
     backdrop-filter backdrop-blur-xl
     transition-all duration-300 ease-out
     cursor-pointer group
-    ${isDark ? 'card-theme-dark' : 'card-theme-light'}
+    card-theme-dark
     ${hoverEffects ? 'hover-lift' : ''}
     ${glowEffect ? 'glow-border-enter' : ''}
     ${className}
@@ -133,14 +130,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
       {...hoverAnimation}
     >
       {/* Background gradient effect on hover */}
-      <div className={`
-        absolute inset-0 opacity-0 group-hover:opacity-100
-        transition-opacity duration-300
-        ${isDark 
-          ? 'bg-gradient-to-br from-cyan-500/5 to-purple-500/5' 
-          : 'bg-gradient-to-br from-cyan-500/10 to-purple-500/10'
-        }
-      `} />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
       
       {/* Content */}
       <div className="relative z-10">

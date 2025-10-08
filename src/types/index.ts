@@ -5,10 +5,6 @@ export interface NavItem {
   path: string;
 }
 
-export interface ThemeContextType {
-  theme: 'dark';
-}
-
 export interface MousePosition {
   x: number;
   y: number;

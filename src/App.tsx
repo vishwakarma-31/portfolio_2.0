@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { ThemeProvider, useTheme } from './context/ThemeContext'
+import { ThemeProvider } from './context/ThemeContext'
 import TransitionManager from './components/TransitionManager'
 import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
@@ -16,17 +16,13 @@ const Contact = lazy(() => import('./pages/Contact'))
 const Education = lazy(() => import('./pages/Education'))
 
 const AppContent: React.FC = () => {
-  const { theme } = useTheme()
-  // Theme is always 'dark' now, but keeping for consistency
-  const isDark = true
-
   // Initialize performance optimizations
   useRoutePreloader()
   useRouteCache()
   usePerformanceMonitoring()
 
   return (
-      <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white">
+      <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">
           {/* Interactive starfield background (site-wide) */}
           <ThreeBackground />
           {/* Cursor-reactive gradient/ripple layer */}

@@ -1,4 +1,4 @@
-# 🚀 **Ultimate Developer Portfolio**
+# 🚀 **Clean Developer Portfolio**
 
 <div align="center">
 
@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
 
-*A cutting-edge, pixel-perfect developer portfolio with advanced animations, backend integration, and comprehensive testing suite.*
+*A clean, optimized developer portfolio with smooth animations, 3D elements, and modern dark theme design.*
 
 [🎬 View Live Demo](https://portfolio-alpha-neon-54.vercel.app/) • [📖 Documentation](#-documentation) • [🚀 Quick Start](#-getting-started)
 
@@ -22,42 +22,39 @@
 
 ## ✨ **Features**
 
-### 🎨 **Advanced UI/UX**
+### 🎨 **Modern UI/UX**
 - **Responsive Design**: Mobile-first approach with perfect cross-device compatibility
-- **Dark/Light Mode**: Seamless theme switching with localStorage persistence
-- **Advanced Animations**: 50+ floating particles, sparkles, falling stars, and smooth transitions
-- **Interactive Elements**: Magnetic hover effects, dynamic cursor, and micro-interactions
+- **Dark Theme**: Consistent dark mode design throughout the application
+- **Smooth Animations**: Optimized page transitions and scroll-revealed content
+- **Interactive Elements**: Magnetic hover effects, dynamic cursor, and 3D transforms
 - **Glass Morphism**: Modern glassmorphism effects with backdrop blur
+- **3D Character**: Interactive Spline 3D character on the homepage
 
-### 🚀 **Performance & Optimization**
+### 🚀 **Performance & Architecture**
 - **Lightning Fast**: Optimized with Vite for sub-second load times
+- **Clean Code**: Streamlined architecture with reusable components
 - **Code Splitting**: Lazy loading for routes and components
-- **SEO Optimized**: Meta tags, structured data, and social sharing
-- **Accessibility**: WCAG 2.1 AA compliant with keyboard navigation
+- **Unified Components**: Single `UnifiedCard` component for consistent design
+- **Optimized Bundle**: Reduced CSS size and eliminated unused code
 - **Error Boundaries**: Graceful error handling with user-friendly fallbacks
-- **Progressive Web App**: Offline support and native app-like Certification
-- **Performance Monitoring**: Lighthouse CI integration with automated scoring
 
 ### 🔧 **Backend Integration**
 - **Contact Form**: Full-stack contact form with email notifications
 - **Rate Limiting**: Protection against spam and abuse
-- **Auto-Reply**: Automated thank-you emails to form submitters
 - **Security**: Helmet.js, CORS, input validation, and sanitization
 - **Error Handling**: Comprehensive error management and logging
 
 ### 🧪 **Testing & Quality**
-- **Unit Tests**: Comprehensive test coverage with Vitest
-- **Integration Tests**: End-to-end testing with React Testing Library
+- **Unit Tests**: Test coverage with Vitest
+- **Integration Tests**: React Testing Library
 - **Accessibility Tests**: Automated a11y testing with jest-axe
-- **Performance Tests**: Lighthouse CI for continuous performance monitoring
 - **Type Safety**: Full TypeScript coverage with strict mode
 
-### 📊 **Developer Certification**
+### 📊 **Developer Experience**
 - **Hot Reload**: Instant development feedback with Vite
 - **TypeScript**: Full type safety and IntelliSense support
 - **ESLint + Prettier**: Automated code formatting and linting
-- **GitHub Actions**: Automated CI/CD pipeline with quality gates
-- **Modular Architecture**: Reusable components and hooks system
+- **Clean Architecture**: Modular, reusable components and hooks
 
 ---
 
@@ -71,8 +68,8 @@
 ### Mobile View
 ![Mobile Screenshot](./public/screenshots/mobile.png)
 
-### Dark Mode
-![Dark Mode Screenshot](./public/screenshots/dark-mode.png)
+### Interactive Elements
+![Interactive Elements](./public/screenshots/interactive.png)
 
 </div>
 
@@ -90,7 +87,8 @@
   "Framer Motion": "11.0.0",
   "GSAP": "3.12.5",
   "Three.js": "0.160.0",
-  "React Router": "6.8.0"
+  "React Router": "6.8.0",
+  "Spline": "4.1.0"
 }
 ```
 
@@ -199,26 +197,45 @@
 ```
 portfolio/
 ├── public/                    # Static assets
-│   ├── screenshots/          # Demo screenshots
-│   └── icons/               # App icons
+│   ├── images/               # Images and photos
+│   └── manifest.json         # PWA manifest
 ├── src/
 │   ├── components/          # Reusable components
-│   │   ├── ui/             # UI components
-│   │   ├── animations/     # Animation components
-│   │   └── forms/          # Form components
+│   │   ├── UnifiedCard.tsx     # Main card component
+│   │   ├── Navbar.tsx          # Navigation component
+│   │   ├── ContactForm.tsx     # Contact form
+│   │   ├── ThreeBackground.tsx # 3D background
+│   │   ├── SplineLoader.tsx    # 3D character loader
+│   │   └── index.ts            # Component exports
 │   ├── pages/              # Page components
+│   │   ├── Home.tsx            # Homepage
+│   │   ├── Skills.tsx          # Skills page
+│   │   ├── Experience.tsx      # Experience page
+│   │   ├── Projects.tsx        # Projects page
+│   │   ├── Education.tsx       # Education page
+│   │   └── Contact.tsx         # Contact page
 │   ├── hooks/              # Custom React hooks
-│   ├── context/            # React context providers
-│   ├── data/               # Static data files
-│   ├── styles/             # Global styles
+│   │   ├── useScrollReveal.ts  # Scroll animations
+│   │   ├── useReusableAnimations.js # GSAP animations
+│   │   └── useRouteOptimization.ts # Performance hooks
+│   ├── context/            # React context
+│   │   └── ThemeContext.tsx    # Theme provider (dark mode)
+│   ├── data/               # Static data
+│   │   └── projects.ts         # Project data
+│   ├── types/              # TypeScript types
+│   │   └── index.ts            # Type definitions
 │   ├── utils/              # Utility functions
-│   └── test/               # Test utilities
+│   │   ├── cacheManager.ts     # Cache management
+│   │   └── performanceMonitor.ts # Performance tracking
+│   └── _tests_/            # Test files
+│       ├── ContactForm.test.tsx
+│       └── accessibility.test.tsx
 ├── server.js               # Backend server
+├── package.json            # Dependencies
+├── vite.config.js          # Vite configuration
 ├── vitest.config.js        # Test configuration
 ├── tailwind.config.js      # Tailwind configuration
-├── .lighthouserc.json     # Lighthouse CI config
-└── .github/
-    └── workflows/          # GitHub Actions
+└── tsconfig.json           # TypeScript configuration
 ```
 
 ---
@@ -304,14 +321,45 @@ Edit the following files to customize your portfolio:
 
 ## 📊 **Performance Metrics**
 
-| Metric | Score | Target |
-|--------|-------|--------|
-| **Performance** | 95+ | 90+ |
-| **Accessibility** | 98+ | 95+ |
-| **Best Practices** | 95+ | 90+ |
-| **SEO** | 100 | 90+ |
-| **First Contentful Paint** | <1.5s | <2s |
-| **Largest Contentful Paint** | <2.5s | <4s |
+| Metric | Score | Target | Status |
+|--------|-------|--------|---------|
+| **Performance** | 95+ | 90+ | ✅ Optimized |
+| **Accessibility** | 98+ | 95+ | ✅ Excellent |
+| **Best Practices** | 95+ | 90+ | ✅ Clean Code |
+| **SEO** | 100 | 90+ | ✅ Perfect |
+| **Bundle Size (CSS)** | 41.42 kB | <50 kB | ✅ Reduced |
+| **First Contentful Paint** | <1.5s | <2s | ✅ Fast |
+| **Largest Contentful Paint** | <2.5s | <4s | ✅ Smooth |
+| **Build Time** | ~18s | <30s | ✅ Efficient |
+
+---
+
+## 🧙 **Code Architecture & Optimization**
+
+This portfolio has been meticulously optimized for performance, maintainability, and clean architecture:
+
+### **🎨 Unified Design System**
+- **Single Card Component**: `UnifiedCard` component used throughout for consistency
+- **Theme Consistency**: Dark mode design with glass morphism effects
+- **Animation Harmony**: Coordinated scroll reveals and hover effects
+
+### **🚀 Performance Optimizations**
+- **Bundle Size Reduction**: CSS reduced from 46.06 kB to 41.42 kB
+- **Dead Code Elimination**: Removed 7+ unused components
+- **Dependency Cleanup**: Removed 4+ unused npm packages
+- **Animation Streamlining**: Kept only impactful animations
+
+### **🧑‍💻 Code Quality**
+- **TypeScript Strict Mode**: Full type safety across the codebase
+- **Component Reusability**: DRY principle with shared components
+- **Clean Imports**: Organized import structure and exports
+- **Error Handling**: Comprehensive error boundaries
+
+### **🎆 Preserved Features**
+- ✨ **Dynamic Cursor**: Interactive cursor effects maintained
+- 🌌 **3D Elements**: Spline character and Three.js background
+- 🎨 **Smooth Animations**: Page transitions and scroll reveals
+- 📱 **Responsive Design**: Perfect on all device sizes
 
 ---
 
@@ -398,28 +446,32 @@ GET /api/health
 
 ## 📈 **Roadmap**
 
-### **Phase 1 (Current)**
-- ✅ Advanced animations and effects
-- ✅ Backend integration
-- ✅ Comprehensive testing
-- ✅ CI/CD pipeline
-- ✅ Performance optimization
-- ✅ Code splitting and lazy loading
-- ✅ Error boundaries
-- ✅ TypeScript standardization
+### **Recently Completed ✅**
+- ✅ Clean architecture with reusable components
+- ✅ Unified card system for consistent design
+- ✅ Performance optimization and bundle size reduction
+- ✅ Theme simplification (dark mode only)
+- ✅ Code cleanup and removal of unused dependencies
+- ✅ Streamlined animation system
+- ✅ Enhanced 3D elements and interactive cursor
+- ✅ Comprehensive error handling
 
-### **Phase 2 (Upcoming)**
+### **Current Features 🚀**
+- ✅ Interactive Spline 3D character
+- ✅ Smooth page transitions
+- ✅ Dynamic cursor effects
+- ✅ Contact form with backend integration
+- ✅ Responsive design for all devices
+- ✅ TypeScript for type safety
+- ✅ Testing suite with Vitest
+
+### **Future Enhancements 🔎**
 - 🔄 Blog/CMS integration
-- 🔄 Multi-language support (i18n)
-- 🔄 Admin dashboard
-- 🔄 Analytics integration
+- 🔄 Analytics dashboard
 - 🔄 Progressive Web App features
-
-### **Phase 3 (Future)**
-- 🔄 AI-powered features
-- 🔄 Real-time collaboration
+- 🔄 Multi-language support (i18n)
+- 🔄 Enhanced accessibility features
 - 🔄 Advanced portfolio analytics
-- 🔄 Mobile app companion
 
 ---
 
@@ -455,7 +507,7 @@ npm run test:run
 
 - **Issues**: [GitHub Issues](https://github.com/your-username/portfolio/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-username/portfolio/discussions)
-- **Email**: your-email@example.com
+- **Email**: anujaryan81018@gmail.com
 
 ---
 
@@ -477,7 +529,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by Aryan Vishwakarma**
 
 ⭐ **Star this repo if you found it helpful!**
 

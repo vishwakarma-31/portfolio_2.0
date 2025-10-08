@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
 import { SkillCategory } from '../types'
 import UnifiedCard from '../components/UnifiedCard'
 import {
@@ -14,8 +13,6 @@ import {
 } from 'lucide-react'
 
 const Skills = () => {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -128,7 +125,7 @@ const Skills = () => {
     <motion.div
       ref={containerRef}
       style={{ y: springY, opacity }}
-      className={`pt-24 pb-16 min-h-screen p-8 relative z-10 ${isDark ? 'text-slate-100' : 'text-gray-900'}`}
+      className="pt-24 pb-16 min-h-screen p-8 relative z-10 text-slate-100"
     >
       <div className="max-w-7xl mx-auto space-y-12 pb-8">
         <motion.div
@@ -141,7 +138,7 @@ const Skills = () => {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             My Tech Stack
           </h1>
-          <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+          <p className="text-gray-300">
             Technologies I work with
           </p>
         </motion.div>
@@ -157,7 +154,6 @@ const Skills = () => {
               <SkillCard
                 category={category}
                 index={index}
-                isDark={isDark}
               />
             </UnifiedCard>
           ))}
@@ -168,7 +164,7 @@ const Skills = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className={`relative w-full overflow-hidden py-8 rounded-xl glow-border-enter ${isDark ? 'bg-white/5' : 'bg-black/5'} backdrop-blur-lg border ${isDark ? 'border-white/10' : 'border-black/10'} shadow-lg`}
+          className="relative w-full overflow-hidden py-8 rounded-xl glow-border-enter bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg"
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4">Tools & Technologies</h2>
@@ -187,9 +183,7 @@ const Skills = () => {
                   rotate: [0, -5, 5, 0],
                   transition: { duration: 0.3 }
                 }}
-                className={`flex items-center gap-4 p-4 rounded-lg transition-all duration-300 ${
-                  isDark ? 'bg-gray-800/50 hover:bg-gray-700/80' : 'bg-white/80 hover:bg-gray-100'
-                } backdrop-blur-sm transform hover:shadow-lg ${isDark ? 'hover:shadow-blue-500/20' : 'hover:shadow-blue-500/10'}`}
+                className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 bg-gray-800/50 hover:bg-gray-700/80 backdrop-blur-sm transform hover:shadow-lg hover:shadow-blue-500/20"
               >
                 <motion.div
                   whileHover={{ rotate: 360 }}
@@ -207,7 +201,7 @@ const Skills = () => {
   )
 }
 
-const SkillCard: React.FC<{ category: SkillCategory; index: number; isDark: boolean }> = ({ category, index, isDark }) => {
+const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ category, index }) => {
   const cardRef = useRef(null)
   const isInView = useInView(cardRef, { once: true, margin: "-100px" })
 
@@ -218,13 +212,13 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number; isDark: bool
     >
       <div className="flex items-center gap-4 mb-6">
         <motion.div
-          className={`p-3 rounded-xl ${isDark ? 'bg-gray-800/50' : 'bg-gray-100'}`}
+          className="p-3 rounded-xl bg-gray-800/50"
           whileHover={{ rotate: 360 }}
           transition={{ duration: 0.6 }}
         >
           <category.icon className={`w-8 h-8 ${category.color}`} />
         </motion.div>
-        <h3 className={`text-2xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>
+        <h3 className="text-2xl font-bold text-slate-100">
           {category.title}
         </h3>
       </div>
@@ -236,7 +230,6 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number; isDark: bool
             skill={skill}
             skillIndex={skillIndex}
             isInView={isInView}
-            isDark={isDark}
             category={category}
           />
         ))}
@@ -249,9 +242,8 @@ const EnhancedSkillBar: React.FC<{
   skill: any;
   skillIndex: number;
   isInView: boolean;
-  isDark: boolean;
   category: SkillCategory;
-}> = ({ skill, skillIndex, isInView, isDark, category }) => {
+}> = ({ skill, skillIndex, isInView, category }) => {
   const [currentValue, setCurrentValue] = useState(0);
   
   useEffect(() => {
@@ -283,7 +275,7 @@ const EnhancedSkillBar: React.FC<{
           <span className="font-medium">{skill.name}</span>
         </div>
         <motion.span 
-          className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
+          className="text-sm text-gray-400"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: skillIndex * 0.1 + 0.5 }}
@@ -291,7 +283,7 @@ const EnhancedSkillBar: React.FC<{
           {Math.round(currentValue)}%
         </motion.span>
       </div>
-      <div className={`w-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2 overflow-hidden`}>
+      <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
         <motion.div
           className={`h-2 rounded-full bg-gradient-to-r ${category.color.replace('text-', 'from-')} to-cyan-400`}
           initial={{ width: 0 }}
