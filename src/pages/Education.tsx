@@ -3,6 +3,7 @@ import { Calendar, Users, BookOpen, GraduationCap, Award, ExternalLink } from 'l
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { Helmet } from 'react-helmet-async'
 
 const Education = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -43,7 +44,11 @@ const Education = () => {
   ]
 
   return (
-    <div className="min-h-screen relative overflow-hidden pt-24 pb-16 text-slate-100">
+    <main className="min-h-screen relative overflow-hidden pt-24 pb-16 text-slate-100">
+      <Helmet>
+        <title>Education - Aryan Vishwakarma</title>
+        <meta name="description" content="Explore my educational background and academic achievements in Information Technology and Computer Science." />
+      </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div
@@ -133,7 +138,7 @@ const Education = () => {
           ))}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

@@ -493,6 +493,29 @@ npx kill-port 3001
 - Verify environment variables
 - Check server logs for errors
 
+**Gmail Configuration**
+To securely send emails from your portfolio, you need to generate a special App Password from your Google Account. A regular password will not work due to Google's security measures.
+
+*Step 1: Enable 2-Step Verification*
+1. Go to your Google Account
+2. Navigate to the Security tab
+3. Under "Signing in to Google," select 2-Step Verification and follow the on-screen steps to enable it if you haven't already
+
+*Step 2: Generate an App Password*
+1. On the same Security page, find and click on App passwords. You may need to sign in again
+2. Under "Select app," choose Mail
+3. Under "Select device," choose Other (Custom name)
+4. Name it something descriptive, like "Portfolio Contact Form," and click Generate
+5. Google will generate a 16-character password. Copy this password immediately (without the spaces). This is the password you will use in your .env file
+
+*Step 3: Update Your .env File*
+Open your project's .env file and set the following variables:
+```env
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your_16_character_app_password
+RECIPIENT_EMAIL=your-email@gmail.com
+```
+
 **Tests failing**
 ```bash
 # Clear cache and reinstall

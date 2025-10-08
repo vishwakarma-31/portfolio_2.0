@@ -9,6 +9,7 @@ import { ProfileRepository } from '../repositories/profileRepository'
 import { container } from '../di'
 
 import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 // ScrollTrigger plugin is registered globally in App.tsx
 
 const Home = () => {
@@ -54,7 +55,11 @@ const Home = () => {
   ]
 
   return (
-    <div ref={containerRef} className="min-h-screen pt-16 pb-16 overflow-hidden relative z-10">
+    <main ref={containerRef} className="min-h-screen pt-16 pb-16 overflow-hidden relative z-10">
+      <Helmet>
+        <title>Aryan Vishwakarma - Full Stack Developer Portfolio</title>
+        <meta name="description" content="Passionate Full Stack Developer specializing in React, Node.js, and modern web technologies. Explore my projects in machine learning, web development, and innovative solutions." />
+      </Helmet>
       {/* Background handled by interactive starfield on Home */}
 
       {/* Floating Icons */}
@@ -333,7 +338,7 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+    </main>
   )
 }
 

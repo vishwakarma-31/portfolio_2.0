@@ -7,6 +7,7 @@ import Navbar from './components/Navbar'
 import LoadingSpinner from './components/LoadingSpinner'
 import InteractiveCursorBackground from './components/InteractiveCursorBackground'
 import { useRoutePreloader, useRouteCache, usePerformanceMonitoring } from './hooks/useRouteOptimization'
+import { HelmetProvider } from 'react-helmet-async'
 
 const Home = lazy(() => import('./pages/Home'))
 const Skills = lazy(() => import('./pages/Skills'))
@@ -50,11 +51,13 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ThemeProvider>
+    </HelmetProvider>
   )
 }
 

@@ -2,6 +2,7 @@ import { Award, Calendar, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { Helmet } from 'react-helmet-async'
 
 const Experience = () => {
 
@@ -76,7 +77,11 @@ const Experience = () => {
 
 
   return (
-    <div className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
+    <main className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
+      <Helmet>
+        <title>Experience & Certifications - Aryan Vishwakarma</title>
+        <meta name="description" content="Professional certifications and achievements in technology and development. AWS, JavaScript, HTML5, AI, and Oracle Cloud certifications." />
+      </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div
@@ -170,7 +175,7 @@ const Experience = () => {
           })}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

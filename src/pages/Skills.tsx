@@ -11,6 +11,7 @@ import {
   GitBranch,
   Layers
 } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const Skills = () => {
   const containerRef = useRef(null)
@@ -122,12 +123,18 @@ const Skills = () => {
   ]
 
   return (
-    <motion.div
+    <main
       ref={containerRef}
-      style={{ y: springY, opacity }}
       className="pt-24 pb-16 min-h-screen p-8 relative z-10 text-slate-100"
     >
-      <div className="max-w-7xl mx-auto space-y-12 pb-8">
+      <Helmet>
+        <title>Skills & Expertise - Aryan Vishwakarma</title>
+        <meta name="description" content="Discover my technical skills and expertise in frontend development, backend technologies, databases, cloud services, and DevOps tools." />
+      </Helmet>
+      <motion.div
+        style={{ y: springY, opacity }}
+        className="max-w-7xl mx-auto space-y-12 pb-8"
+      >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -196,8 +203,8 @@ const Skills = () => {
             ))}
           </div>
         </motion.div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </main>
   )
 }
 

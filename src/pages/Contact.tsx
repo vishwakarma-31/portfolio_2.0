@@ -1,29 +1,15 @@
-import React, { useState } from 'react'
-import { Mail, MapPin, Send } from 'lucide-react'
+import React from 'react'
+import { Mail, MapPin } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
+import ContactForm from '../components/ContactForm'
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
-  }
-
   return (
-    <div className="min-h-screen pt-24 pb-16 flex items-center justify-center relative z-10">
+    <main className="min-h-screen pt-24 pb-16 flex items-center justify-center relative z-10">
+      <Helmet>
+        <title>Contact - Aryan Vishwakarma</title>
+        <meta name="description" content="Get in touch with Aryan Vishwakarma, a Full Stack Developer specializing in React, Node.js, and modern web technologies." />
+      </Helmet>
       <section className="w-full py-8 px-4 sm:px-6 lg:px-8 flex items-center">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -65,68 +51,12 @@ const Contact = () => {
             </div>
 
             <div className="backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/10 bg-white/5 transition-all duration-300 animate-on-scroll stagger-3">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  <div className="animate-on-scroll stagger-4">
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Your Name"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="animate-on-scroll stagger-5">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Your Email"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
-                      value={formData.email}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="animate-on-scroll">
-                    <input
-                      type="text"
-                      name="subject"
-                      placeholder="Subject"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
-                      value={formData.subject}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="animate-on-scroll">
-                    <textarea
-                      name="message"
-                      placeholder="Your Message"
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-xl border resize-none border-gray-700/50 bg-white/5 text-white focus:border-blue-500 focus:outline-none transition-colors backdrop-blur-sm hover:scale-105 focus:scale-105"
-                      value={formData.message}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="animate-on-scroll">
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 hover:shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 backdrop-blur-sm hover:scale-105 active:scale-95"
-                  >
-                    <span>Send Message</span>
-                    <Send className="w-4 h-4 animate-pulse" />
-                  </button>
-                </div>
-              </form>
+              <ContactForm />
             </div>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   )
 }
 

@@ -4,6 +4,7 @@ import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { ProjectsRepository } from '../repositories/projectsRepository'
 import { ProjectService } from '../domain/services/ProjectService'
+import { Helmet } from 'react-helmet-async'
 
 const Projects = () => {
   const { ref: containerRef } = useScrollReveal({
@@ -33,7 +34,11 @@ const Projects = () => {
   }))
 
   return (
-    <div className="min-h-screen pt-24 pb-16 text-slate-100">
+    <main className="min-h-screen pt-24 pb-16 text-slate-100">
+      <Helmet>
+        <title>Projects - Aryan Vishwakarma</title>
+        <meta name="description" content="Explore my portfolio of projects showcasing expertise in React, Node.js, Machine Learning, and modern web technologies." />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -164,7 +169,7 @@ const Projects = () => {
           ))}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 
