@@ -1,5 +1,4 @@
-import React from 'react'
-import { Award, Calendar, MapPin, ExternalLink } from 'lucide-react'
+import { Award, Calendar, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'

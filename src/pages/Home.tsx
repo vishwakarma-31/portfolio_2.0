@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { MagneticButton } from '../components/MagneticButton'
 import SplineLoader from '../components/SplineLoader'
-import PerformanceMonitor from '../utils/performanceMonitor'
+import { AnimationService } from '../services/animationService'
+import { PerformanceService } from '../services/performanceService'
+import { ProfileRepository } from '../repositories/profileRepository'
+import { container } from '../di'
 
 import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
-import { gsap } from 'gsap'
 // ScrollTrigger plugin is registered globally in App.tsx
 
 const Home = () => {
   const containerRef = useRef(null)
+  const performanceService = container.resolve(PerformanceService)
+  const profileData = ProfileRepository.getProfileData()
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -26,30 +30,20 @@ const Home = () => {
   const springScale = useSpring(scale, { stiffness: 300, damping: 30 })
 
   useEffect(() => {
-    PerformanceMonitor.markStart('home-page-mount')
-    
-    // Only run animations if we're on the home page to prevent conflicts during page transitions
-    if (window.location.pathname !== '/') return
+    const operation = () => {
+      // Only run animations if we're on the home page to prevent conflicts during page transitions
+      if (window.location.pathname !== '/') return
 
-    const ctx = gsap.context(() => {
-      // Simple floating icons animation - only for home page
-      gsap.to('.floating-icon', {
-        y: 'random(-20, 20)',
-        x: 'random(-15, 15)',
-        rotation: 'random(-5, 5)',
-        duration: 'random(3, 6)',
-        ease: 'none',
-        repeat: -1,
-        yoyo: true,
-        stagger: {
-          amount: 2,
-          from: 'random'
+      const ctx = AnimationService.initializeFloatingIcons(containerRef)
+      
+      return () => {
+        if (ctx) {
+          AnimationService.cleanupContext(ctx)
         }
-      })
-    }, containerRef)
-
-    PerformanceMonitor.markEnd('home-page-mount')
-    return () => ctx.revert()
+      }
+    }
+    
+    performanceService.measureOperation('home-page-mount', operation)
   }, [])
 
   const floatingIcons = [
@@ -102,7 +96,7 @@ const Home = () => {
               <span className="hero-title-word">Hi,</span>{' '}
               <span className="hero-title-word">I'm</span>{' '}
               <br className="lg:hidden" />
-              <span className="hero-title-word">Aryan Vishwakarma</span>
+              <span className="hero-title-word">{profileData.name}</span>
             </h1>
             
             {/* 3D Spline Robot */}
@@ -122,7 +116,7 @@ const Home = () => {
           </div>
 
           <p className="hero-description text-xl text-gray-300 mb-8 max-w-2xl mx-auto page-element animate-on-scroll stagger-2">
-            A passionate Full Stack Developer creating amazing digital experiences with modern technologies
+            {profileData.description}
           </p>
 
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-12 page-element animate-on-scroll stagger-3">
@@ -222,7 +216,7 @@ const Home = () => {
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-sm">
                   <img
                     src="/images/Aaryannn.jpg"
-                    alt="Aryan Vishwakarma"
+                    alt={profileData.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -267,17 +261,12 @@ const Home = () => {
               <div className="glass-card p-8 rounded-2xl glow-border-enter">
                 <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I'm Aryan!</h3>
                 <p className="text-lg leading-relaxed mb-6 text-gray-300">
-                  I'm a passionate Full Stack Developer with a love for creating beautiful, functional, and scalable web applications. 
-                  With expertise in modern technologies and a keen eye for design, I transform ideas into digital realities.
-                </p>
-                <p className="text-lg leading-relaxed mb-6 text-gray-300">
-                  When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, 
-                  or sharing knowledge with the developer community. I believe in continuous learning and staying ahead of the curve.
+                  {profileData.about}
                 </p>
                 
                 {/* Skills highlights */}
                 <div className="flex flex-wrap gap-3 mb-6">
-                  {['React', 'Node.js', 'TypeScript', 'Python', 'AWS', 'MongoDB'].map((skill, index) => (
+                  {profileData.skills.map((skill, index) => (
                     <motion.span
                       key={skill}
                       initial={{ opacity: 0, scale: 0 }}
@@ -322,25 +311,25 @@ const Home = () => {
             viewport={{ once: true }}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
           >
-            {[
-              { number: '1+', label: 'Years Coding', icon: Code },
-              { number: '5+', label: 'Projects Built', icon: Database },
-              { number: '8+', label: 'Technologies', icon: Zap },
-              { number: '100%', label: 'Passion', icon: Star }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center glass-card p-6 rounded-xl hover-lift glow-border-enter"
-              >
-                <stat.icon className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-gradient mb-2">{stat.number}</div>
-                <div className="text-sm font-medium text-gray-400">{stat.label}</div>
-              </motion.div>
-            ))}
+            {profileData.stats.map((stat, index) => {
+              const IconComponent = stat.icon === 'code' ? Code : 
+                                  stat.icon === 'database' ? Database : 
+                                  stat.icon === 'zap' ? Zap : Star
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center glass-card p-6 rounded-xl hover-lift glow-border-enter"
+                >
+                  <IconComponent className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
+                  <div className="text-3xl font-bold text-gradient mb-2">{stat.number}</div>
+                  <div className="text-sm font-medium text-gray-400">{stat.label}</div>
+                </motion.div>
+              )
+            })}
           </motion.div>
         </div>
       </section>

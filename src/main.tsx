@@ -5,6 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import 'reflect-metadata'
 
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)

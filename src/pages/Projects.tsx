@@ -1,51 +1,36 @@
-import React from 'react'
 import { Github, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { ProjectsRepository } from '../repositories/projectsRepository'
+import { ProjectService } from '../domain/services/ProjectService'
 
 const Projects = () => {
-
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
     once: true
   });
 
-  const projects = [
-    {
-      title: 'Cropify',
-      description: 'Developed a crop recommendation system that suggests the most suitable crop based on input parameters like soiltype,pH,temperature,humidity and rainfall.',
-      tags: ['Vapi', 'Next.js', 'Web Development'],
-      links: {
-        github: 'https://github.com/Aryan2764/Cropify-ML',
-        // demo: 'https://ai-voice-mock-interview-preparation-yh-krishs-projects-f5177f25.vercel.app/sign-in'
-      },
-      image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop',
-      featured: true
+  // Get all projects from repository and convert to entities
+  const allProjects = ProjectsRepository.getAllProjects().map(data => 
+    ProjectService.createProject(data)
+  )
+  
+  // Use domain service to get featured projects
+  const projects = ProjectService.getFeaturedProjects(allProjects)
+
+  // Convert repository data to component format
+  const projectData = projects.map(project => ({
+    title: project.title,
+    description: project.description,
+    tags: project.tags,
+    links: {
+      github: project.github,
+      demo: project.link
     },
-    {
-      title: 'Full Stack Movie Ticket Booking System',
-      description: ' It provides a seamless interface for users to browse movies, check showtimes, select seats, and securely book tickets online. The system features a user-friendly frontend for customers and a robust backend for managing movie listings, showtimes, and booking data',
-      tags: ['Next.js', 'Inngest', 'Clerk', 'vercel'],
-      links: {
-        github: 'https://github.com/Aryan2764/Movie-Booking-System',
-        // demo: 'https://ai-finance-tracker-phi.vercel.app/'
-      },
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
-      featured: true
-    },
-    {
-      title: 'Fake Fingerprint Detection',
-      description: 'This project is a machine learning-based system designed to enhance biometric security by distinguishing between live and fake fingerprints it analyzes textural and structural features of a fingerprint image to classify it as either authentic or fraudulent.',
-      tags: ['Next.js', 'Prisma', 'Clerk', 'Gemini AI'],
-      links: {
-        github: 'https://github.com/101krish/Sensei',
-        demo: 'https://sensei-448g.vercel.app/'
-      },
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop',
-      featured: true
-    }
-  ]
+    image: project.image,
+    featured: project.featured
+  }))
 
   return (
     <div className="min-h-screen pt-24 pb-16 text-slate-100">
@@ -68,7 +53,7 @@ const Projects = () => {
           ref={containerRef as any}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {projects.map((project, index) => (
+          {projectData.map((project, index) => (
             <UnifiedCard
               key={index}
               animationType="project"
