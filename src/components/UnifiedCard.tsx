@@ -1,13 +1,14 @@
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
+import React from 'react'
 
 interface UnifiedCardProps {
-  children: React.ReactNode;
-  className?: string;
-  animationType?: 'experience' | 'skills' | 'project' | 'education' | 'default';
-  index?: number;
-  onClick?: () => void;
-  hoverEffects?: boolean;
-  glowEffect?: boolean;
+  children: React.ReactNode
+  className?: string
+  animationType?: 'experience' | 'skills' | 'project' | 'education' | 'default'
+  index?: number
+  onClick?: () => void
+  hoverEffects?: boolean
+  glowEffect?: boolean
 }
 
 const UnifiedCard: React.FC<UnifiedCardProps> = ({
@@ -17,7 +18,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   index = 0,
   onClick,
   hoverEffects = true,
-  glowEffect = true
+  glowEffect = true,
 }) => {
 
   const getAnimationVariants = () => {

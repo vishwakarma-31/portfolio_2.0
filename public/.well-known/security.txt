@@ -1,0 +1,3 @@
+Contact: mailto:anujaryan81018@gmail.com
+Preferred-Languages: en
+Canonical: https://your-portfolio-url.com/.well-known/security.txt

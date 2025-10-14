@@ -1,6 +1,11 @@
 // Cache management for better performance
+interface CacheItem {
+  value: any;
+  expiry: number;
+}
+
 class CacheManager {
-  private cache = new Map<string, any>()
+  private cache = new Map<string, CacheItem>()
   private maxSize = 50
   private ttl = 5 * 60 * 1000 // 5 minutes
 
@@ -58,7 +63,7 @@ export const preloadImage = async (src: string): Promise<void> => {
   }
 
   return new Promise((resolve, reject) => {
-    const img = new Image()
+    const img = new window.Image()
     img.onload = () => {
       assetCache.set(src, true)
       resolve()
@@ -78,7 +83,7 @@ export const preloadImages = async (urls: string[]): Promise<void> => {
 export const optimizeMemory = () => {
   // Clear caches if memory pressure is detected
   try {
-    const memoryInfo = (performance as any).memory
+    const memoryInfo = (window.performance as any).memory
     if (memoryInfo && memoryInfo.usedJSHeapSize > 50 * 1024 * 1024) { // 50MB
       componentCache.clear()
       assetCache.clear()

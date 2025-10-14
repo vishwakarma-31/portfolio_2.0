@@ -2,16 +2,16 @@ import PerformanceMonitor from '../utils/performanceMonitor'
 
 // Performance service to centralize performance monitoring
 export class PerformanceService {
-  private observers: PerformanceObserver[] = []
+  private observers: any[] = []
 
   constructor() {}
 
   startPageLoadMonitoring() {
     // Monitor route transition performance
-    const observer = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
+    const observer = new (window as any).PerformanceObserver((list: any) => {
+      list.getEntries().forEach((entry: any) => {
         if (entry.entryType === 'navigation') {
-          const navigationEntry = entry as PerformanceNavigationTiming
+          const navigationEntry = entry as any
           console.log('Page load performance:', {
             domContentLoaded: navigationEntry.domContentLoadedEventEnd - navigationEntry.domContentLoadedEventStart,
             loadComplete: navigationEntry.loadEventEnd - navigationEntry.loadEventStart,

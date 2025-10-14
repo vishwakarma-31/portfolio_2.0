@@ -233,22 +233,26 @@ function ParticleTrails({ mousePosition }: { mousePosition: MousePosition }) {
 */
 
 function MouseTracker({ onMouseMove }: { onMouseMove: (pos: MousePosition) => void }) {
-
-  const handleMouseMove = useCallback((event: MouseEvent) => {
+  const handleMouseMove = useCallback((event: globalThis.MouseEvent) => {
     const x = (event.clientX / window.innerWidth) * 2 - 1
     const y = -(event.clientY / window.innerHeight) * 2 + 1
     onMouseMove({ x, y })
   }, [onMouseMove])
-  
+
   React.useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [handleMouseMove])
-  
+
   return null
 }
 
-export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.08 }) {
+interface ThreeBackgroundContentProps {
+  starCount?: number
+  starSize?: number
+}
+
+export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.08 }: ThreeBackgroundContentProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [performanceMode, setPerformanceMode] = useState('high')
 
@@ -256,13 +260,13 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
     // Smooth follow to amplify visibility of reaction
     setMousePosition(prev => ({
       x: THREE.MathUtils.lerp(prev.x, position.x, 0.35),
-      y: THREE.MathUtils.lerp(prev.y, position.y, 0.35)
+      y: THREE.MathUtils.lerp(prev.y, position.y, 0.35),
     }))
   }, [])
 
   React.useEffect(() => {
     // Performance detection
-    const cores = navigator.hardwareConcurrency || 4
+    const cores = window.navigator.hardwareConcurrency || 4
     const isMobile = window.innerWidth < 768
     const isLowEnd = cores < 4 || isMobile
 
@@ -277,7 +281,7 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
 
   // Adjust star count based on performance
   const adjustedStarCount = performanceMode === 'low' ? 300 : performanceMode === 'medium' ? 900 : starCount
-  
+
   return (
     <Canvas
       camera={{ position: [0, 0, 15], fov: 65 }}
@@ -287,27 +291,18 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
       gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
     >
       <MouseTracker onMouseMove={handleMouseMove} />
-      
+
       {/* Subtle lighting to keep stars visible on black */}
+      {/* eslint-disable react/no-unknown-property */}
       <ambientLight intensity={0.2} color="#ffffff" />
-      <pointLight 
-        position={[mousePosition.x * 12, mousePosition.y * 12, 10]} 
-        intensity={0.9} 
-        color="#ffffff"
-        distance={28}
-        decay={2}
-      />
+      <pointLight position={[mousePosition.x * 12, mousePosition.y * 12, 10]} intensity={0.9} color="#ffffff" distance={28} decay={2} />
       <directionalLight position={[0, 0, 5]} intensity={0.2} />
-      
+      {/* eslint-enable react/no-unknown-property */}
       {/* Interactive elements with advanced physics */}
       <ParallaxLayer mousePosition={mousePosition}>
-        <InteractiveStars
-          starCount={adjustedStarCount}
-          starSize={starSize}
-          mousePosition={mousePosition}
-        />
+        <InteractiveStars starCount={adjustedStarCount} starSize={starSize} mousePosition={mousePosition} />
       </ParallaxLayer>
-      
+
       {/* Optional depth fog disabled for clarity */}
     </Canvas>
   )

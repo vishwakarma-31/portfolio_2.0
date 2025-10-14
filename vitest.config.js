@@ -10,7 +10,8 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.js'],
     css: true,
     coverage: {
-      reporter: ['text', 'json', 'html'],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
       exclude: [
         'node_modules/',
         'src/test/',
@@ -22,7 +23,13 @@ export default defineConfig({
         '**/.{eslint,prettier}rc.{js,cjs}',
         'src/main.tsx',
         'src/vite-env.d.ts'
-      ]
+      ],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 75,
+        statements: 80
+      }
     }
   }
 })

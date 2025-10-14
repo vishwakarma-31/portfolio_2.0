@@ -29,7 +29,7 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Oops! Something went wrong.</h2>
-            <p className="mb-4">We're sorry for the inconvenience. Please try refreshing the page.</p>
+            <p className="mb-4">We&apos;re sorry for the inconvenience. Please try refreshing the page.</p>
             <button
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600"

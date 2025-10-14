@@ -2,19 +2,19 @@ import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
 interface MagneticButtonProps {
-  children: React.ReactNode;
-  className?: string;
-  [key: string]: any;
+  children: React.ReactNode
+  className?: string
+  [key: string]: any
 }
 
 export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '', ...props }) => {
-  const buttonRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<any>(null)
 
   useEffect(() => {
     const button = buttonRef.current
     if (!button) return
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: any) => {
       const rect = button.getBoundingClientRect()
       const x = e.clientX - rect.left - rect.width / 2
       const y = e.clientY - rect.top - rect.height / 2
@@ -23,7 +23,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
         x: x * 0.3,
         y: y * 0.3,
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       })
     }
 
@@ -32,7 +32,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
         x: 0,
         y: 0,
         duration: 0.5,
-        ease: 'elastic.out(1, 0.3)'
+        ease: 'elastic.out(1, 0.3)',
       })
     }
 
@@ -46,11 +46,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
   }, [])
 
   return (
-    <div
-      ref={buttonRef}
-      className={`magnetic-btn ${className}`}
-      {...props}
-    >
+    <div ref={buttonRef} className={`magnetic-btn ${className}`} {...props}>
       {children}
     </div>
   )

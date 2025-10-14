@@ -2,50 +2,72 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Mail, User, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react'
 
-export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/api/contact` }) {
+interface ContactFormProps {
+  apiUrl?: string
+}
+
+export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/api/contact` }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   })
   const [errors, setErrors] = useState({ name: '', email: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
+  const [submitMessage, setSubmitMessage] = useState('')
+
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'name':
+        return value.trim() ? '' : 'Name is required'
+      case 'email':
+        if (!value.trim()) {
+          return 'Email is required'
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          return 'Please enter a valid email'
+        }
+        return ''
+      case 'message':
+        return value.trim() ? '' : 'Message is required'
+      default:
+        return ''
+    }
+  }
 
   const validateForm = () => {
     const newErrors = { name: '', email: '', message: '' }
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required'
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email'
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required'
-    }
+    newErrors.name = validateField('name', formData.name)
+    newErrors.email = validateField('email', formData.email)
+    newErrors.message = validateField('message', formData.message)
 
     setErrors(newErrors)
     return !newErrors.name && !newErrors.email && !newErrors.message
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }))
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
+        [name]: '',
       }))
     }
+  }
+
+  const handleBlur = (e: React.FocusEvent<any>) => {
+    const { name, value } = e.target
+    const error = validateField(name, value)
+    setErrors(prev => ({
+      ...prev,
+      [name]: error,
+    }))
   }
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -57,48 +79,46 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
 
     setIsSubmitting(true)
     setSubmitStatus(null)
+    setSubmitMessage('')
 
     try {
       // Send to our backend API
-      const response = await fetch(apiUrl, {
+      const response = await window.fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: formData.message
-        })
+          message: formData.message,
+        }),
       })
 
       const result = await response.json()
 
       if (response.ok && result.success) {
         setSubmitStatus('success')
+        setSubmitMessage(result.message || 'Message sent successfully!')
         setFormData({ name: '', email: '', message: '' })
       } else {
         throw new Error(result.message || 'Failed to send message')
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Form submission error:', error)
       setSubmitStatus('error')
+      setSubmitMessage(error.message || 'Failed to send message')
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const inputClasses = "w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors text-foreground placeholder-gray-400";
-  const labelClasses = "block text-sm font-medium mb-2 text-gray-300";
+  const inputClasses = 'w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors text-foreground placeholder-gray-400'
+  const labelClasses = 'block text-sm font-medium mb-2 text-gray-300'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="glass-card p-8 rounded-xl max-w-2xl mx-auto"
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="glass-card p-8 rounded-xl max-w-2xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
         <div className="p-3 bg-primary/20 rounded-lg">
           <Mail className="w-6 h-6 text-primary" />
@@ -119,6 +139,7 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
               name="name"
               value={formData.name}
               onChange={handleInputChange}
+              onBlur={handleBlur}
               className={inputClasses}
               placeholder="Your full name"
             />
@@ -136,6 +157,7 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              onBlur={handleBlur}
               className={inputClasses}
               placeholder="your.email@example.com"
             />
@@ -154,11 +176,26 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
             rows={6}
             value={formData.message}
             onChange={handleInputChange}
+            onBlur={handleBlur}
             className={`${inputClasses} resize-none`}
             placeholder="Tell me about your project, idea, or just say hello..."
           />
           {errors.message && <span className="text-red-400 text-sm mt-1 block">{errors.message}</span>}
         </div>
+
+        {/* Status message display */}
+        {submitStatus === 'success' && (
+          <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+            <span className="text-green-300">{submitMessage}</span>
+          </div>
+        )}
+        {submitStatus === 'error' && (
+          <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+            <span className="text-red-300">{submitMessage}</span>
+          </div>
+        )}
 
         <motion.button
           type="submit"
@@ -181,5 +218,5 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
         </motion.button>
       </form>
     </motion.div>
-  );
+  )
 }

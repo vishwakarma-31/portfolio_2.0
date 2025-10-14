@@ -6,9 +6,13 @@ import './index.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
 import 'reflect-metadata'
+import { validateEnv } from './utils/validateEnv'
 
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+
+// Validate environment variables
+validateEnv()
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {

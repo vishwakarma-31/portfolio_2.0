@@ -37,6 +37,11 @@ export default [
         project: false
       }
     },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
     plugins: {
       react: reactPlugin,
       'react-hooks': hooksPlugin,
@@ -78,6 +83,21 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       'no-unused-vars': 'warn',
+      'no-console': 'off'
+    }
+  },
+  {
+    files: ['.lighthouserc.js'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'commonjs',
+      globals: {
+        module: 'readonly'
+      }
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-vars': 'off',
       'no-console': 'off'
     }
   }

@@ -1,19 +1,19 @@
 // Performance monitoring utilities
 export class PerformanceMonitor {
   private static metrics: Map<string, number> = new Map()
-  private static observers: PerformanceObserver[] = []
+  private static observers: any[] = []
 
   static markStart(label: string) {
-    performance.mark(`${label}-start`)
+    (window as any).performance.mark(`${label}-start`)
   }
 
   static markEnd(label: string) {
-    performance.mark(`${label}-end`)
+    (window as any).performance.mark(`${label}-end`)
     try {
-      performance.measure(label, `${label}-start`, `${label}-end`)
-      const measure = performance.getEntriesByName(label, 'measure')[0]
+      (window as any).performance.measure(label, `${label}-start`, `${label}-end`)
+      const measure = (window as any).performance.getEntriesByName(label, 'measure')[0]
       this.metrics.set(label, measure.duration)
-      
+
       // Log slow operations
       if (measure.duration > 1000) {
         console.warn(`Slow operation detected: ${label} took ${measure.duration.toFixed(2)}ms`)
@@ -31,14 +31,11 @@ export class PerformanceMonitor {
     return Object.fromEntries(this.metrics)
   }
 
-  static measureFunction<T extends (...args: any[]) => any>(
-    fn: T,
-    label: string
-  ): T {
+  static measureFunction<T extends (...args: any[]) => any>(fn: T, label: string): T {
     return ((...args: any[]) => {
       this.markStart(label)
       const result = fn(...args)
-      
+
       // Handle both sync and async functions
       if (result instanceof Promise) {
         return result.finally(() => this.markEnd(label))
@@ -53,8 +50,8 @@ export class PerformanceMonitor {
     // Monitor Long Tasks
     if ('PerformanceObserver' in window) {
       try {
-        const longTaskObserver = new PerformanceObserver((list) => {
-          list.getEntries().forEach((entry) => {
+        const longTaskObserver = new (window as any).PerformanceObserver((list: any) => {
+          list.getEntries().forEach((entry: any) => {
             if (entry.duration > 50) {
               console.warn(`Long task detected: ${entry.duration.toFixed(2)}ms`)
             }
@@ -68,9 +65,9 @@ export class PerformanceMonitor {
 
       // Monitor Layout Shifts
       try {
-        const clsObserver = new PerformanceObserver((list) => {
+        const clsObserver = new (window as any).PerformanceObserver((list: any) => {
           list.getEntries().forEach((entry: any) => {
-            if (entry.value > 0.1) {
+            if (entry.value && entry.value > 0.1) {
               console.warn(`Layout shift detected: ${entry.value.toFixed(4)}`)
             }
           })
@@ -83,10 +80,10 @@ export class PerformanceMonitor {
 
       // Monitor LCP
       try {
-        const lcpObserver = new PerformanceObserver((list) => {
+        const lcpObserver = new (window as any).PerformanceObserver((list: any) => {
           const entries = list.getEntries()
-          const lastEntry = entries[entries.length - 1] as any
-          if (lastEntry.startTime > 2500) {
+          const lastEntry = entries[entries.length - 1]
+          if (lastEntry.startTime && lastEntry.startTime > 2500) {
             console.warn(`Slow LCP detected: ${lastEntry.startTime.toFixed(2)}ms`)
           }
         })
@@ -108,13 +105,13 @@ export class PerformanceMonitor {
     const report = Object.entries(metrics)
       .map(([label, duration]) => `${label}: ${duration.toFixed(2)}ms`)
       .join('\n')
-    
+
     return `Performance Report:\n${report}`
   }
 }
 
 // Auto-start monitoring in development
-if (process.env.NODE_ENV === 'development') {
+if (typeof window !== 'undefined' && (window as any).process?.env?.NODE_ENV === 'development') {
   PerformanceMonitor.startMonitoring()
 }
 

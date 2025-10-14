@@ -15,6 +15,7 @@ const Experience = lazy(() => import('./pages/Experience'))
 const Projects = lazy(() => import('./pages/Projects'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Education = lazy(() => import('./pages/Education'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 const AppContent: React.FC = () => {
   // Initialize performance optimizations
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/education" element={<Education />} />
                 <Route path="/" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </TransitionManager>

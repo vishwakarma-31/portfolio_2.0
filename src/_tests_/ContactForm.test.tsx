@@ -19,8 +19,8 @@ vi.mock('vite', () => ({
 vi.stubGlobal('fetch', vi.fn(() =>
   Promise.resolve({
     ok: true,
-    json: () => Promise.resolve({ success: true })
-  } as Response)
+    json: () => Promise.resolve({ success: true, message: 'Message sent successfully! I\'ll get back to you soon.' })
+  })
 ))
 
 describe('ContactForm', () => {
@@ -75,15 +75,19 @@ describe('ContactForm', () => {
     await user.type(screen.getByPlaceholderText('Tell me about your project, idea, or just say hello...'), 'Test message')
 
     // Make fetch resolve after a short delay so loading state is observable
-    ;(fetch as unknown as jest.Mock).mockImplementationOnce(() =>
-      new Promise(resolve => setTimeout(() => resolve({ ok: true, json: () => Promise.resolve({ success: true }) } as Response), 100))
+    ;(globalThis.fetch as any).mockImplementationOnce(() =>
+      new Promise(resolve => setTimeout(() => resolve({ 
+        ok: true, 
+        json: () => Promise.resolve({ success: true, message: 'Message sent successfully! I\'ll get back to you soon.' }) 
+      }), 100))
     )
 
     const submitButton = screen.getByRole('button', { name: /send message/i })
     await user.click(submitButton)
 
+    // Wait for the success message
     await waitFor(() => {
-      expect(screen.getByText('Sending Message...')).toBeInTheDocument()
+      expect(screen.getByText(/Message sent successfully!/i)).toBeInTheDocument()
     })
   })
 })

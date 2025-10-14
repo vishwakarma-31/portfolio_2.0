@@ -18,7 +18,7 @@ export const useRoutePreloader = () => {
 
   useEffect(() => {
     // Preload Spline scene when on home page
-    let timeoutId: NodeJS.Timeout | undefined
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
     if (location.pathname === '/') {
       timeoutId = setTimeout(() => {
         RoutePreloadService.preloadSplineScene()
@@ -35,10 +35,10 @@ export const useRoutePreloader = () => {
 export const useRouteCache = () => {
   useEffect(() => {
     // Implement service worker for route caching if supported
-    if ('serviceWorker' in navigator && 'caches' in window) {
+    if ('serviceWorker' in window.navigator && 'caches' in window) {
       const cacheRoutes = async () => {
         try {
-          const cache = await caches.open('portfolio-routes-v1')
+          const cache = await window.caches.open('portfolio-routes-v1')
           const routesToCache = [
             '/',
             '/skills',

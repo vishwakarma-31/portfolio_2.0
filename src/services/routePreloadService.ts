@@ -13,7 +13,7 @@ const componentModules: Record<RouteKey, () => Promise<any>> = {
 // Preload Spline scene for better performance
 const preloadSplineScene = async (sceneUrl: string) => {
   try {
-    const response = await fetch(sceneUrl, { method: 'HEAD' })
+    const response = await window.fetch(sceneUrl, { method: 'HEAD' })
     if (response.ok) {
       console.log('Spline scene preloaded successfully')
     }

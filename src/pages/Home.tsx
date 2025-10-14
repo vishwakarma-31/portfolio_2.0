@@ -45,7 +45,7 @@ const Home = () => {
     }
     
     performanceService.measureOperation('home-page-mount', operation)
-  }, [])
+  }, [performanceService])
 
   const floatingIcons = [
     { Icon: Code, delay: 0, position: 'top-20 left-10', color: 'text-blue-400' },
@@ -99,7 +99,7 @@ const Home = () => {
           <div className="flex flex-col lg:flex-row items-center justify-center mb-6">
             <h1 className="hero-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent page-element animate-on-scroll stagger-1 lg:text-right">
               <span className="hero-title-word">Hi,</span>{' '}
-              <span className="hero-title-word">I'm</span>{' '}
+              <span className="hero-title-word">I&apos;m</span>{' '}
               <br className="lg:hidden" />
               <span className="hero-title-word">{profileData.name}</span>
             </h1>
@@ -264,7 +264,7 @@ const Home = () => {
               className="space-y-6"
             >
               <div className="glass-card p-8 rounded-2xl glow-border-enter">
-                <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I'm Aryan!</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I&apos;m Aryan!</h3>
                 <p className="text-lg leading-relaxed mb-6 text-gray-300">
                   {profileData.about}
                 </p>
@@ -301,7 +301,7 @@ const Home = () => {
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-center border-2 border-gray-600 text-gray-300 hover:bg-gray-800"
                   >
-                    Let's Connect
+                    Let&apos;s Connect
                   </motion.a>
                 </div>
               </div>
