@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Spline from '@splinetool/react-spline'
-import { splineCache } from '../utils/cacheManager'
+
 
 interface SplineLoaderProps {
   scene: string
@@ -22,12 +22,6 @@ const SplineLoader: React.FC<SplineLoaderProps> = ({
   const splineRef = useRef<any>(null)
 
   useEffect(() => {
-    // Check if scene is already cached
-    if (splineCache.has(scene)) {
-      setLoadProgress(100)
-      setIsLoading(false)
-      return
-    }
 
     // Preload the Spline scene
     const preloadSpline = async () => {
@@ -54,11 +48,10 @@ const SplineLoader: React.FC<SplineLoaderProps> = ({
 
   const handleSplineLoad = useCallback(() => {
     setLoadProgress(100)
-    splineCache.set(scene, true, 10 * 60 * 1000) // Cache for 10 minutes
     setTimeout(() => {
       setIsLoading(false)
     }, 300)
-  }, [scene])
+  }, [])
 
   const handleSplineError = useCallback(() => {
     setHasError(true)

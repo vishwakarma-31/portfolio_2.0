@@ -1,5 +1,3 @@
-import PerformanceMonitor from '../utils/performanceMonitor'
-
 // Performance service to centralize performance monitoring
 export class PerformanceService {
   private observers: any[] = []
@@ -31,13 +29,13 @@ export class PerformanceService {
   }
 
   measureOperation<T>(label: string, operation: () => T): T {
-    PerformanceMonitor.markStart(label)
+    console.log(`Starting operation: ${label}`)
     try {
       const result = operation()
-      PerformanceMonitor.markEnd(label)
+      console.log(`Completed operation: ${label}`)
       return result
     } catch (error) {
-      PerformanceMonitor.markEnd(label)
+      console.log(`Error in operation: ${label}`, error)
       throw error
     }
   }

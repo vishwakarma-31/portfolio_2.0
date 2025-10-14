@@ -6,7 +6,7 @@ import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
 import LoadingSpinner from './components/LoadingSpinner'
 import InteractiveCursorBackground from './components/InteractiveCursorBackground'
-import { useRoutePreloader, useRouteCache, usePerformanceMonitoring } from './hooks/useRouteOptimization'
+
 import { HelmetProvider } from 'react-helmet-async'
 
 const Home = lazy(() => import('./pages/Home'))
@@ -18,10 +18,7 @@ const Education = lazy(() => import('./pages/Education'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 const AppContent: React.FC = () => {
-  // Initialize performance optimizations
-  useRoutePreloader()
-  useRouteCache()
-  usePerformanceMonitoring()
+
 
   return (
       <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">

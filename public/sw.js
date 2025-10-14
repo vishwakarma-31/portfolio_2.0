@@ -1,6 +1,6 @@
 /* global self, caches, fetch */
 
-const CACHE_NAME = 'portfolio-v1';
+const CACHE_NAME = 'portfolio_2.0-v1';
 const urlsToCache = [
   '/',
   '/index.html',

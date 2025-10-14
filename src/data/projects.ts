@@ -184,7 +184,7 @@ export const projects: Project[] = [
     image: '/projects/portfolio-cover.jpg',
     images: ['/projects/portfolio-1.jpg', '/projects/portfolio-2.jpg', '/projects/portfolio-3.jpg'],
     github: 'https://github.com/Aryan2764/portfolio_2.0',
-    link: 'https://Aryan-portfolio.vercel.app',
+    link: 'https://vishwakarma-31-portfolio.vercel.app',
     tags: ['React', 'Three.js', 'GSAP', 'TypeScript', 'Tailwind'],
     category: 'web',
     featured: true,

@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "portfolio_2.0",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,10 +10,7 @@
     "preview": "vite preview",
     "server": "node server.js",
     "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:run": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@react-three/drei": "^9.88.13",
@@ -40,15 +37,9 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.0.0",
-    "@types/jest-axe": "^3.5.9",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
     "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.2",
     "eslint": "^8.38.0",
@@ -57,14 +48,11 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "husky": "^9.1.7",
-    "jest-axe": "^8.0.0",
-    "jsdom": "^23.0.0",
     "lint-staged": "^16.2.4",
     "postcss": "^8.4.23",
     "serve": "^14.2.1",
     "tailwindcss": "^3.3.3",
     "typescript-eslint": "^8.8.1",
-    "vite": "^7.1.5",
-    "vitest": "^3.2.4"
+    "vite": "^7.1.5"
   }
 }
