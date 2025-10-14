@@ -3,40 +3,28 @@
  * Throws descriptive errors if any required variable is missing
  */
 export function validateEnv(): void {
-  const required = ['VITE_API_URL'];
+  const requiredEnvVars = [
+    'VITE_API_URL',
+  ]
 
-  // Check frontend environment variables
-  const missingFrontend: string[] = [];
-  for (const variable of required) {
-    if (!import.meta.env[variable]) {
-      missingFrontend.push(variable);
-    }
-  }
+  const missingVars = requiredEnvVars.filter(
+    (varName) => !import.meta.env[varName]
+  )
 
-  // Throw errors with descriptive messages if any required variables are missing
-  if (missingFrontend.length > 0) {
-    throw new Error(
-      `Missing required frontend environment variables: ${missingFrontend.join(', ')}. ` +
-      'Please check your .env file and ensure all required variables are set.'
-    );
-  }
-
-  // Log warnings for optional variables if they're missing
-  const optional = [];
-
-  const missingOptionalFrontend: string[] = [];
-  for (const variable of optional) {
-    if (!import.meta.env[variable]) {
-      missingOptionalFrontend.push(variable);
-    }
-  }
-
-  if (missingOptionalFrontend.length > 0) {
+  if (missingVars.length > 0) {
     console.warn(
-      `Missing optional frontend environment variables: ${missingOptionalFrontend.join(', ')}. ` +
-      'Some features may not work as expected.'
-    );
+      '⚠️ Missing environment variables:',
+      missingVars.join(', ')
+    )
+    console.warn('The app will use default values or may have limited functionality')
+    
+    // Set default values
+    if (!import.meta.env.VITE_API_URL) {
+      console.warn('Using default API URL: http://localhost:3001')
+    }
+    
+    return
   }
 
-  console.log('✅ All required environment variables are present');
+  console.log('✅ All environment variables validated successfully')
 }

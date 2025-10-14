@@ -7,3 +7,4 @@ export { default as ThreeBackground } from './ThreeBackground';
 export { default as InteractiveCursorBackground } from './InteractiveCursorBackground';
 export { default as SplineLoader } from './SplineLoader';
 export { default as UnifiedCard } from './UnifiedCard';
+export { default as SplineWrapper } from './SplineWrapper';

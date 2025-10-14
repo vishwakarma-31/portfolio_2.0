@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { MagneticButton } from '../components/MagneticButton'
-import SplineLoader from '../components/SplineLoader'
+import SplineWrapper from '../components/SplineWrapper'
 import { AnimationService } from '../services/animationService'
 import { PerformanceService } from '../services/performanceService'
 import { ProfileRepository } from '../repositories/profileRepository'
@@ -106,16 +106,11 @@ const Home = () => {
             
             {/* 3D Spline Robot */}
             <motion.div
-              // initial={{ opacity: 0, scale: 0.8 }}
-              // animate={{ opacity: 1, scale: 1 }}
-              // transition={{ duration: 1, delay: 0.2 }}
-              // className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden glass-card glow-border-enter"
+              className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden"
             >
-              <SplineLoader
+              <SplineWrapper
                 scene="https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode"
                 className="w-96 h-96"
-                // fallbackContent="My 3D avatar is loading..."
-                // showLoadingState={true}
               />
             </motion.div>
           </div>

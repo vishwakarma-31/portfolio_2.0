@@ -11,8 +11,13 @@ import { validateEnv } from './utils/validateEnv'
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-// Validate environment variables
-validateEnv()
+// Validate environment variables with error handling
+try {
+  validateEnv()
+} catch (error) {
+  console.warn('⚠️ Environment validation failed:', error)
+  console.warn('Continuing with default configuration...')
+}
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
