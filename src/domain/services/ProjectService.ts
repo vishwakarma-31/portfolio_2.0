@@ -1,7 +1,7 @@
-import { ProjectEntity, ProjectCategory, ProjectStatus } from '../entities/Project'
+import { ProjectEntity, ProjectCategory, ProjectStatus, Project } from '../entities/Project'
 
 export class ProjectService {
-  static createProject(data: any): ProjectEntity {
+  static createProject(data: Project): ProjectEntity {
     return new ProjectEntity(
       data.id,
       data.name,

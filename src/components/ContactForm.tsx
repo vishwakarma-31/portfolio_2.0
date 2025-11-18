@@ -46,7 +46,7 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
     return !newErrors.name && !newErrors.email && !newErrors.message
   }
 
-  const handleInputChange = (e: React.ChangeEvent<any>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -61,7 +61,7 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
     }
   }
 
-  const handleBlur = (e: React.FocusEvent<any>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     const error = validateField(name, value)
     setErrors(prev => ({
@@ -105,10 +105,11 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
       } else {
         throw new Error(result.message || 'Failed to send message')
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Form submission error:', error)
       setSubmitStatus('error')
-      setSubmitMessage(error.message || 'Failed to send message')
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send message'
+      setSubmitMessage(errorMessage)
     } finally {
       setIsSubmitting(false)
     }

@@ -1,4 +1,5 @@
 import { gsap } from 'gsap'
+import React from 'react'
 
 // Animation service to handle complex animations
 export class AnimationService {

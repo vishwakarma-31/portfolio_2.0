@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 
 const InteractiveCursorBackground: React.FC = () => {
-  const containerRef = useRef<any>(null)
-  const gradientRef = useRef<any>(null)
-  const rippleRef = useRef<any>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const gradientRef = useRef<HTMLDivElement>(null)
+  const rippleRef = useRef<HTMLDivElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
   const [isMoving, setIsMoving] = useState(false)
   const idleTimeoutRef = useRef<number | null>(null)
 
-  const handleMouseMove = useCallback((e: any) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
 

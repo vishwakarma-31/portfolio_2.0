@@ -1,15 +1,15 @@
 // Performance service to centralize performance monitoring
 export class PerformanceService {
-  private observers: any[] = []
+  private observers: PerformanceObserver[] = []
 
   constructor() {}
 
   startPageLoadMonitoring() {
     // Monitor route transition performance
-    const observer = new (window as any).PerformanceObserver((list: any) => {
-      list.getEntries().forEach((entry: any) => {
+    const observer = new PerformanceObserver((list: PerformanceObserverEntryList) => {
+      list.getEntries().forEach((entry: PerformanceEntry) => {
         if (entry.entryType === 'navigation') {
-          const navigationEntry = entry as any
+          const navigationEntry = entry as PerformanceNavigationTiming
           console.log('Page load performance:', {
             domContentLoaded: navigationEntry.domContentLoadedEventEnd - navigationEntry.domContentLoadedEventStart,
             loadComplete: navigationEntry.loadEventEnd - navigationEntry.loadEventStart,
@@ -19,8 +19,12 @@ export class PerformanceService {
       })
     })
 
-    observer.observe({ entryTypes: ['navigation'] })
-    this.observers.push(observer)
+    try {
+      observer.observe({ entryTypes: ['navigation'] })
+      this.observers.push(observer)
+    } catch (error) {
+      console.warn('PerformanceObserver not supported:', error)
+    }
   }
 
   stopMonitoring() {

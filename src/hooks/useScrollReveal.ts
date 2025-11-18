@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import { Variants } from 'framer-motion';
 
 export interface ScrollRevealOptions {
   threshold?: number;
@@ -12,7 +13,7 @@ export interface ScrollRevealOptions {
 interface ScrollRevealReturn {
   ref: React.RefObject<HTMLElement>;
   isVisible: boolean;
-  variants: any;
+  variants: Variants;
 }
 
 export const useScrollReveal = (options: ScrollRevealOptions = {}): ScrollRevealReturn => {

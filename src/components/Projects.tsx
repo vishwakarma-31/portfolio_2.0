@@ -1,5 +1,3 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Eye } from 'lucide-react';
 import { projects } from '../data/projects';
@@ -68,7 +66,7 @@ export default function Projects({
           viewport={{ once: true }}
           className="grid lg:grid-cols-2 gap-8"
         >
-          {projectsToUse.map((project, index) => (
+          {projectsToUse.map((project) => (
             <motion.div
               key={project.name}
               variants={itemVariants}

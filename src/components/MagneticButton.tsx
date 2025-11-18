@@ -8,13 +8,13 @@ interface MagneticButtonProps {
 }
 
 export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '', ...props }) => {
-  const buttonRef = useRef<any>(null)
+  const buttonRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const button = buttonRef.current
     if (!button) return
 
-    const handleMouseMove = (e: any) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = button.getBoundingClientRect()
       const x = e.clientX - rect.left - rect.width / 2
       const y = e.clientY - rect.top - rect.height / 2

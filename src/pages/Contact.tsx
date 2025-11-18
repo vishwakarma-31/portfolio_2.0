@@ -1,4 +1,3 @@
-import React from 'react'
 import { Mail, MapPin } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import ContactForm from '../components/ContactForm'

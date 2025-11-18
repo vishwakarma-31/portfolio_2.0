@@ -38,7 +38,7 @@ export class RoutePreloadService {
     // Preload the components for likely next routes
     nextRoutes.forEach(route => {
       if (componentModules[route]) {
-        componentModules[route]().catch((err: any) => 
+        componentModules[route]().catch((err: unknown) => 
           console.warn(`Failed to preload ${route}:`, err)
         )
       }

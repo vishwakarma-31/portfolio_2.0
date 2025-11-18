@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
 import { SkillCategory } from '../types'
 import UnifiedCard from '../components/UnifiedCard'
@@ -24,62 +24,42 @@ const Skills = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
   const springY = useSpring(y, { stiffness: 300, damping: 30 })
 
-  const skillCategories = [
+  const skillCategories: SkillCategory[] = [
     {
       title: 'Frontend Development',
       icon: Code,
       color: 'text-blue-400',
       bgColor: 'from-blue-500/20 to-cyan-500/20',
-      skills: [
-        { name: 'React.js', icon: '⚛️', level: 95 },
-        // { name: 'Next.js', icon: '▲', level: 90 },
-        // { name: 'TypeScript', icon: '🔷', level: 88 },
-        // { name: 'Tailwind CSS', icon: '🎨', level: 92 },
-        { name: 'JavaScript', icon: '🟨', level: 95 },
-        { name: 'HTML/CSS', icon: '🌐', level: 98 }
-      ]
+      summary: 'Crafting immersive, high-performance interfaces with modern tooling and a focus on delightful user interactions.',
+      coreSkills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+      toolkit: ['GSAP', 'React Query', 'Redux Toolkit', 'Storybook', 'Component Libraries']
     },
     {
       title: 'Backend Development',
       icon: Server,
       color: 'text-green-400',
       bgColor: 'from-green-500/20 to-emerald-500/20',
-      skills: [
-        { name: 'Node.js', icon: '🟢', level: 90 },
-        // { name: 'Python', icon: '🐍', level: 85 },
-        // { name: 'Express.js', icon: '🚀', level: 88 },
-        // { name: 'REST APIs', icon: '🔗', level: 92 },
-        // { name: 'GraphQL', icon: '🔺', level: 80 },
-        // { name: 'Microservices', icon: '🏗️', level: 75 }
-      ]
+      summary: 'Building secure, scalable services with clean architecture and well-tested APIs.',
+      coreSkills: ['Node.js', 'Express.js', 'REST APIs', 'GraphQL', 'Authentication'],
+      toolkit: ['WebSockets', 'Microservices', 'Rate Limiting', 'Background Jobs', 'API Documentation']
     },
     {
       title: 'Database & Storage',
       icon: Database,
       color: 'text-purple-400',
       bgColor: 'from-purple-500/20 to-pink-500/20',
-      skills: [
-        // { name: 'PostgreSQL', icon: '🐘', level: 88 },
-        { name: 'MongoDB', icon: '🍃', level: 85 },
-        // { name: 'Redis', icon: '🔴', level: 80 },
-        { name: 'MySQL', icon: '🟦', level: 82 },
-        // { name: 'Firebase', icon: '🔥', level: 78 },
-        // { name: 'Prisma', icon: '⚡', level: 85 }
-      ]
+      summary: 'Designing data models that balance performance, integrity, and developer ergonomics.',
+      coreSkills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Data Modeling'],
+      toolkit: ['Aggregation Pipelines', 'Prisma', 'Mongoose', 'ORM Optimization', 'DB Monitoring']
     },
     {
       title: 'Cloud & DevOps',
       icon: Cloud,
       color: 'text-orange-400',
       bgColor: 'from-orange-500/20 to-red-500/20',
-      skills: [
-        { name: 'AWS', icon: '☁️', level: 80 },
-        // { name: 'Docker', icon: '🐳', level: 85 },
-        // { name: 'Kubernetes', icon: '⎈', level: 70 },
-        // { name: 'CI/CD', icon: '🔄', level: 82 },
-        // { name: 'Vercel', icon: '▲', level: 90 },
-        // { name: 'Netlify', icon: '🌐', level: 88 }
-      ]
+      summary: 'Owning the full lifecycle from deployment pipelines to observability and performance tuning.',
+      coreSkills: ['AWS', 'Vercel', 'Railway', 'CI/CD Pipelines', 'Performance Optimization'],
+      toolkit: ['Docker', 'Nginx', 'Monitoring', 'Infrastructure as Code', 'Security Hardening']
     },
     // {
     //   title: 'UI/UX Design',
@@ -217,7 +197,7 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
       ref={cardRef}
       className="p-6 h-full"
     >
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-4">
         <motion.div
           className="p-3 rounded-xl bg-gray-800/50"
           whileHover={{ rotate: 360 }}
@@ -225,80 +205,59 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
         >
           <category.icon className={`w-8 h-8 ${category.color}`} />
         </motion.div>
-        <h3 className="text-2xl font-bold text-slate-100">
-          {category.title}
-        </h3>
+        <div>
+          <h3 className="text-2xl font-bold text-slate-100">
+            {category.title}
+          </h3>
+          <p className="text-sm text-gray-400 mt-2">{category.summary}</p>
+        </div>
       </div>
 
-      <div className="space-y-3">
-        {category.skills.map((skill, skillIndex) => (
-          <EnhancedSkillBar 
-            key={skill.name}
-            skill={skill}
-            skillIndex={skillIndex}
-            isInView={isInView}
-            category={category}
-          />
-        ))}
+      <div className="space-y-6">
+        <SkillPillGroup
+          title="Core Stack"
+          items={category.coreSkills}
+          delayOffset={index * 0.1}
+          isInView={isInView}
+        />
+        <SkillPillGroup
+          title="Toolkit"
+          items={category.toolkit}
+          delayOffset={index * 0.1 + 0.2}
+          isInView={isInView}
+          outlined
+        />
       </div>
     </div>
   )
 }
 
-const EnhancedSkillBar: React.FC<{
-  skill: any;
-  skillIndex: number;
+const SkillPillGroup: React.FC<{
+  title: string;
+  items: string[];
+  delayOffset?: number;
+  outlined?: boolean;
   isInView: boolean;
-  category: SkillCategory;
-}> = ({ skill, skillIndex, isInView, category }) => {
-  const [currentValue, setCurrentValue] = useState(0);
-  
-  useEffect(() => {
-    if (isInView) {
-      const timer = setTimeout(() => {
-        setCurrentValue(skill.level);
-      }, skillIndex * 200);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView, skillIndex, skill.level]);
-
+}> = ({ title, items, delayOffset = 0, outlined = false, isInView }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-      transition={{ duration: 0.5, delay: skillIndex * 0.1 }}
-      className="space-y-2"
-    >
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <motion.span 
-            className="text-lg"
-            initial={{ scale: 0 }}
-            animate={isInView ? { scale: 1 } : { scale: 0 }}
-            transition={{ duration: 0.3, delay: skillIndex * 0.1 + 0.2 }}
+    <div className="space-y-3">
+      <p className="text-xs uppercase tracking-[0.3em] text-gray-500">{title}</p>
+      <div className="flex flex-wrap gap-2">
+        {items.map((item, index) => (
+          <motion.span
+            key={item}
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.3, delay: delayOffset + index * 0.08 }}
+            className={`px-3 py-1.5 text-sm rounded-full border ${outlined ? 'bg-transparent text-gray-300' : 'text-white'} ${
+              outlined ? 'border-gray-600 hover:border-cyan-400/60' : 'border-cyan-500/40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
+            } hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300`}
           >
-            {skill.icon}
+            {item}
           </motion.span>
-          <span className="font-medium">{skill.name}</span>
-        </div>
-        <motion.span 
-          className="text-sm text-gray-400"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: skillIndex * 0.1 + 0.5 }}
-        >
-          {Math.round(currentValue)}%
-        </motion.span>
+        ))}
       </div>
-      <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
-        <motion.div
-          className={`h-2 rounded-full bg-gradient-to-r ${category.color.replace('text-', 'from-')} to-cyan-400`}
-          initial={{ width: 0 }}
-          style={{ width: `${currentValue}%` }}
-          transition={{ duration: 1, delay: skillIndex * 0.1, ease: "easeOut" }}
-        />
-      </div>
-    </motion.div>
+    </div>
   )
 }
 

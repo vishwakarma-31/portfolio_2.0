@@ -14,9 +14,9 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
   cursorSize = 8,
   followerSize = 28,
 }) => {
-  const cursorRef = useRef<any>(null)
-  const followerRef = useRef<any>(null)
-  const glowRef = useRef<any>(null)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const followerRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const cursor = cursorRef.current
@@ -29,7 +29,7 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
     let followerX = 0
     let followerY = 0
 
-    const handleMouseMove = (e: any): void => {
+    const handleMouseMove = (e: MouseEvent): void => {
       mouseX = e.clientX
       mouseY = e.clientY
 

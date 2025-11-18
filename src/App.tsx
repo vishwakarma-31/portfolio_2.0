@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async'
 const Home = lazy(() => import('./pages/Home'))
 const Skills = lazy(() => import('./pages/Skills'))
 const Experience = lazy(() => import('./pages/Experience'))
+const Certifications = lazy(() => import('./pages/Certifications'))
 const Projects = lazy(() => import('./pages/Projects'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Education = lazy(() => import('./pages/Education'))
@@ -36,6 +37,7 @@ const AppContent: React.FC = () => {
               <Routes>
                 <Route path="/skills" element={<Skills />} />
                 <Route path="/experience" element={<Experience />} />
+                <Route path="/certifications" element={<Certifications />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/education" element={<Education />} />

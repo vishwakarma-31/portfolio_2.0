@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Spline from '@splinetool/react-spline'
 
@@ -19,7 +19,6 @@ const SplineLoader: React.FC<SplineLoaderProps> = ({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [loadProgress, setLoadProgress] = useState(0)
-  const splineRef = useRef<any>(null)
 
   useEffect(() => {
 
@@ -151,7 +150,6 @@ const SplineLoader: React.FC<SplineLoaderProps> = ({
         className={className}
       >
         <Spline
-          ref={splineRef}
           scene={scene}
           onLoad={handleSplineLoad}
           onError={handleSplineError}

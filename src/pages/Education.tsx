@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
-import { Calendar, Users, BookOpen, GraduationCap, Award, ExternalLink } from 'lucide-react'
+import React from 'react'
+import { Calendar, Award } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
 
 const Education = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
     once: true
@@ -67,7 +65,7 @@ const Education = () => {
 
         {/* Education Cards */}
         <div 
-          ref={containerRef as any}
+          ref={containerRef as React.RefObject<HTMLDivElement>}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
           {education.map((item, index) => (

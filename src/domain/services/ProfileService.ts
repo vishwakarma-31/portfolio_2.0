@@ -1,7 +1,21 @@
 import { ProfileEntity } from '../entities/Profile'
 
+export interface ProfileDataInput {
+  id?: string
+  name: string
+  title: string
+  description: string
+  about: string
+  skills: string[]
+  stats: Array<{
+    number: string
+    label: string
+    icon: string
+  }>
+}
+
 export class ProfileService {
-  static createProfile(data: any): ProfileEntity {
+  static createProfile(data: ProfileDataInput): ProfileEntity {
     return new ProfileEntity(
       data.id || 'profile-1',
       data.name,

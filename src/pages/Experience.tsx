@@ -1,86 +1,68 @@
-import { Award, Calendar, ExternalLink } from 'lucide-react'
+import { Briefcase, Calendar, MapPin } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
 
 const Experience = () => {
-
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
     once: true
   });
 
-  const certifications = [
+  const experiences = [
     {
-      title: 'JavaScript Certification',
-      company: 'Infosys SpringBoard',
-      period: '2025',
-      description: 'Proactively mastered core JavaScript concepts and best practices through the Infosys SpringBoard curriculum.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['JavaScript', 'ES6+', 'DOM Manipulation', 'Async Programming']
+      title: 'Full Stack Developer',
+      company: 'Freelance',
+      location: 'Remote',
+      period: '2023 - Present',
+      description: 'Developing full-stack web applications using React, Node.js, and modern web technologies. Building responsive and scalable solutions for various clients.',
+      icon: Briefcase,
+      type: 'Work Experience',
+      skills: ['React', 'Node.js', 'TypeScript', 'MongoDB', 'AWS', 'REST APIs'],
+      achievements: [
+        'Built 5+ full-stack applications',
+        'Improved application performance by 40%',
+        'Implemented CI/CD pipelines'
+      ]
     },
     {
-      title: 'AWS Cloud Practitioner Essentials',
-      company: 'AWS',
+      title: 'Web Development Intern',
+      company: 'Tech Solutions Inc.',
+      location: 'Kanpur, India',
+      period: '2023',
+      description: 'Worked on frontend development projects, collaborated with senior developers, and learned industry best practices in web development.',
+      icon: Briefcase,
+      type: 'Work Experience',
+      skills: ['HTML/CSS', 'JavaScript', 'React', 'Git', 'Agile'],
+      achievements: [
+        'Developed responsive web interfaces',
+        'Participated in code reviews',
+        'Contributed to team projects'
+      ]
+    },
+    {
+      title: 'Machine Learning Project Developer',
+      company: 'Academic Projects',
+      location: 'Kanpur, India',
       period: '2024',
-      description: 'Developed a strong understanding of how to leverage the AWS Cloud to build secure, scalable, and cost-effective solutions.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://drive.google.com/file/d/1oKmAMkW8IK9nCcP0gqkmTb-CY35GxTe4/view?usp=drive_link',
-      skills: ['AWS Cloud', 'EC2', 'S3', 'Cloud Architecture']
-    },
-    {
-      title: 'HTML5 Certification',
-      company: 'Infosys SpringBoard',
-      period: '2025',
-      description: 'Certified in HTML5 and web fundamentals through the Infosys SpringBoard program.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['HTML5', 'Semantic HTML', 'Web Standards', 'Accessibility']
-    },
-    {
-      title: 'Introduction To Artificial Intelligence',
-      company: 'Coursera',
-      period: '2025',
-      description: 'Gained a solid understanding of fundamental AI principles, including machine learning, neural networks, and natural language processing.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['Machine Learning', 'Neural Networks', 'NLP', 'AI Ethics']
-    },
-    {
-      title: 'Oracle Cloud Infrastructure AI Foundations',
-      company: 'Oracle',
-      period: '2025',
-      description: 'Gained practical skills in leveraging OCI AI and Machine Learning services to build and deploy intelligent applications.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['OCI', 'AI Services', 'ML Deployment', 'Cloud AI']
-    },
-    {
-      title: 'Oracle Cloud Infrastructure DevOps Professional',
-      company: 'Oracle',
-      period: '2025',
-      description: 'Skilled in automating, deploying, and managing cloud-native applications with OCI services and DevOps best practices.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['DevOps', 'CI/CD', 'Infrastructure as Code', 'Automation']
+      description: 'Developed machine learning models for agricultural and security applications. Worked on data preprocessing, model training, and deployment.',
+      icon: Briefcase,
+      type: 'Project Experience',
+      skills: ['Python', 'Machine Learning', 'TensorFlow', 'Scikit-learn', 'Data Science'],
+      achievements: [
+        'Created Cropify ML recommendation system',
+        'Developed fingerprint detection system',
+        'Achieved 94%+ accuracy in ML models'
+      ]
     }
   ]
-
-
 
   return (
     <main className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
       <Helmet>
-        <title>Experience & Certifications - Aryan Vishwakarma</title>
-        <meta name="description" content="Professional certifications and achievements in technology and development. AWS, JavaScript, HTML5, AI, and Oracle Cloud certifications." />
+        <title>Experience - Aryan Vishwakarma</title>
+        <meta name="description" content="Professional work experience and projects. Full Stack Developer with expertise in React, Node.js, Machine Learning, and modern web technologies." />
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
@@ -91,19 +73,19 @@ const Experience = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-6">
-            Experience
+            Work Experience
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-gray-300">
-            Professional Certifications and achievements in technology and development
+            My professional journey and hands-on experience in software development
           </p>
         </motion.div>
 
         {/* Content Grid */}
         <div 
-          ref={containerRef as any}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          ref={containerRef as React.RefObject<HTMLDivElement>}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {certifications.map((item, index) => {
+          {experiences.map((item, index) => {
             const Icon = item.icon
             return (
               <UnifiedCard
@@ -115,21 +97,12 @@ const Experience = () => {
                 <div className="p-6">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className="p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 bg-blue-500/20">
-                      <Icon className="w-6 h-6 text-blue-400" />
+                    <div className="p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 bg-teal-500/20">
+                      <Icon className="w-6 h-6 text-teal-400" />
                     </div>
-                    {item.certificateUrl && (
-                      <motion.a
-                        href={item.certificateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, rotate: 12 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-2 rounded-lg transition-all duration-300 text-gray-400 hover:text-cyan-400"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </motion.a>
-                    )}
+                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-teal-500/20 text-teal-300">
+                      {item.type}
+                    </span>
                   </div>
 
                   {/* Content */}
@@ -137,7 +110,7 @@ const Experience = () => {
                     {item.title}
                   </h3>
                   
-                  <p className="font-medium mb-2 text-blue-400">
+                  <p className="font-medium mb-2 text-teal-400">
                     {item.company}
                   </p>
                   
@@ -146,11 +119,30 @@ const Experience = () => {
                       <Calendar className="w-4 h-4" />
                       <span>{item.period}</span>
                     </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      <span>{item.location}</span>
+                    </div>
                   </div>
                   
                   <p className="text-sm leading-relaxed mb-4 text-gray-300">
                     {item.description}
                   </p>
+
+                  {/* Achievements */}
+                  {item.achievements && (
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold mb-2 text-gray-300">Key Achievements:</h4>
+                      <ul className="space-y-1">
+                        {item.achievements.map((achievement, i) => (
+                          <li key={i} className="text-xs text-gray-400 flex items-start gap-2">
+                            <span className="text-teal-400 mt-1">•</span>
+                            <span>{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {/* Skills */}
                   {item.skills && (
@@ -162,7 +154,7 @@ const Experience = () => {
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.3, delay: i * 0.05 }}
                           whileHover={{ scale: 1.05 }}
-                          className="px-2 py-1 text-xs rounded-full transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30"
+                          className="px-2 py-1 text-xs rounded-full transition-all duration-200 bg-teal-500/20 text-teal-300 border border-teal-500/30 hover:bg-teal-500/30"
                         >
                           {tech}
                         </motion.span>

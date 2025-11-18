@@ -39,11 +39,9 @@ export interface SkillCategory {
   icon: React.ComponentType<any>;
   color: string;
   bgColor: string;
-  skills: {
-    name: string;
-    icon: string;
-    level: number;
-  }[];
+  summary: string;
+  coreSkills: string[];
+  toolkit: string[];
 }
 
 export interface ContactFormData {

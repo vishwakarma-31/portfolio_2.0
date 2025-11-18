@@ -26,7 +26,15 @@ export default [
         cancelAnimationFrame: 'readonly',
         IntersectionObserver: 'readonly',
         HTMLElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        MouseEvent: 'readonly',
         Event: 'readonly',
+        PerformanceObserver: 'readonly',
+        PerformanceObserverEntryList: 'readonly',
+        PerformanceEntry: 'readonly',
+        PerformanceNavigationTiming: 'readonly',
         // React globals
         React: 'readonly',
         JSX: 'readonly'

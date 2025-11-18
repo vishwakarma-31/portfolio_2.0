@@ -1,5 +1,3 @@
-'use client';
-
 import { motion } from 'framer-motion';
 
 interface LoadingSpinnerProps {
@@ -29,13 +27,18 @@ export default function LoadingSpinner({
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className={`border-2 border-cyan-400/30 rounded-full w-[${size}px] h-[${size}px]`}
+            className="border-2 border-cyan-400/30 rounded-full"
+            style={{ width: `${size}px`, height: `${size}px` }}
           />
           <motion.div
             animate={{ rotate: -360 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className={`absolute border-2 border-purple-400/40 rounded-full w-[${size * 0.8}px] h-[${size * 0.8}px]`}
-            style={{ inset: `${size * 0.1}px` }}
+            className="absolute border-2 border-purple-400/40 rounded-full"
+            style={{ 
+              width: `${size * 0.8}px`, 
+              height: `${size * 0.8}px`,
+              inset: `${size * 0.1}px` 
+            }}
           />
           <motion.div
             animate={{
@@ -43,8 +46,12 @@ export default function LoadingSpinner({
               opacity: [0.5, 1, 0.5]
             }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full w-[${size * 0.4}px] h-[${size * 0.4}px]`}
-            style={{ inset: `${size * 0.3}px` }}
+            className="absolute bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full"
+            style={{ 
+              width: `${size * 0.4}px`, 
+              height: `${size * 0.4}px`,
+              inset: `${size * 0.3}px` 
+            }}
           />
         </div>
 
