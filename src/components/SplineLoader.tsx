@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Spline from '@splinetool/react-spline'
+import { logger } from '../utils/logger'
 
 
 interface SplineLoaderProps {
@@ -36,7 +37,7 @@ const SplineLoader: React.FC<SplineLoaderProps> = ({
           })
         }, 200)
       } catch (error) {
-        console.error('Error preloading Spline scene:', error)
+        logger.error('Error preloading Spline scene:', error)
         setHasError(true)
         setIsLoading(false)
       }

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Github, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
@@ -12,26 +13,47 @@ const Projects = () => {
     once: true
   });
 
-  // Get all projects from repository and convert to entities
-  const allProjects = ProjectsRepository.getAllProjects().map(data => 
-    ProjectService.createProject(data)
-  )
-  
-  // Use domain service to get featured projects
-  const projects = ProjectService.getFeaturedProjects(allProjects)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [projectData, setProjectData] = React.useState<Array<{
+    title: string
+    description: string
+    tags: string[]
+    links: { github: string; demo?: string }
+    image: string
+    featured: boolean
+  }>>([])
 
-  // Convert repository data to component format
-  const projectData = projects.map(project => ({
-    title: project.title,
-    description: project.description,
-    tags: project.tags,
-    links: {
-      github: project.github,
-      demo: project.link
-    },
-    image: project.image,
-    featured: project.featured
-  }))
+  React.useEffect(() => {
+    // Simulate loading for better UX (remove if data is already available)
+    setIsLoading(true)
+    
+    // Get all projects from repository and convert to entities
+    const allProjects = ProjectsRepository.getAllProjects().map(data => 
+      ProjectService.createProject(data)
+    )
+    
+    // Use domain service to get featured projects
+    const projects = ProjectService.getFeaturedProjects(allProjects)
+
+    // Convert repository data to component format
+    const formattedProjects = projects.map(project => ({
+      title: project.title,
+      description: project.description,
+      tags: project.tags,
+      links: {
+        github: project.github,
+        demo: project.link
+      },
+      image: project.image,
+      featured: project.featured
+    }))
+
+    // Small delay to show loading state (optional, can be removed)
+    setTimeout(() => {
+      setProjectData(formattedProjects)
+      setIsLoading(false)
+    }, 100)
+  }, [])
 
   return (
     <main className="min-h-screen pt-24 pb-16 text-slate-100">
@@ -54,11 +76,23 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        <div 
-          ref={containerRef as React.RefObject<HTMLDivElement>}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {projectData.map((project, index) => (
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-400">Loading projects...</p>
+            </div>
+          </div>
+        ) : projectData.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-gray-400 text-lg">No projects found.</p>
+          </div>
+        ) : (
+          <div 
+            ref={containerRef as React.RefObject<HTMLDivElement>}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {projectData.map((project, index) => (
             <UnifiedCard
               key={index}
               animationType="project"
@@ -166,8 +200,9 @@ const Projects = () => {
                 </div>
               </div>
             </UnifiedCard>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   )

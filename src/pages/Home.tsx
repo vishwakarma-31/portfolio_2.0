@@ -10,10 +10,11 @@ import { container } from '../di'
 
 import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
+import { SOCIAL_LINKS } from '../config/constants'
 // ScrollTrigger plugin is registered globally in App.tsx
 
 const Home = () => {
-  const containerRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const performanceService = container.resolve(PerformanceService)
   const profileData = ProfileRepository.getProfileData()
 
@@ -140,7 +141,7 @@ const Home = () => {
 
           <div className="flex justify-center space-x-6 page-element animate-on-scroll stagger-4">
             <motion.a
-              href="https://github.com"
+              href={SOCIAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, rotate: 5 }}
@@ -150,7 +151,7 @@ const Home = () => {
               <Github size={24} />
             </motion.a>
             <motion.a
-              href="https://linkedin.com"
+              href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, rotate: -5 }}
@@ -164,7 +165,7 @@ const Home = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
@@ -182,7 +183,7 @@ const Home = () => {
             className="w-1 h-3 bg-cyan-400 rounded-full mt-2"
           />
         </motion.div>
-      </motion.div>
+      </motion.div> */}
 
       {/* About Me Section */}
       <section className="min-h-screen flex items-center justify-center relative z-20 py-20">
@@ -216,8 +217,9 @@ const Home = () => {
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-sm">
                   <img
                     src="/images/Aaryannn.jpg"
-                    alt={profileData.name}
+                    alt={`${profileData.name} - ${profileData.title} professional portrait`}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 {/* Floating icons around image */}
@@ -286,18 +288,19 @@ const Home = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="btn-primary flex items-center gap-3"
+                    onClick={() => window.open('/resume.pdf', '_blank')}
                   >
                     <Download className="w-5 h-5" />
                     Download Resume
                   </motion.button>
-                  <motion.a
+                  {/* <motion.a
                     href="#contact"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-center border-2 border-gray-600 text-gray-300 hover:bg-gray-800"
                   >
                     Let&apos;s Connect
-                  </motion.a>
+                  </motion.a> */}
                 </div>
               </div>
             </motion.div>

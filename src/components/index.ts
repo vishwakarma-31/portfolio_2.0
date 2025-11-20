@@ -8,3 +8,4 @@ export { default as InteractiveCursorBackground } from './InteractiveCursorBackg
 export { default as SplineLoader } from './SplineLoader';
 export { default as UnifiedCard } from './UnifiedCard';
 export { default as SplineWrapper } from './SplineWrapper';
+export { default as ProjectsList } from './ProjectsList';

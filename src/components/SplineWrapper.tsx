@@ -13,7 +13,7 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
 
   // Lazy load the Spline component to avoid blocking the main thread
   const LazySpline = React.lazy(() => 
-    import('@splinetool/react-spline')
+    import('@splinetool/react-spline').then(module => ({ default: module.default || module.Spline || module }))
   )
 
   return (

@@ -36,7 +36,7 @@ export interface ProjectData {
 
 export interface SkillCategory {
   title: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
   bgColor: string;
   summary: string;

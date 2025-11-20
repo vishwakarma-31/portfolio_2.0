@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger'
+
 // Performance service to centralize performance monitoring
 export class PerformanceService {
   private observers: PerformanceObserver[] = []
@@ -10,7 +12,7 @@ export class PerformanceService {
       list.getEntries().forEach((entry: PerformanceEntry) => {
         if (entry.entryType === 'navigation') {
           const navigationEntry = entry as PerformanceNavigationTiming
-          console.log('Page load performance:', {
+          logger.debug('Page load performance:', {
             domContentLoaded: navigationEntry.domContentLoadedEventEnd - navigationEntry.domContentLoadedEventStart,
             loadComplete: navigationEntry.loadEventEnd - navigationEntry.loadEventStart,
             total: navigationEntry.loadEventEnd - navigationEntry.fetchStart
@@ -23,7 +25,7 @@ export class PerformanceService {
       observer.observe({ entryTypes: ['navigation'] })
       this.observers.push(observer)
     } catch (error) {
-      console.warn('PerformanceObserver not supported:', error)
+      logger.warn('PerformanceObserver not supported:', error)
     }
   }
 
@@ -33,13 +35,13 @@ export class PerformanceService {
   }
 
   measureOperation<T>(label: string, operation: () => T): T {
-    console.log(`Starting operation: ${label}`)
+    logger.debug(`Starting operation: ${label}`)
     try {
       const result = operation()
-      console.log(`Completed operation: ${label}`)
+      logger.debug(`Completed operation: ${label}`)
       return result
     } catch (error) {
-      console.log(`Error in operation: ${label}`, error)
+      logger.error(`Error in operation: ${label}`, error)
       throw error
     }
   }

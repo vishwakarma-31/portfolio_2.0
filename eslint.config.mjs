@@ -57,11 +57,12 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
-      ...tseslint.configs.recommendedTypeChecked[0].rules,
+      ...tseslint.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...hooksPlugin.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-console': 'off',
       'react/react-in-jsx-scope': 'off'
     }

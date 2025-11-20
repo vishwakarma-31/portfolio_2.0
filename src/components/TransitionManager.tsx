@@ -4,7 +4,11 @@ import { gsap } from 'gsap'
 import { motion, AnimatePresence } from 'framer-motion'
 // ScrollToPlugin is registered globally in main.tsx
 
-const TransitionManager = ({ children }: { children: React.ReactNode }) => {
+interface TransitionManagerProps {
+  children: React.ReactNode
+}
+
+const TransitionManager: React.FC<TransitionManagerProps> = ({ children }) => {
   const location = useLocation()
   const [isTransitioning, setIsTransitioning] = useState(false)
 

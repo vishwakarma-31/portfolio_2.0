@@ -3,7 +3,7 @@ import React from 'react'
 
 // Animation service to handle complex animations
 export class AnimationService {
-  static initializeFloatingIcons(containerRef: React.RefObject<HTMLElement>) {
+  static initializeFloatingIcons(containerRef: React.RefObject<HTMLDivElement | null>) {
     if (!containerRef.current) return
     
     const ctx = gsap.context(() => {

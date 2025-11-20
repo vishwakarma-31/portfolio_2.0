@@ -7,7 +7,7 @@ const InteractiveCursorBackground: React.FC = () => {
   const rippleRef = useRef<HTMLDivElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
   const [isMoving, setIsMoving] = useState(false)
-  const idleTimeoutRef = useRef<number | null>(null)
+  const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect()
@@ -50,15 +50,15 @@ const InteractiveCursorBackground: React.FC = () => {
     }
 
     // Reset moving state after delay
-    if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
-    idleTimeoutRef.current = window.setTimeout(() => setIsMoving(false), 150)
+    if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current)
+    idleTimeoutRef.current = setTimeout(() => setIsMoving(false), 150)
   }, [])
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove)
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-      if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current)
+      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current)
     }
   }, [handleMouseMove])
 

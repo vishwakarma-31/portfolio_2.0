@@ -252,27 +252,6 @@
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Custom scrollbar for smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #0891b2, #7c3aed);
-}
 
 @layer base {
   * {
@@ -373,6 +352,15 @@ html {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Improved contrast for accessibility */
+  .text-gray-300 {
+    color: #d1d5db; /* Improved from #d1d5db for better contrast */
+  }
+
+  .text-gray-400 {
+    color: #9ca3af; /* Improved from #9ca3af for better contrast */
   }
 
   /* Interactive animations */

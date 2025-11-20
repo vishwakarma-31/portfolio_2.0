@@ -1,3 +1,5 @@
+import { logger } from './logger'
+
 /**
  * Validates required environment variables for frontend
  * Throws descriptive errors if any required variable is missing
@@ -5,6 +7,9 @@
 export function validateEnv(): void {
   const requiredEnvVars = [
     'VITE_API_URL',
+    'VITE_SITE_URL',
+    'VITE_GITHUB_URL',
+    'VITE_LINKEDIN_URL'
   ]
 
   const missingVars = requiredEnvVars.filter(
@@ -12,19 +17,29 @@ export function validateEnv(): void {
   )
 
   if (missingVars.length > 0) {
-    console.warn(
-      '⚠️ Missing environment variables:',
-      missingVars.join(', ')
-    )
-    console.warn('The app will use default values or may have limited functionality')
+    const errorMessage = `Missing required environment variables: ${missingVars.join(', ')}. The app may have limited functionality.`
     
-    // Set default values
-    if (!import.meta.env.VITE_API_URL) {
-      console.warn('Using default API URL: http://localhost:3001')
+    // In production, throw error. In development, warn but continue
+    if (import.meta.env.PROD) {
+      throw new Error(errorMessage)
+    } else {
+      logger.warn('⚠️', errorMessage)
+      // Set default values for development
+      if (!import.meta.env.VITE_API_URL) {
+        logger.warn('Using default API URL: http://localhost:3001')
+      }
+      if (!import.meta.env.VITE_SITE_URL) {
+        logger.warn('Using default SITE URL: https://vishwakarma-31-portfolio.vercel.app')
+      }
+      if (!import.meta.env.VITE_GITHUB_URL) {
+        logger.warn('Using default GITHUB URL: https://github.com/vishwakarma-31')
+      }
+      if (!import.meta.env.VITE_LINKEDIN_URL) {
+        logger.warn('Using default LINKEDIN URL: https://linkedin.com/in/aryan-vishwakarma')
+      }
     }
-    
     return
   }
 
-  console.log('✅ All environment variables validated successfully')
+  logger.info('✅ All environment variables validated successfully')
 }

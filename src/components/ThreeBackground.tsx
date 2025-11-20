@@ -4,7 +4,7 @@ const ThreeBackgroundContent = React.lazy(() => import('./ThreeBackgroundContent
 
 export default function ThreeBackground() {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
+    <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden>
       <Suspense fallback={<div className="w-full h-full bg-black" />}>
         <ThreeBackgroundContent />
       </Suspense>

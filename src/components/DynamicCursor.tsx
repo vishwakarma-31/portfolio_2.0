@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 interface DynamicCursorProps {
@@ -17,6 +17,7 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
   const cursorRef = useRef<HTMLDivElement>(null)
   const followerRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
+  const [isKeyboardUser, setIsKeyboardUser] = useState(false)
 
   useEffect(() => {
     const cursor = cursorRef.current
@@ -29,7 +30,25 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
     let followerX = 0
     let followerY = 0
 
+    // Detect keyboard navigation
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        setIsKeyboardUser(true)
+        cursor.style.display = 'none'
+        follower.style.display = 'none'
+        glow.style.display = 'none'
+      }
+    }
+
     const handleMouseMove = (e: MouseEvent): void => {
+      // Show cursor when mouse moves (keyboard user switched to mouse)
+      if (isKeyboardUser) {
+        setIsKeyboardUser(false)
+        cursor.style.display = 'block'
+        follower.style.display = 'block'
+        glow.style.display = 'block'
+      }
+
       mouseX = e.clientX
       mouseY = e.clientY
 
@@ -49,6 +68,10 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
       })
     }
 
+    window.addEventListener('keydown', handleKeyDown)
+
+    let animationFrameId: number | null = null
+
     const animateFollower = () => {
       followerX += (mouseX - followerX) * 0.15
       followerY += (mouseY - followerY) * 0.15
@@ -58,14 +81,18 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
         y: followerY - followerSize / 2,
       })
 
-      requestAnimationFrame(animateFollower)
+      animationFrameId = requestAnimationFrame(animateFollower)
     }
 
     document.addEventListener('mousemove', handleMouseMove)
-    animateFollower()
+    animationFrameId = requestAnimationFrame(animateFollower)
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('keydown', handleKeyDown)
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId)
+      }
     }
   }, [cursorSize, followerSize])
 

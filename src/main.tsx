@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
 import 'reflect-metadata'
 import { validateEnv } from './utils/validateEnv'
+import { logger } from './utils/logger'
 
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -15,8 +16,8 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 try {
   validateEnv()
 } catch (error) {
-  console.warn('⚠️ Environment validation failed:', error)
-  console.warn('Continuing with default configuration...')
+  logger.warn('⚠️ Environment validation failed:', error)
+  logger.warn('Continuing with default configuration...')
 }
 
 const rootElement = document.getElementById('root')

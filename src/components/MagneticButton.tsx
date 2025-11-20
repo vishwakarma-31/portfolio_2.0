@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-interface MagneticButtonProps {
+interface MagneticButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   className?: string
-  [key: string]: any
 }
 
 export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '', ...props }) => {

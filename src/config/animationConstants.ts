@@ -1,0 +1,75 @@
+/**
+ * Animation and physics constants for Three.js background
+ * Centralized configuration for easy tuning and maintenance
+ */
+
+export const STARFIELD_CONFIG = {
+  // Star count defaults
+  DEFAULT_STAR_COUNT: 1200,
+  LOW_PERFORMANCE_STAR_COUNT: 200,
+  MEDIUM_PERFORMANCE_STAR_COUNT: 600,
+  
+  // Star size
+  DEFAULT_STAR_SIZE: 0.08,
+  
+  // Physics constants
+  MOUSE_INFLUENCE: 24.0,
+  GRAVITATIONAL_CONSTANT: 1.0,
+  DAMPING: 0.985,
+  MAX_VELOCITY: 0.22,
+  MIN_DISTANCE: 2.0,
+  
+  // Drift animation
+  DRIFT_ANGULAR_SPEED: 0.15,
+  DRIFT_MAGNITUDE: 0.006,
+  DRIFT_Z_MULTIPLIER: 0.25,
+  
+  // Position multipliers
+  POSITION_MULTIPLIER_X: 200,
+  POSITION_MULTIPLIER_Y: 200,
+  POSITION_MULTIPLIER_Z: 100,
+  VELOCITY_MULTIPLIER: 0.01,
+  
+  // Mass range
+  MASS_MIN: 0.5,
+  MASS_MAX: 1.5,
+  
+  // Boundary limits
+  BOUNDARY_X: 140,
+  BOUNDARY_Y: 140,
+  BOUNDARY_Z: 70,
+  
+  // Mouse position multipliers
+  MOUSE_POSITION_MULTIPLIER: 4,
+  FORCE_Z_MULTIPLIER: 0.5,
+  
+  // Angle multipliers for drift
+  DRIFT_ANGLE_MULTIPLIER: 0.21,
+  DRIFT_Y_MULTIPLIER: 1.1,
+  DRIFT_Z_ANGLE_MULTIPLIER: 0.7,
+} as const
+
+export const PARALLAX_CONFIG = {
+  PARALLAX_X_MULTIPLIER: -1.6,
+  PARALLAX_Y_MULTIPLIER: -1.0,
+  PARALLAX_LERP_SPEED: 0.05,
+  ROTATION_Y_MULTIPLIER: 0.12,
+  ROTATION_X_MULTIPLIER: -0.08,
+} as const
+
+export const CANVAS_CONFIG = {
+  CAMERA_POSITION_Z: 15,
+  CAMERA_FOV: 65,
+  AMBIENT_LIGHT_INTENSITY: 0.2,
+  POINT_LIGHT_INTENSITY: 0.9,
+  POINT_LIGHT_DISTANCE: 28,
+  POINT_LIGHT_DECAY: 2,
+  DIRECTIONAL_LIGHT_INTENSITY: 0.2,
+  DIRECTIONAL_LIGHT_POSITION_Z: 5,
+  PERFORMANCE_MIN: 0.3,
+} as const
+
+export const MOUSE_TRACKER_CONFIG = {
+  LERP_SPEED: 0.35,
+} as const
+

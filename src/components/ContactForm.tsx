@@ -96,9 +96,29 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
         }),
       })
 
+      // Check if response is ok
+      if (!response.ok) {
+        // Try to parse error response
+        let errorMessage = 'Failed to send message'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.message || errorData.error || errorMessage
+          
+          // Handle validation errors
+          if (errorData.errors && Array.isArray(errorData.errors)) {
+            const validationErrors = errorData.errors.map((err: { msg?: string; message?: string }) => err.msg || err.message).join(', ')
+            errorMessage = `Validation error: ${validationErrors}`
+          }
+        } catch {
+          // If JSON parsing fails, use status text
+          errorMessage = response.statusText || `Server error (${response.status})`
+        }
+        throw new Error(errorMessage)
+      }
+
       const result = await response.json()
 
-      if (response.ok && result.success) {
+      if (result.success) {
         setSubmitStatus('success')
         setSubmitMessage(result.message || 'Message sent successfully!')
         setFormData({ name: '', email: '', message: '' })
@@ -106,17 +126,27 @@ export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/
         throw new Error(result.message || 'Failed to send message')
       }
     } catch (error) {
-      console.error('Form submission error:', error)
       setSubmitStatus('error')
-      const errorMessage = error instanceof Error ? error.message : 'Failed to send message'
+      let errorMessage = 'Failed to send message'
+      
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = 'Network error: Please check your internet connection and try again.'
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      }
+      
       setSubmitMessage(errorMessage)
+      // Log error for debugging (only in development)
+      if (import.meta.env.DEV) {
+        console.error('Contact form submission error:', error)
+      }
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const inputClasses = 'w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors text-foreground placeholder-gray-400'
-  const labelClasses = 'block text-sm font-medium mb-2 text-gray-300'
+  const inputClasses = 'w-full px-4 py-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors text-foreground placeholder-gray-500'
+  const labelClasses = 'block text-sm font-medium mb-2 text-gray-200'
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="glass-card p-8 rounded-xl max-w-2xl mx-auto">

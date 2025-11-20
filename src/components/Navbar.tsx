@@ -96,6 +96,9 @@ const Navbar: React.FC<NavbarProps> = ({
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className="p-2 rounded-lg text-gray-200 hover:text-cyan-300 hover:bg-cyan-400/10 transition-colors"
+                  aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                  aria-expanded={isMobileMenuOpen}
+                  aria-controls="mobile-menu"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -118,6 +121,8 @@ const Navbar: React.FC<NavbarProps> = ({
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-menu"
+            role="menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

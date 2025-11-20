@@ -19,8 +19,6 @@ const Education = lazy(() => import('./pages/Education'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 const AppContent: React.FC = () => {
-
-
   return (
       <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">
           {/* Interactive starfield background (site-wide) */}

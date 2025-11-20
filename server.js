@@ -54,21 +54,34 @@ app.use(helmet({
 }));
 
 // CORS with whitelist
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:5173',
-  'http://localhost:4173'
-];
+const isProduction = process.env.NODE_ENV === 'production'
+const allowedOrigins = isProduction
+  ? [process.env.FRONTEND_URL].filter(Boolean) // Only production URL in production
+  : [
+      process.env.FRONTEND_URL,
+      'http://localhost:5173',
+      'http://localhost:4173',
+      'http://localhost:3000'
+    ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests) only in development
+    if (!origin) {
+      if (isProduction) {
+        return callback(new Error('CORS: Origin header required in production'));
+      }
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`CORS: Origin ${origin} is not allowed`));
     }
   },
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
 // Rate limiting with better config
@@ -83,7 +96,39 @@ const contactLimiter = rateLimit({
   legacyHeaders: false
 });
 
+// Health check rate limiter (more lenient)
+const healthLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 30, // Allow more requests for monitoring
+  message: {
+    error: 'Too many health check requests, please try again later.',
+    retryAfter: '1 minute'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 app.use('/api/contact', contactLimiter);
+app.use('/api/health', healthLimiter);
+
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now()
+  const timestamp = new Date().toISOString()
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start
+    const logMessage = `${timestamp} ${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`
+    
+    if (res.statusCode >= 400) {
+      console.error(logMessage)
+    } else {
+      console.log(logMessage)
+    }
+  })
+  
+  next()
+})
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }))
@@ -101,9 +146,15 @@ const transporter = nodemailer.createTransport({
 // Validate email configuration
 transporter.verify((error) => {
   if (error) {
-    console.error('Email configuration error:', error)
+    console.error('❌ Email configuration error:', error)
+    console.error('⚠️  Contact form will not work until email is properly configured')
+    if (process.env.NODE_ENV === 'production') {
+      // In production, this is critical - exit the application
+      console.error('🚨 CRITICAL: Email service not available in production! Shutting down...')
+      process.exit(1)
+    }
   } else {
-    console.log('Email server is ready to send messages')
+    console.log('✅ Email server is ready to send messages')
   }
 })
 
@@ -121,10 +172,31 @@ const validateContactForm = [
     .normalizeEmail(),
   body('message')
     .trim()
+    .notEmpty()
+    .withMessage('Message cannot be empty')
     .isLength({ min: 10, max: 1000 })
     .withMessage('Message must be between 10 and 1000 characters')
+    .custom((value) => {
+      // Check that message has actual content (not just whitespace)
+      if (value.trim().length === 0) {
+        throw new Error('Message cannot be only whitespace')
+      }
+      return true
+    })
     .escape()
 ];
+
+// Helper function to escape HTML and prevent XSS
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }
+  return String(text).replace(/[&<>"']/g, m => map[m])
+}
 
 // Contact form endpoint
 app.post('/api/contact', validateContactForm, async (req, res) => {
@@ -139,22 +211,27 @@ app.post('/api/contact', validateContactForm, async (req, res) => {
   try {
     const { name, email, message } = req.body
 
+    // Sanitize inputs for HTML email
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br>')
+
     // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.RECIPIENT_EMAIL || process.env.EMAIL_USER,
-      subject: `Portfolio Contact: Message from ${name}`,
+      subject: `Portfolio Contact: Message from ${safeName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
             New Contact Form Submission
           </h2>
           <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
             <p><strong>Message:</strong></p>
             <div style="background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #007bff;">
-              ${message.replace(/\n/g, '<br>')}
+              ${safeMessage}
             </div>
           </div>
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 12px;">
@@ -177,14 +254,14 @@ app.post('/api/contact', validateContactForm, async (req, res) => {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #007bff;">Thank You for Reaching Out!</h2>
-          <p>Hi ${name},</p>
+          <p>Hi ${safeName},</p>
           <p>Thank you for contacting me through my portfolio. I've received your message and will get back to you as soon as possible, typically within 24 hours.</p>
           <div style="background: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 4px;">
             <p><strong>Your message:</strong></p>
-            <p style="font-style: italic;">"${message}"</p>
+            <p style="font-style: italic;">"${safeMessage}"</p>
           </div>
           <p>Best regards,<br>
-          Your Name<br>
+          Aryan Vishwakarma<br>
           Full Stack Developer<br>
           <a href="mailto:${process.env.RECIPIENT_EMAIL || process.env.EMAIL_USER}">Email me</a></p>
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 12px;">
@@ -208,10 +285,19 @@ app.post('/api/contact', validateContactForm, async (req, res) => {
 
   } catch (error) {
     console.error('Contact form error:', error)
-    res.status(500).json({
-      success: false,
-      message: 'Failed to send message. Please try again later.'
-    })
+    
+    // Check if the error is related to email configuration
+    if (error.code === 'EAUTH' || error.code === 'EENVELOPE') {
+      res.status(500).json({
+        success: false,
+        message: 'Email service is currently unavailable. Please try again later or contact me directly.'
+      })
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to send message. Please try again later.'
+      })
+    }
   }
 })
 
@@ -248,16 +334,19 @@ app.get('/api/health/detailed', (req, res) => {
 });
 
 // Error handling middleware
-app.use((error, req, res, _next) => {
+app.use((error, req, res, next) => {
   console.error('Unhandled error:', error)
-  res.status(500).json({
+  if (res.headersSent) {
+    return next(error)
+  }
+  res.status(error.status || 500).json({
     success: false,
-    message: 'Internal server error'
+    message: error.message || 'Internal server error'
   })
 })
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: 'Endpoint not found'

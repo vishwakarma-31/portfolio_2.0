@@ -3,8 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 import { MousePosition } from '../types'
+import { STARFIELD_CONFIG, PARALLAX_CONFIG, CANVAS_CONFIG, MOUSE_TRACKER_CONFIG } from '../config/animationConstants'
 
-function InteractiveStars({ starCount = 1500, starSize = 0.08, mousePosition }: { starCount?: number; starSize?: number; mousePosition: MousePosition }) {
+function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, starSize = STARFIELD_CONFIG.DEFAULT_STAR_SIZE, mousePosition }: { starCount?: number; starSize?: number; mousePosition: MousePosition }) {
   const ref = useRef<THREE.Points>(null)
   const originalPositions = useRef<Float32Array | null>(null)
   const velocities = useRef<Float32Array | null>(null)
@@ -16,17 +17,17 @@ function InteractiveStars({ starCount = 1500, starSize = 0.08, mousePosition }: 
     const mass = new Float32Array(starCount)
     
     for (let i = 0; i < starCount; i++) {
-      sphere[i * 3] = (Math.random() - 0.5) * 200
-      sphere[i * 3 + 1] = (Math.random() - 0.5) * 200
-      sphere[i * 3 + 2] = (Math.random() - 0.5) * 100
+      sphere[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_X
+      sphere[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Y
+      sphere[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Z
       
       // Initialize velocities
-      vel[i * 3] = (Math.random() - 0.5) * 0.01
-      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.01
-      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.01
+      vel[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
+      vel[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
+      vel[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
       
       // Random masses for varied gravitational response
-      mass[i] = 0.5 + Math.random() * 1.5
+      mass[i] = STARFIELD_CONFIG.MASS_MIN + Math.random() * (STARFIELD_CONFIG.MASS_MAX - STARFIELD_CONFIG.MASS_MIN)
     }
     
     originalPositions.current = sphere.slice()
@@ -36,97 +37,110 @@ function InteractiveStars({ starCount = 1500, starSize = 0.08, mousePosition }: 
   }, [starCount])
 
   useFrame((state, delta) => {
-    if (ref.current && originalPositions.current && velocities.current && masses.current) {
-      const positions = ref.current.geometry.attributes.position.array
-      const t = state.clock.getElapsedTime()
+    if (!ref.current || !originalPositions.current || !velocities.current || !masses.current) return
+    
+    const positions = ref.current.geometry.attributes.position.array as Float32Array
+    const t = state.clock.getElapsedTime()
+    
+    // Pre-calculate mouse position (outside loop for performance)
+    const mouseX = mousePosition.x * STARFIELD_CONFIG.MOUSE_INFLUENCE * STARFIELD_CONFIG.MOUSE_POSITION_MULTIPLIER
+    const mouseY = mousePosition.y * STARFIELD_CONFIG.MOUSE_INFLUENCE * STARFIELD_CONFIG.MOUSE_POSITION_MULTIPLIER
+    const mouseZ = 0
+    
+    // Pre-calculate constants
+    const minDistSq = STARFIELD_CONFIG.MIN_DISTANCE * STARFIELD_CONFIG.MIN_DISTANCE
+    const maxVelSq = STARFIELD_CONFIG.MAX_VELOCITY * STARFIELD_CONFIG.MAX_VELOCITY
+    const damping = STARFIELD_CONFIG.DAMPING
+    const gravConst = STARFIELD_CONFIG.GRAVITATIONAL_CONSTANT
+    const forceZMult = STARFIELD_CONFIG.FORCE_Z_MULTIPLIER
+    
+    // Batch process stars for better performance
+    for (let i = 0; i < starCount; i++) {
+      const i3 = i * 3
       
-      // Cursor-driven gravitational physics (no auto motion)
-      const mouseInfluence = 24.0
-      const mouseX = mousePosition.x * mouseInfluence
-      const mouseY = mousePosition.y * mouseInfluence
-      const mouseZ = 0
+      // Get current position
+      const currentX = positions[i3]
+      const currentY = positions[i3 + 1]
+      const currentZ = positions[i3 + 2]
       
-      const gravitationalConstant = 1.0
-      const damping = 0.985
-      const maxVelocity = 0.22
-      // Gentle autonomous drifting parameters
-      const driftAngularSpeed = 0.15
-      const driftMagnitude = 0.006
+      // Calculate distance squared (avoid sqrt when possible)
+      const dx = mouseX - currentX
+      const dy = mouseY - currentY
+      const dz = mouseZ - currentZ
+      const distSq = dx * dx + dy * dy + dz * dz
       
-      for (let i = 0; i < starCount; i++) {
-        const i3 = i * 3
-        const currentX = positions[i3]
-        const currentY = positions[i3 + 1] 
-        const currentZ = positions[i3 + 2]
+      // Only calculate force if within reasonable distance (optimization)
+      if (distSq < 10000) { // 100^2 - only affect nearby stars
+        const distance = Math.sqrt(distSq)
+        const safeDistance = Math.max(distance, STARFIELD_CONFIG.MIN_DISTANCE)
+        const safeDistSq = safeDistance * safeDistance
         
-        // Calculate gravitational force toward cursor
-        const dx = mouseX * 4 - currentX
-        const dy = mouseY * 4 - currentY
-        const dz = mouseZ - currentZ
-        
-        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
-        const minDistance = 2.0
-        const safeDistance = Math.max(distance, minDistance)
-        
-        // Gravitational force (F = G * m1 * m2 / r²)
-        const force = gravitationalConstant * masses.current[i] / (safeDistance * safeDistance)
-        const forceX = (dx / safeDistance) * force
-        const forceY = (dy / safeDistance) * force
-        const forceZ = (dz / safeDistance) * force * 0.5
+        // Gravitational force (F = G * m / r²)
+        const force = gravConst * masses.current[i] / safeDistSq
+        const invSafeDist = 1 / safeDistance
+        const forceX = dx * invSafeDist * force
+        const forceY = dy * invSafeDist * force
+        const forceZ = dz * invSafeDist * force * forceZMult
         
         // Update velocities with gravitational acceleration
         velocities.current[i3] += forceX * delta
         velocities.current[i3 + 1] += forceY * delta
         velocities.current[i3 + 2] += forceZ * delta
-        
-        // Add subtle autonomous drift so stars move slowly even without cursor
-        const angle = t * driftAngularSpeed + i * 0.21
-        const driftX = Math.cos(angle) * driftMagnitude
-        const driftY = Math.sin(angle * 1.1) * driftMagnitude
-        const driftZ = Math.sin(angle * 0.7) * (driftMagnitude * 0.25)
-        velocities.current[i3] += driftX * delta
-        velocities.current[i3 + 1] += driftY * delta
-        velocities.current[i3 + 2] += driftZ * delta
-        
-        // Apply damping
-        velocities.current[i3] *= damping
-        velocities.current[i3 + 1] *= damping
-        velocities.current[i3 + 2] *= damping
-        
-        // Limit maximum velocity
-        const vel = Math.sqrt(
-          velocities.current[i3] * velocities.current[i3] +
-          velocities.current[i3 + 1] * velocities.current[i3 + 1] +
-          velocities.current[i3 + 2] * velocities.current[i3 + 2]
-        )
-        
-        if (vel > maxVelocity) {
-          const scale = maxVelocity / vel
-          velocities.current[i3] *= scale
-          velocities.current[i3 + 1] *= scale
-          velocities.current[i3 + 2] *= scale
-        }
-        
-        // Update positions
-        positions[i3] += velocities.current[i3]
-        positions[i3 + 1] += velocities.current[i3 + 1]
-        positions[i3 + 2] += velocities.current[i3 + 2]
-        
-        // Endless boundary - wrap around instead of bounce
-        const boundary = 140
-        if (Math.abs(positions[i3]) > boundary) {
-          positions[i3] = -Math.sign(positions[i3]) * boundary
-        }
-        if (Math.abs(positions[i3 + 1]) > boundary) {
-          positions[i3 + 1] = -Math.sign(positions[i3 + 1]) * boundary
-        }
-        if (Math.abs(positions[i3 + 2]) > 70) {
-          positions[i3 + 2] = -Math.sign(positions[i3 + 2]) * 70
-        }
       }
       
-      ref.current.geometry.attributes.position.needsUpdate = true
+      // Add subtle autonomous drift (only calculate once per frame)
+      const angle = t * STARFIELD_CONFIG.DRIFT_ANGULAR_SPEED + i * STARFIELD_CONFIG.DRIFT_ANGLE_MULTIPLIER
+      const driftX = Math.cos(angle) * STARFIELD_CONFIG.DRIFT_MAGNITUDE
+      const driftY = Math.sin(angle * STARFIELD_CONFIG.DRIFT_Y_MULTIPLIER) * STARFIELD_CONFIG.DRIFT_MAGNITUDE
+      const driftZ = Math.sin(angle * STARFIELD_CONFIG.DRIFT_Z_ANGLE_MULTIPLIER) * (STARFIELD_CONFIG.DRIFT_MAGNITUDE * STARFIELD_CONFIG.DRIFT_Z_MULTIPLIER)
+      
+      velocities.current[i3] += driftX * delta
+      velocities.current[i3 + 1] += driftY * delta
+      velocities.current[i3 + 2] += driftZ * delta
+      
+      // Apply damping
+      velocities.current[i3] *= damping
+      velocities.current[i3 + 1] *= damping
+      velocities.current[i3 + 2] *= damping
+      
+      // Limit maximum velocity (using squared values to avoid sqrt)
+      const velSq = velocities.current[i3] * velocities.current[i3] +
+                    velocities.current[i3 + 1] * velocities.current[i3 + 1] +
+                    velocities.current[i3 + 2] * velocities.current[i3 + 2]
+      
+      if (velSq > maxVelSq) {
+        const scale = STARFIELD_CONFIG.MAX_VELOCITY / Math.sqrt(velSq)
+        velocities.current[i3] *= scale
+        velocities.current[i3 + 1] *= scale
+        velocities.current[i3 + 2] *= scale
+      }
+      
+      // Update positions
+      positions[i3] += velocities.current[i3]
+      positions[i3 + 1] += velocities.current[i3 + 1]
+      positions[i3 + 2] += velocities.current[i3 + 2]
+      
+      // Endless boundary - wrap around (optimized)
+      if (positions[i3] > STARFIELD_CONFIG.BOUNDARY_X) {
+        positions[i3] = -STARFIELD_CONFIG.BOUNDARY_X
+      } else if (positions[i3] < -STARFIELD_CONFIG.BOUNDARY_X) {
+        positions[i3] = STARFIELD_CONFIG.BOUNDARY_X
+      }
+      
+      if (positions[i3 + 1] > STARFIELD_CONFIG.BOUNDARY_Y) {
+        positions[i3 + 1] = -STARFIELD_CONFIG.BOUNDARY_Y
+      } else if (positions[i3 + 1] < -STARFIELD_CONFIG.BOUNDARY_Y) {
+        positions[i3 + 1] = STARFIELD_CONFIG.BOUNDARY_Y
+      }
+      
+      if (positions[i3 + 2] > STARFIELD_CONFIG.BOUNDARY_Z) {
+        positions[i3 + 2] = -STARFIELD_CONFIG.BOUNDARY_Z
+      } else if (positions[i3 + 2] < -STARFIELD_CONFIG.BOUNDARY_Z) {
+        positions[i3 + 2] = STARFIELD_CONFIG.BOUNDARY_Z
+      }
     }
+    
+    ref.current.geometry.attributes.position.needsUpdate = true
   })
 
   return (
@@ -149,88 +163,7 @@ function InteractiveStars({ starCount = 1500, starSize = 0.08, mousePosition }: 
 
 
 
-/* Unused trail effect kept for future use
-function ParticleTrails({ mousePosition }: { mousePosition: MousePosition }) {
-  const trailRef = useRef<THREE.Points>(null)
-  const particleHistory = useRef<Array<{position: [number, number, number], life: number, size: number}>>([])
-  const maxTrailLength = 50
-  
-  const trailGeometry = useMemo(() => {
-    const geometry = new THREE.BufferGeometry()
-    const positions = new Float32Array(maxTrailLength * 3)
-    const colors = new Float32Array(maxTrailLength * 3)
-    const sizes = new Float32Array(maxTrailLength)
-    
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
-    
-    return geometry
-  }, [])
 
-  useFrame((_) => {
-    if (trailRef.current) {
-      // Add new particle to trail
-      const newParticle = {
-        position: [mousePosition.x * 5, mousePosition.y * 5, 0] as [number, number, number],
-        life: 1.0,
-        size: Math.random() * 0.5 + 0.2
-      }
-      
-      particleHistory.current.unshift(newParticle)
-      
-      if (particleHistory.current.length > maxTrailLength) {
-        particleHistory.current.pop()
-      }
-      
-      // Update trail geometry
-      const positions = trailRef.current.geometry.attributes.position.array
-      const colors = trailRef.current.geometry.attributes.color.array
-      const sizes = trailRef.current.geometry.attributes.size.array
-      
-      particleHistory.current.forEach((particle, i) => {
-        if (i < maxTrailLength) {
-          // Position
-          positions[i * 3] = particle.position[0]
-          positions[i * 3 + 1] = particle.position[1]
-          positions[i * 3 + 2] = particle.position[2]
-          
-          // Color with fade
-          const fade = particle.life * (1 - i / maxTrailLength)
-          colors[i * 3] = 0.2 + fade * 0.8 // Cyan
-          colors[i * 3 + 1] = 0.8 + fade * 0.2
-          colors[i * 3 + 2] = 1.0
-          
-          // Size
-          sizes[i] = particle.size * fade
-          
-          // Age the particle
-          particle.life *= 0.98
-        }
-      })
-      
-      // Update geometry
-      trailRef.current.geometry.attributes.position.needsUpdate = true
-      trailRef.current.geometry.attributes.color.needsUpdate = true
-      trailRef.current.geometry.attributes.size.needsUpdate = true
-    }
-  })
-
-  return (
-    <points ref={trailRef} geometry={trailGeometry}>
-      <pointsMaterial
-        transparent
-        vertexColors
-        size={0.1}
-        sizeAttenuation
-        alphaTest={0.001}
-        opacity={0.8}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  )
-}
-*/
 
 function MouseTracker({ onMouseMove }: { onMouseMove: (pos: MousePosition) => void }) {
   const handleMouseMove = useCallback((event: globalThis.MouseEvent) => {
@@ -247,20 +180,41 @@ function MouseTracker({ onMouseMove }: { onMouseMove: (pos: MousePosition) => vo
   return null
 }
 
+function ParallaxLayer({ mousePosition, children }: { mousePosition: MousePosition; children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null)
+  
+  useFrame(() => {
+    if (!groupRef.current) return
+    // Soft parallax follow for an immersive cursor interaction
+    const targetX = mousePosition.x * PARALLAX_CONFIG.PARALLAX_X_MULTIPLIER
+    const targetY = mousePosition.y * PARALLAX_CONFIG.PARALLAX_Y_MULTIPLIER
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, PARALLAX_CONFIG.PARALLAX_LERP_SPEED)
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, PARALLAX_CONFIG.PARALLAX_LERP_SPEED)
+    
+    // Slight tilt based on cursor
+    const rotY = mousePosition.x * PARALLAX_CONFIG.ROTATION_Y_MULTIPLIER
+    const rotX = mousePosition.y * PARALLAX_CONFIG.ROTATION_X_MULTIPLIER
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, rotY, PARALLAX_CONFIG.PARALLAX_LERP_SPEED)
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, rotX, PARALLAX_CONFIG.PARALLAX_LERP_SPEED)
+  })
+  
+  return <group ref={groupRef}>{children}</group>
+}
+
 interface ThreeBackgroundContentProps {
   starCount?: number
   starSize?: number
 }
 
-export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.08 }: ThreeBackgroundContentProps) {
+export default function ThreeBackgroundContent({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, starSize = STARFIELD_CONFIG.DEFAULT_STAR_SIZE }: ThreeBackgroundContentProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [performanceMode, setPerformanceMode] = useState('high')
 
   const handleMouseMove = useCallback((position: MousePosition) => {
     // Smooth follow to amplify visibility of reaction
     setMousePosition(prev => ({
-      x: THREE.MathUtils.lerp(prev.x, position.x, 0.35),
-      y: THREE.MathUtils.lerp(prev.y, position.y, 0.35),
+      x: THREE.MathUtils.lerp(prev.x, position.x, MOUSE_TRACKER_CONFIG.LERP_SPEED),
+      y: THREE.MathUtils.lerp(prev.y, position.y, MOUSE_TRACKER_CONFIG.LERP_SPEED),
     }))
   }, [])
 
@@ -268,11 +222,13 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
     // Performance detection
     const cores = window.navigator.hardwareConcurrency || 4
     const isMobile = window.innerWidth < 768
+    const isTablet = window.innerWidth < 1024
     const isLowEnd = cores < 4 || isMobile
+    const isMediumEnd = cores < 6 || isTablet
 
     if (isLowEnd) {
       setPerformanceMode('low')
-    } else if (cores < 8) {
+    } else if (isMediumEnd) {
       setPerformanceMode('medium')
     } else {
       setPerformanceMode('high')
@@ -280,23 +236,33 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
   }, [])
 
   // Adjust star count based on performance
-  const adjustedStarCount = performanceMode === 'low' ? 300 : performanceMode === 'medium' ? 900 : starCount
+  const adjustedStarCount = performanceMode === 'low' 
+    ? STARFIELD_CONFIG.LOW_PERFORMANCE_STAR_COUNT 
+    : performanceMode === 'medium' 
+    ? STARFIELD_CONFIG.MEDIUM_PERFORMANCE_STAR_COUNT 
+    : starCount
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 15], fov: 65 }}
-      style={{ background: performanceMode === 'low' ? '#000000' : '#000000' }}
+      camera={{ position: [0, 0, CANVAS_CONFIG.CAMERA_POSITION_Z], fov: CANVAS_CONFIG.CAMERA_FOV }}
+      style={{ background: '#000000' }}
       dpr={[1, 2]}
-      performance={{ min: 0.3 }}
+      performance={{ min: CANVAS_CONFIG.PERFORMANCE_MIN }}
       gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
     >
       <MouseTracker onMouseMove={handleMouseMove} />
 
       {/* Subtle lighting to keep stars visible on black */}
       {/* eslint-disable react/no-unknown-property */}
-      <ambientLight intensity={0.2} color="#ffffff" />
-      <pointLight position={[mousePosition.x * 12, mousePosition.y * 12, 10]} intensity={0.9} color="#ffffff" distance={28} decay={2} />
-      <directionalLight position={[0, 0, 5]} intensity={0.2} />
+      <ambientLight intensity={CANVAS_CONFIG.AMBIENT_LIGHT_INTENSITY} color="#ffffff" />
+      <pointLight 
+        position={[mousePosition.x * 12, mousePosition.y * 12, 10]} 
+        intensity={CANVAS_CONFIG.POINT_LIGHT_INTENSITY} 
+        color="#ffffff" 
+        distance={CANVAS_CONFIG.POINT_LIGHT_DISTANCE} 
+        decay={CANVAS_CONFIG.POINT_LIGHT_DECAY} 
+      />
+      <directionalLight position={[0, 0, CANVAS_CONFIG.DIRECTIONAL_LIGHT_POSITION_Z]} intensity={CANVAS_CONFIG.DIRECTIONAL_LIGHT_INTENSITY} />
       {/* eslint-enable react/no-unknown-property */}
       {/* Interactive elements with advanced physics */}
       <ParallaxLayer mousePosition={mousePosition}>
@@ -306,25 +272,4 @@ export default function ThreeBackgroundContent({ starCount = 1800, starSize = 0.
       {/* Optional depth fog disabled for clarity */}
     </Canvas>
   )
-}
-
-function ParallaxLayer({ mousePosition, children }: { mousePosition: MousePosition; children: React.ReactNode }) {
-  const groupRef = useRef<THREE.Group>(null)
-  
-  useFrame(() => {
-    if (!groupRef.current) return
-    // Soft parallax follow for an immersive cursor interaction
-    const targetX = mousePosition.x * -1.6
-    const targetY = mousePosition.y * -1.0
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05)
-    
-    // Slight tilt based on cursor
-    const rotY = mousePosition.x * 0.12
-    const rotX = mousePosition.y * -0.08
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, rotY, 0.05)
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, rotX, 0.05)
-  })
-  
-  return <group ref={groupRef}>{children}</group>
 }

@@ -1,7 +1,9 @@
+import { logger } from '../utils/logger'
+
 // Route preloading service to handle intelligent route preloading
 type RouteKey = '/' | '/skills' | '/experience' | '/projects' | '/contact' | '/education'
 
-const componentModules: Record<RouteKey, () => Promise<any>> = {
+const componentModules: Record<RouteKey, () => Promise<unknown>> = {
   '/': () => import('../pages/Home'),
   '/skills': () => import('../pages/Skills'),
   '/experience': () => import('../pages/Experience'),
@@ -15,10 +17,10 @@ const preloadSplineScene = async (sceneUrl: string) => {
   try {
     const response = await window.fetch(sceneUrl, { method: 'HEAD' })
     if (response.ok) {
-      console.log('Spline scene preloaded successfully')
+      logger.debug('Spline scene preloaded successfully')
     }
   } catch (error) {
-    console.warn('Failed to preload Spline scene:', error)
+    logger.warn('Failed to preload Spline scene:', error)
   }
 }
 
@@ -39,7 +41,7 @@ export class RoutePreloadService {
     nextRoutes.forEach(route => {
       if (componentModules[route]) {
         componentModules[route]().catch((err: unknown) => 
-          console.warn(`Failed to preload ${route}:`, err)
+          logger.warn(`Failed to preload ${route}:`, err)
         )
       }
     })
