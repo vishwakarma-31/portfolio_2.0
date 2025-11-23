@@ -28,6 +28,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 5173, // Vite default port
+    port: 5173 // Vite default port
+    // Vite automatically handles history API fallback for client-side routing
   },
 })

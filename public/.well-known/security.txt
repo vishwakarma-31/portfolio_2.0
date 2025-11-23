@@ -1,3 +1,0 @@
-Contact: mailto:anujaryan81018@gmail.com
-Preferred-Languages: en
-Canonical: https://vishwakarma-31-portfolio.vercel.app/.well-known/security.txt

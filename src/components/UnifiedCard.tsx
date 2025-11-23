@@ -20,81 +20,6 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   glowEffect = true,
 }) => {
 
-  const getAnimationVariants = () => {
-    switch (animationType) {
-      case 'experience':
-        return {
-          hidden: { opacity: 0, x: -100, rotateY: -15 },
-          visible: {
-            opacity: 1,
-            x: 0,
-            rotateY: 0,
-            transition: {
-              duration: 0.8,
-              delay: index * 0.15,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }
-          }
-        };
-      case 'skills':
-        return {
-          hidden: { opacity: 0, scale: 0.8, rotateX: 45 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            rotateX: 0,
-            transition: {
-              type: "spring",
-              stiffness: 300,
-              damping: 25,
-              delay: index * 0.1
-            }
-          }
-        };
-      case 'project':
-        return {
-          hidden: { opacity: 0, y: 100, rotateX: 20 },
-          visible: {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            transition: {
-              duration: 0.7,
-              delay: index * 0.2,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }
-          }
-        };
-      case 'education':
-        return {
-          hidden: { opacity: 0, x: 100, scale: 0.9 },
-          visible: {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            transition: {
-              duration: 0.6,
-              delay: index * 0.15,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }
-          }
-        };
-      default:
-        return {
-          hidden: { opacity: 0, y: 50 },
-          visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-              duration: 0.6,
-              delay: index * 0.1,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }
-          }
-        };
-    }
-  };
-
   const baseClasses = `
     relative overflow-hidden rounded-xl
     backdrop-filter backdrop-blur-xl
@@ -110,7 +35,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
     whileHover: {
       y: -8,
       scale: 1.02,
-      transition: { duration: 0.3, ease: "easeOut" }
+      transition: { duration: 0.3 }
     },
     whileTap: {
       scale: 0.98,
@@ -118,13 +43,32 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
     }
   } : {};
 
+  // Simple fade-in animation that works immediately
+  const fadeInAnimation = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6,
+        delay: index * 0.1
+      }
+    }
+  };
+
   return (
     <motion.div
       className={baseClasses}
-      variants={getAnimationVariants()}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        transition: { 
+          duration: 0.6,
+          delay: index * 0.1
+        }
+      }}
+      // Remove whileInView to prevent content from being hidden until scroll
       onClick={onClick}
       {...hoverAnimation}
     >
