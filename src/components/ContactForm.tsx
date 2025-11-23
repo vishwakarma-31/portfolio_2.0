@@ -6,7 +6,8 @@ interface ContactFormProps {
   apiUrl?: string
 }
 
-export default function ContactForm({ apiUrl = `${import.meta.env.VITE_API_URL}/api/contact` }: ContactFormProps) {
+// Updated to use relative path as requested for Vercel deployment
+export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

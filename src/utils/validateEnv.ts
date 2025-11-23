@@ -2,7 +2,7 @@ import { logger } from './logger'
 
 /**
  * Validates required environment variables for frontend
- * Throws descriptive errors if any required variable is missing
+ * Logs errors if any required variable is missing (doesn't throw in production)
  */
 export function validateEnv(): void {
   const requiredEnvVars = [
@@ -19,9 +19,10 @@ export function validateEnv(): void {
   if (missingVars.length > 0) {
     const errorMessage = `Missing required environment variables: ${missingVars.join(', ')}. The app may have limited functionality.`
     
-    // In production, throw error. In development, warn but continue
+    // In production, log error but don't throw. In development, warn but continue
     if (import.meta.env.PROD) {
-      throw new Error(errorMessage)
+      // Changed from throw to console.error as requested
+      console.error(errorMessage)
     } else {
       logger.warn('⚠️', errorMessage)
       // Set default values for development
