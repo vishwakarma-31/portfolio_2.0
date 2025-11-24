@@ -7,6 +7,7 @@ interface ContactFormProps {
 }
 
 // Updated to use relative path as requested for Vercel deployment
+// Vercel automatically serves API routes from the api/ directory
 export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',

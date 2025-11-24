@@ -12,7 +12,7 @@ export interface Project {
   category: 'web' | 'mobile' | 'ml' | 'fullstack';
   featured: boolean;
   status: 'completed' | 'in-progress' | 'planned';
-  timeline: string;
+  timeline: string; // ISO date string format (YYYY-MM-DD)
   technologies: {
     frontend: string[];
     backend: string[];
@@ -44,7 +44,7 @@ export const projects: Project[] = [
     category: 'ml',
     featured: true,
     status: 'completed',
-    timeline: '3 months (Jan 2024 - Mar 2024)',
+    timeline: '2024-03-31',
     technologies: {
       frontend: ['React', 'Next.js', 'Tailwind CSS', 'Chart.js'],
       backend: ['Python', 'Flask', 'FastAPI'],
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     category: 'fullstack',
     featured: true,
     status: 'completed',
-    timeline: '4 months (Apr 2024 - Jul 2024)',
+    timeline: '2024-07-31',
     technologies: {
       frontend: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
       backend: ['Node.js', 'Express.js', 'Socket.io', 'JWT'],
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     category: 'ml',
     featured: true,
     status: 'completed',
-    timeline: '2 months (Aug 2024 - Sep 2024)',
+    timeline: '2024-09-30',
     technologies: {
       frontend: ['Streamlit', 'React', 'HTML/CSS'],
       backend: ['Python', 'Flask', 'FastAPI'],
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     category: 'web',
     featured: true,
     status: 'completed',
-    timeline: '2 months (Jul 2024 - Aug 2024)',
+    timeline: '2024-08-31',
     technologies: {
       frontend: ['React 18', 'Three.js', 'React Three Fiber', 'GSAP', 'Framer Motion'],
       backend: ['Node.js', 'Express.js', 'Nodemailer'],

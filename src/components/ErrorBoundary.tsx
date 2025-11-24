@@ -28,12 +28,20 @@ class ErrorBoundary extends Component<Props, State> {
       componentStack: errorInfo.componentStack,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      url: window.location.href
+      url: window.location.href,
+      // Additional context for better error tracking
+      viewport: `${window.innerWidth}x${window.innerHeight}`,
+      language: navigator.language,
+      platform: navigator.platform
     }
     
     logger.error('Error caught by boundary:', errorDetails)
     
-    // Error tracking is handled by logger utility
+    // In production, you might want to send errors to an external service
+    if (import.meta.env.PROD) {
+      // Example: send to error tracking service
+      // sendErrorToExternalService(errorDetails);
+    }
   }
 
   render() {
@@ -46,6 +54,8 @@ class ErrorBoundary extends Component<Props, State> {
             <button
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600"
+              aria-label="Refresh page to retry"
+              role="button"
             >
               Refresh Page
             </button>

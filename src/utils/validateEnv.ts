@@ -21,8 +21,9 @@ export function validateEnv(): void {
     
     // In production, log error but don't throw. In development, warn but continue
     if (import.meta.env.PROD) {
-      // Changed from throw to console.error as requested
       console.error(errorMessage)
+      // In production, we should have proper error handling but not throw to avoid app crashes
+      // Log to external service in production if needed
     } else {
       logger.warn('⚠️', errorMessage)
       // Set default values for development

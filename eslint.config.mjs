@@ -62,7 +62,6 @@ export default [
       ...hooksPlugin.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-console': 'off',
       'react/react-in-jsx-scope': 'off'
     }

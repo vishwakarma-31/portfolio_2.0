@@ -14,7 +14,7 @@ export interface Project {
   category: ProjectCategory
   featured: boolean
   status: ProjectStatus
-  timeline: string
+  timeline: string // ISO date string format (YYYY-MM-DD)
   technologies: {
     frontend: string[]
     backend: string[]

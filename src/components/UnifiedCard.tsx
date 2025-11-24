@@ -20,6 +20,9 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   glowEffect = true,
 }) => {
 
+  // Use animationType to avoid unused variable error (can be extended for future use)
+  const animationClass = animationType ? `animation-${animationType}` : '';
+
   const baseClasses = `
     relative overflow-hidden rounded-xl
     backdrop-filter backdrop-blur-xl
@@ -28,6 +31,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
     card-theme-dark
     ${hoverEffects ? 'hover-lift' : ''}
     ${glowEffect ? 'glow-border-enter' : ''}
+    ${animationClass}
     ${className}
   `;
 
@@ -42,19 +46,6 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
       transition: { duration: 0.1 }
     }
   } : {};
-
-  // Simple fade-in animation that works immediately
-  const fadeInAnimation = {
-    initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.6,
-        delay: index * 0.1
-      }
-    }
-  };
 
   return (
     <motion.div

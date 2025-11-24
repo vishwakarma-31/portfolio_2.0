@@ -5,13 +5,6 @@
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
-interface LogEntry {
-  level: LogLevel
-  message: string
-  data?: unknown
-  timestamp: string
-}
-
 class Logger {
   private isDevelopment = import.meta.env.DEV
   private isProduction = import.meta.env.PROD
@@ -29,12 +22,6 @@ class Logger {
     if (!this.shouldLog(level)) return
 
     const timestamp = new Date().toISOString()
-    const logEntry: LogEntry = {
-      level,
-      message,
-      data,
-      timestamp,
-    }
 
     switch (level) {
       case 'error':

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { gsap } from 'gsap'
 import { motion, AnimatePresence } from 'framer-motion'
 // ScrollToPlugin is registered globally in main.tsx
 
@@ -10,23 +9,13 @@ interface TransitionManagerProps {
 
 const TransitionManager: React.FC<TransitionManagerProps> = ({ children }) => {
   const location = useLocation()
-  const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
-    setIsTransitioning(true)
-    
     // Instant scroll to top without animation for immediate page switching
     window.scrollTo(0, 0)
 
     // Store current path for next navigation
     window.history.replaceState({ prevPath: location.pathname }, '')
-
-    // Minimal delay for transition completion
-    const timer = setTimeout(() => {
-      setIsTransitioning(false)
-    }, 50) // Very short delay to allow state update
-
-    return () => clearTimeout(timer)
   }, [location.pathname])
 
   return (

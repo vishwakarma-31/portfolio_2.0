@@ -48,7 +48,6 @@ function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, sta
     const mouseZ = 0
     
     // Pre-calculate constants
-    const minDistSq = STARFIELD_CONFIG.MIN_DISTANCE * STARFIELD_CONFIG.MIN_DISTANCE
     const maxVelSq = STARFIELD_CONFIG.MAX_VELOCITY * STARFIELD_CONFIG.MAX_VELOCITY
     const damping = STARFIELD_CONFIG.DAMPING
     const gravConst = STARFIELD_CONFIG.GRAVITATIONAL_CONSTANT
@@ -219,14 +218,17 @@ export default function ThreeBackgroundContent({ starCount = STARFIELD_CONFIG.DE
   }, [])
 
   React.useEffect(() => {
-    // Performance detection
+    // Performance detection with more granular checks
     const cores = window.navigator.hardwareConcurrency || 4
     const isMobile = window.innerWidth < 768
     const isTablet = window.innerWidth < 1024
     const isLowEnd = cores < 4 || isMobile
     const isMediumEnd = cores < 6 || isTablet
-
-    if (isLowEnd) {
+    
+    // Additional performance check based on device memory (with type safety)
+    const isLowMemory = 'deviceMemory' in navigator && navigator.deviceMemory && (navigator.deviceMemory as number) < 4
+    
+    if (isLowEnd || isLowMemory) {
       setPerformanceMode('low')
     } else if (isMediumEnd) {
       setPerformanceMode('medium')
