@@ -9,7 +9,7 @@ export const APP_CONFIG = {
   
   // Social Media URLs
   GITHUB_URL: import.meta.env.VITE_GITHUB_URL || 'https://github.com/vishwakarma-31',
-  LINKEDIN_URL: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com/in/aryan-vishwakarma',
+  LINKEDIN_URL: import.meta.env.VITE_LINKEDIN_URL || 'https://www.linkedin.com/in/aryan-vishwakarma-a264702a4/',
   
   // API URLs
   API_URL: import.meta.env.VITE_API_URL || 'http://localhost:3001',

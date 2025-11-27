@@ -20,6 +20,17 @@ try {
   logger.warn('Continuing with default configuration...')
 }
 
+// Unregister any existing service workers in development
+if ('serviceWorker' in navigator && import.meta.env.DEV) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
+      registration.unregister().then(() => {
+        console.log('[Service Worker] Unregistered:', registration.scope)
+      })
+    }
+  })
+}
+
 const rootElement = document.getElementById('root')
 if (!rootElement) {
   throw new Error('Root element not found')

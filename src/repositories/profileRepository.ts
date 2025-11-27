@@ -15,20 +15,18 @@ export interface ProfileData {
 export class ProfileRepository {
   static getProfileData(): ProfileData {
     return {
-      name: 'Aryan Vishwakarma',
-      title: 'Full Stack Developer',
-      description: 'A passionate Full Stack Developer creating amazing digital experiences with modern technologies',
-      about: `I'm a passionate Full Stack Developer with a love for creating beautiful, functional, and scalable web applications. 
-With expertise in modern technologies and a keen eye for design, I transform ideas into digital realities.
+      name: 'Your Name',
+      title: 'Your Job Title',
+      description: 'Your custom description about your portfolio and skills',
+      about: `Your custom about section describing your background, experience, and interests.
 
-When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, 
-or sharing knowledge with the developer community. I believe in continuous learning and staying ahead of the curve.`,
-      skills: ['React', 'Node.js', 'TypeScript', 'Python', 'AWS', 'MongoDB'],
+Add details about your journey, what drives you, and what you're passionate about.`,
+      skills: ['Your', 'Skills', 'And', 'Technologies'],
       stats: [
-        { number: '1+', label: 'Years Coding', icon: 'code' },
-        { number: '5+', label: 'Projects Built', icon: 'database' },
-        { number: '8+', label: 'Technologies', icon: 'zap' },
-        { number: '100%', label: 'Passion', icon: 'star' }
+        { number: 'X+', label: 'Years Coding', icon: 'code' },
+        { number: 'X+', label: 'Projects Built', icon: 'database' },
+        { number: 'X+', label: 'Technologies', icon: 'zap' },
+        { number: '100%', label: 'Your Custom Stat', icon: 'star' }
       ]
     }
   }

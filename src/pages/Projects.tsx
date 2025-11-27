@@ -121,7 +121,7 @@ const Projects = () => {
 
                   {/* Project Links */}
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <motion.a
+                    {/* <motion.a
                       href={project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -130,7 +130,7 @@ const Projects = () => {
                       className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
                     >
                       <Github className="w-4 h-4" />
-                    </motion.a>
+                    </motion.a> */}
                     {project.links.demo && (
                       <motion.a
                         href={project.links.demo}
@@ -138,9 +138,9 @@ const Projects = () => {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
+                        // className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        {/* <ExternalLink className="w-4 h-4" /> */}
                       </motion.a>
                     )}
                   </div>

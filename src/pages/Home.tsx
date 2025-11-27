@@ -288,7 +288,7 @@ const Home = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="btn-primary flex items-center gap-3"
-                    onClick={() => window.open('/resume.pdf', '_blank')}
+                    onClick={() => window.open('/Aryan_Resume.pdf', '_blank')}
                   >
                     <Download className="w-5 h-5" />
                     Download Resume

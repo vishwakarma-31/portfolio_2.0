@@ -28,7 +28,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 5173, // Vite default port
+    port: 3000, // Changed from 5173 to avoid conflicts
     // Proxy API requests to a separate server during development
     proxy: {
       '/api': {

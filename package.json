@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "dev:api": "node server.js",
     "build": "vite build",
     "lint": "eslint .",
