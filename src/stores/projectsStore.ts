@@ -1,16 +1,15 @@
 import { create } from 'zustand'
-import { ProjectEntity } from '../domain/entities/Project'
-import { ProjectService } from '../domain/services/ProjectService'
-import { ProjectsRepository } from '../repositories/projectsRepository'
+import { projects } from '../data/projects'
+import { Project } from '../types'
 
 interface ProjectsState {
-  projects: ProjectEntity[]
-  featuredProjects: ProjectEntity[]
+  projects: Project[]
+  featuredProjects: Project[]
   isLoading: boolean
   error: string | null
   fetchProjects: () => void
-  getProjectById: (id: string) => ProjectEntity | undefined
-  getProjectsByCategory: (category: string) => ProjectEntity[]
+  getProjectById: (id: string) => Project | undefined
+  getProjectsByCategory: (category: string) => Project[]
 }
 
 export const useProjectsStore = create<ProjectsState>()((set, get) => ({
@@ -22,19 +21,10 @@ export const useProjectsStore = create<ProjectsState>()((set, get) => ({
   fetchProjects: async () => {
     set({ isLoading: true, error: null })
     try {
-      // Use repository to get raw project data
-      const rawProjects = ProjectsRepository.getAllProjects()
-      
-      // Convert to ProjectEntity objects
-      const projectEntities = rawProjects.map(data => 
-        ProjectService.createProject(data)
-      )
-      
-      const featuredProjects = ProjectService.getFeaturedProjects(projectEntities)
-      
+      const featured = projects.filter(p => p.featured)
       set({ 
-        projects: projectEntities,
-        featuredProjects,
+        projects: projects,
+        featuredProjects: featured,
         isLoading: false 
       })
     } catch (error) {

@@ -15,7 +15,7 @@ const componentModules: Record<RouteKey, () => Promise<unknown>> = {
 // Preload Spline scene for better performance
 const preloadSplineScene = async (sceneUrl: string) => {
   try {
-    const response = await window.fetch(sceneUrl, { method: 'HEAD' })
+    const response = await window.fetch(sceneUrl, { method: 'GET', mode: 'cors' })
     if (response.ok) {
       logger.debug('Spline scene preloaded successfully')
     }

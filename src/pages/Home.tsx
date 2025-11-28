@@ -1,22 +1,34 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { MagneticButton } from '../components/MagneticButton'
 import SplineWrapper from '../components/SplineWrapper'
 import { AnimationService } from '../services/animationService'
 import { PerformanceService } from '../services/performanceService'
-import { ProfileRepository } from '../repositories/profileRepository'
-import { container } from '../di'
+import { personalInfo } from '../data/personal'
+import { SOCIAL_LINKS } from '../config/constants'
 
 import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
-import { SOCIAL_LINKS } from '../config/constants'
 // ScrollTrigger plugin is registered globally in App.tsx
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null)
-  const performanceService = container.resolve(PerformanceService)
-  const profileData = ProfileRepository.getProfileData()
+  const performanceService = useMemo(() => new PerformanceService(), [])
+  // Map personalInfo to match expected structure
+  const profileData = {
+    name: personalInfo.name,
+    title: personalInfo.title,
+    description: personalInfo.bio, // Map bio to description
+    about: personalInfo.bio, // Use bio for about as well
+    skills: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Git', 'GitHub', 'Docker', 'AWS', 'GraphQL', 'REST', 'HTML', 'CSS', 'Sass', 'Tailwind CSS', 'Bootstrap', 'Python', 'Java'],
+    stats: [
+      { number: '2+', label: 'Years Coding', icon: 'code' },
+      { number: '10+', label: 'Projects Built', icon: 'database' },
+      { number: '15+', label: 'Technologies', icon: 'zap' },
+      { number: '100%', label: 'Passion', icon: 'star' }
+    ]
+  }
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -110,7 +122,7 @@ const Home = () => {
               className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden"
             >
               <SplineWrapper
-                scene="https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode"
+                scene="/models/robot.splinecode"
                 className="w-96 h-96"
               />
             </motion.div>

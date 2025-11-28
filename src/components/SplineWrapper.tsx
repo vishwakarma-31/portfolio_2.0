@@ -1,4 +1,4 @@
-import React, { Suspense, useState, Component, ReactNode } from 'react'
+import React, { Suspense, useState, Component, ReactNode, useEffect } from 'react'
 
 interface SplineWrapperProps {
   scene: string
@@ -20,7 +20,7 @@ class SplineErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(): ErrorBoundaryState | null {
     return { hasError: true };
   }
 
@@ -37,7 +37,18 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
   scene, 
   className = 'w-full h-full' 
 }) => {
+  const [shouldLoad, setShouldLoad] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+
+  // Delay loading the 3D model to improve LCP
+  useEffect(() => {
+    // Wait 1.5 seconds after page load before starting the heavy 3D download
+    const timer = setTimeout(() => setShouldLoad(true), 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // If not yet time to load, return empty placeholder
+  if (!shouldLoad) return <div className={className} />
 
   // Lazy load the Spline component to avoid blocking the main thread
   const LazySpline = React.lazy(() => 

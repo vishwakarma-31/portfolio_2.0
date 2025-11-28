@@ -1,4 +1,5 @@
 // Common interfaces and types for the portfolio application
+import { ComponentType } from 'react';
 
 export interface NavItem {
   name: string;
@@ -10,7 +11,7 @@ export interface MousePosition {
   y: number;
 }
 
-export interface ProjectData {
+export interface Project {
   id: string;
   name: string;
   title: string;
@@ -18,12 +19,12 @@ export interface ProjectData {
   longDescription: string;
   image: string;
   images: string[];
+  link?: string;
   github: string;
-  link: string;
   tags: string[];
-  category: string;
+  category: 'web' | 'mobile' | 'ml' | 'fullstack';
   featured: boolean;
-  status: string;
+  status: 'completed' | 'in-progress' | 'planned';
   timeline: string;
   technologies: {
     frontend: string[];
@@ -32,11 +33,18 @@ export interface ProjectData {
     tools: string[];
   };
   features: string[];
+  challenges: string[];
+  learnings: string[];
+  metrics?: {
+    users?: string;
+    performance?: string;
+    accuracy?: string;
+  };
 }
 
 export interface SkillCategory {
   title: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: ComponentType<any>;
   color: string;
   bgColor: string;
   summary: string;

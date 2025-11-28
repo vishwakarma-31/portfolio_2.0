@@ -95,6 +95,26 @@ export default [
     }
   },
   {
+    files: ['public/sw.js'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'module',
+      globals: {
+        // Service Worker globals
+        self: 'readonly',
+        caches: 'readonly',
+        fetch: 'readonly',
+        location: 'readonly',
+        URL: 'readonly'
+      }
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-vars': 'off',
+      'no-console': 'off'
+    }
+  },
+  {
     files: ['.lighthouserc.js'],
     languageOptions: {
       ecmaVersion: 2020,

@@ -1,5 +1,3 @@
-/* global self, caches, fetch */
-
 const CACHE_VERSION = 'v2.0.0'
 const CACHE_NAME = `portfolio_2.0-${CACHE_VERSION}`
 const STATIC_CACHE_NAME = `portfolio-static-${CACHE_VERSION}`
@@ -8,6 +6,7 @@ const DYNAMIC_CACHE_NAME = `portfolio-dynamic-${CACHE_VERSION}`
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/models/robot.splinecode',
   '/manifest.json',
   '/robots.txt',
   '/sitemap.xml'

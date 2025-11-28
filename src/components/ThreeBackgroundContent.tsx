@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
@@ -10,33 +10,47 @@ function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, sta
   const originalPositions = useRef<Float32Array | null>(null)
   const velocities = useRef<Float32Array | null>(null)
   const masses = useRef<Float32Array | null>(null)
-
-  const [sphere] = useMemo(() => {
-    const sphere = new Float32Array(starCount * 3)
-    const vel = new Float32Array(starCount * 3)
-    const mass = new Float32Array(starCount)
+  const frameCount = useRef(0) // Add a frame counter ref
+  
+  // Initialize sphere state with a lazy initializer function to avoid calling Math.random during render
+  const [sphere] = useState<Float32Array>(() => {
+    const sphereArray = new Float32Array(starCount * 3)
+    for (let i = 0; i < starCount; i++) {
+      sphereArray[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_X
+      sphereArray[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Y
+      sphereArray[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Z
+    }
+    return sphereArray
+  })
+  
+  // Initialize velocities and masses in an effect since they don't need to be in state
+  useEffect(() => {
+    // Check if we've already initialized to avoid unnecessary work
+    if (velocities.current) return;
+    
+    const velArray = new Float32Array(starCount * 3)
+    const massArray = new Float32Array(starCount)
     
     for (let i = 0; i < starCount; i++) {
-      sphere[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_X
-      sphere[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Y
-      sphere[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.POSITION_MULTIPLIER_Z
-      
       // Initialize velocities
-      vel[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
-      vel[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
-      vel[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
-      
+      velArray[i * 3] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
+      velArray[i * 3 + 1] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
+      velArray[i * 3 + 2] = (Math.random() - 0.5) * STARFIELD_CONFIG.VELOCITY_MULTIPLIER
+    
       // Random masses for varied gravitational response
-      mass[i] = STARFIELD_CONFIG.MASS_MIN + Math.random() * (STARFIELD_CONFIG.MASS_MAX - STARFIELD_CONFIG.MASS_MIN)
+      massArray[i] = STARFIELD_CONFIG.MASS_MIN + Math.random() * (STARFIELD_CONFIG.MASS_MAX - STARFIELD_CONFIG.MASS_MIN)
     }
     
-    originalPositions.current = sphere.slice()
-    velocities.current = vel
-    masses.current = mass
-    return [sphere]
-  }, [starCount])
+    originalPositions.current = sphere.slice() // Use the initialized sphere state
+    velocities.current = velArray
+    masses.current = massArray
+  }, [starCount, sphere]) // Dependencies: re-run if starCount changes
 
   useFrame((state, delta) => {
+    // Only update physics every 2nd frame to reduce CPU load
+    frameCount.current += 1
+    if (frameCount.current % 2 !== 0) return
+
     if (!ref.current || !originalPositions.current || !velocities.current || !masses.current) return
     
     const positions = ref.current.geometry.attributes.position.array as Float32Array
@@ -160,10 +174,6 @@ function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, sta
   )
 }
 
-
-
-
-
 function MouseTracker({ onMouseMove }: { onMouseMove: (pos: MousePosition) => void }) {
   const handleMouseMove = useCallback((event: globalThis.MouseEvent) => {
     const x = (event.clientX / window.innerWidth) * 2 - 1
@@ -226,7 +236,8 @@ export default function ThreeBackgroundContent({ starCount = STARFIELD_CONFIG.DE
     const isMediumEnd = cores < 6 || isTablet
     
     // Additional performance check based on device memory (with type safety)
-    const isLowMemory = 'deviceMemory' in navigator && navigator.deviceMemory && (navigator.deviceMemory as number) < 4
+     
+    const isLowMemory = 'deviceMemory' in window.navigator && window.navigator.deviceMemory && (window.navigator.deviceMemory as number) < 4
     
     if (isLowEnd || isLowMemory) {
       setPerformanceMode('low')

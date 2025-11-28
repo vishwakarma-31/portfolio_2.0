@@ -1,33 +1,4 @@
-export interface Project {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  longDescription: string;
-  image: string;
-  images: string[];
-  link?: string;
-  github: string;
-  tags: string[];
-  category: 'web' | 'mobile' | 'ml' | 'fullstack';
-  featured: boolean;
-  status: 'completed' | 'in-progress' | 'planned';
-  timeline: string; // ISO date string format (YYYY-MM-DD)
-  technologies: {
-    frontend: string[];
-    backend: string[];
-    database: string[];
-    tools: string[];
-  };
-  features: string[];
-  challenges: string[];
-  learnings: string[];
-  metrics?: {
-    users?: string;
-    performance?: string;
-    accuracy?: string;
-  };
-}
+import { Project } from '../types';
 
 export const projects: Project[] = [
   {

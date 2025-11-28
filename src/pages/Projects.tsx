@@ -1,10 +1,8 @@
 import React from 'react'
-import { Github, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { ProjectsRepository } from '../repositories/projectsRepository'
-import { ProjectService } from '../domain/services/ProjectService'
+import { projects } from '../data/projects'
 import { Helmet } from 'react-helmet-async'
 
 const Projects = () => {
@@ -27,17 +25,12 @@ const Projects = () => {
     // Simulate loading for better UX (remove if data is already available)
     setIsLoading(true)
     
-    // Get all projects from repository and convert to entities
-    const allProjects = ProjectsRepository.getAllProjects().map(data => 
-      ProjectService.createProject(data)
-    )
-    
-    // Use domain service to get featured projects
-    const projects = ProjectService.getFeaturedProjects(allProjects)
+    // Filter locally to get featured projects
+    const featuredProjects = projects.filter(p => p.featured)
 
-    // Convert repository data to component format
-    const formattedProjects = projects.map(project => ({
-      title: project.title,
+    // Map to component format
+    const formattedProjects = featuredProjects.map(project => ({
+      title: project.title, // Map 'name' to 'title' if needed, check src/data/projects.ts interface
       description: project.description,
       tags: project.tags,
       links: {

@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { ThemeProvider } from './context/ThemeContext'
 import TransitionManager from './components/TransitionManager'
 import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
@@ -49,11 +48,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <HelmetProvider>
-      <ThemeProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </ThemeProvider>
+      <Router>
+        <AppContent />
+      </Router>
     </HelmetProvider>
   )
 }

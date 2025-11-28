@@ -1,14 +1,11 @@
 import { create } from 'zustand'
-import { ProfileEntity } from '../domain/entities/Profile'
-import { ProfileService } from '../domain/services/ProfileService'
-import { ProfileRepository } from '../repositories/profileRepository'
+import { personalInfo } from '../data/personal'
 
 interface ProfileState {
-  profile: ProfileEntity | null
+  profile: typeof personalInfo | null
   isLoading: boolean
   error: string | null
   fetchProfile: () => void
-  updateProfile: (profile: ProfileEntity) => void
 }
 
 export const useProfileStore = create<ProfileState>()((set) => ({
@@ -16,18 +13,13 @@ export const useProfileStore = create<ProfileState>()((set) => ({
   isLoading: false,
   error: null,
   
-  fetchProfile: async () => {
+  fetchProfile: () => {
     set({ isLoading: true, error: null })
     try {
-      // Use repository to get profile data
-      const profileData = ProfileRepository.getProfileData()
-      
-      const profile = ProfileService.createProfile(profileData)
-      set({ profile, isLoading: false })
+      // Simulate async if needed, or just set directly
+      set({ profile: personalInfo, isLoading: false })
     } catch (error) {
       set({ error: 'Failed to fetch profile', isLoading: false })
     }
   },
-  
-  updateProfile: (profile) => set({ profile })
 }))
