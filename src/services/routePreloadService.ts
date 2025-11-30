@@ -49,7 +49,7 @@ export class RoutePreloadService {
 
   static preloadSplineScene() {
     setTimeout(() => {
-      preloadSplineScene('https://prod.spline.design/Ayv4gcCQeDDF943R/scene.splinecode')
+      preloadSplineScene('/models/robot.splinecode')
     }, 500)
   }
 }

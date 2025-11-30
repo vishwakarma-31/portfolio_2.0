@@ -1,15 +1,34 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+ 
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
+
+interface MousePosition {
+  x: number
+  y: number
+}
 
 const InteractiveCursorBackground: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const gradientRef = useRef<HTMLDivElement>(null)
   const rippleRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
-  const [isMoving, setIsMoving] = useState(false)
   const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 50, y: 50 })
+  const [isMoving, setIsMoving] = useState(false)
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
+  // Throttle function for mousemove events
+  const throttle = (func: (...args: any[]) => void, limit: number) => {
+    let inThrottle: boolean
+    return function(this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => inThrottle = false, limit)
+      }
+    }
+  }
+
+  const handleMouseMove = useCallback(throttle((e: MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
 
@@ -52,7 +71,7 @@ const InteractiveCursorBackground: React.FC = () => {
     // Reset moving state after delay
     if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current)
     idleTimeoutRef.current = setTimeout(() => setIsMoving(false), 150)
-  }, [])
+  }, 16), []) // ~60fps limit
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove)
@@ -78,65 +97,21 @@ const InteractiveCursorBackground: React.FC = () => {
   }, [mousePosition])
 
   return (
-    <div ref={containerRef} className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden>
-      {/* Dynamic gradient background */}
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 overflow-hidden pointer-events-none z-0"
+    >
       <div
         ref={gradientRef}
         className="absolute inset-0 transition-all duration-300 ease-out"
         style={{
-          background: `radial-gradient(600px circle at 50% 50%, 
-            rgba(6, 182, 212, 0.1), 
-            rgba(139, 92, 246, 0.08), 
-            rgba(236, 72, 153, 0.03), 
-            transparent 50%)`,
+          opacity: isMoving ? 1 : 0.7,
+          transition: 'opacity 0.3s ease-out',
         }}
       />
-
-      {/* Ripple effects container */}
-      <div ref={rippleRef} className="absolute inset-0" />
-
-      {/* Floating cursor follower */}
-      <div
-        className={`absolute w-32 h-32 rounded-full pointer-events-none transition-all duration-500 ease-out ${
-          isMoving ? 'opacity-30' : 'opacity-20'
-        }`}
-        style={{
-          left: `${mousePosition.x}%`,
-          top: `${mousePosition.y}%`,
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.1) 30%, transparent 70%)',
-          filter: 'blur(40px)',
-          mixBlendMode: 'screen',
-        }}
-      />
-
-      {/* Secondary follower with delay */}
-      <div
-        className={`absolute w-64 h-64 rounded-full pointer-events-none transition-all duration-700 ease-out ${
-          isMoving ? 'opacity-20' : 'opacity-10'
-        }`}
-        style={{
-          left: `${mousePosition.x}%`,
-          top: `${mousePosition.y}%`,
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(59, 130, 246, 0.08) 40%, transparent 70%)',
-          filter: 'blur(60px)',
-          mixBlendMode: 'overlay',
-        }}
-      />
-
-      {/* Animated mesh pattern */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-          transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`,
-          transition: 'transform 0.3s ease-out',
-        }}
+      <div 
+        ref={rippleRef}
+        className="absolute inset-0"
       />
     </div>
   )

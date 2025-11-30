@@ -47,6 +47,9 @@ export const STARFIELD_CONFIG = {
   DRIFT_ANGLE_MULTIPLIER: 0.21,
   DRIFT_Y_MULTIPLIER: 1.1,
   DRIFT_Z_ANGLE_MULTIPLIER: 0.7,
+  
+  // Frame skipping for better performance
+  FRAME_SKIP_RATE: 2, // Update physics every N frames
 } as const
 
 export const PARALLAX_CONFIG = {

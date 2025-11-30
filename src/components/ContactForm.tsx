@@ -22,16 +22,32 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
   const validateField = (name: string, value: string) => {
     switch (name) {
       case 'name':
-        return value.trim() ? '' : 'Name is required'
+        if (!value.trim()) {
+          return 'Name is required'
+        } else if (value.trim().length < 2) {
+          return 'Name must be at least 2 characters'
+        } else if (value.trim().length > 50) {
+          return 'Name must be less than 50 characters'
+        }
+        return ''
       case 'email':
         if (!value.trim()) {
           return 'Email is required'
-        } else if (!/\S+@\S+\.\S+/.test(value)) {
-          return 'Please enter a valid email'
+        } else if (!/^\S+@\S+\.\S+$/.test(value)) {
+          return 'Please enter a valid email address'
+        } else if (value.length > 254) {
+          return 'Email must be less than 254 characters'
         }
         return ''
       case 'message':
-        return value.trim() ? '' : 'Message is required'
+        if (!value.trim()) {
+          return 'Message is required'
+        } else if (value.trim().length < 10) {
+          return 'Message must be at least 10 characters'
+        } else if (value.trim().length > 500) {
+          return 'Message must be less than 500 characters'
+        }
+        return ''
       default:
         return ''
     }
@@ -54,11 +70,13 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
       ...prev,
       [name]: value,
     }))
-    // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
+    
+    // Perform real-time validation with debounce
+    const error = validateField(name, value)
+    if (error !== errors[name as keyof typeof errors]) {
       setErrors(prev => ({
         ...prev,
-        [name]: '',
+        [name]: error,
       }))
     }
   }
@@ -84,7 +102,10 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
     setSubmitMessage('')
 
     try {
-      // Send to our backend API
+      // Send to our backend API with timeout
+      const controller = new (window as any).AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await window.fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -96,54 +117,84 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
           email: formData.email,
           message: formData.message,
         }),
+        signal: controller.signal
       })
+      
+      clearTimeout(timeoutId);
 
       // Check if response is ok
       if (!response.ok) {
         // Try to parse error response
-        let errorMessage = 'Failed to send message'
+        let errorMessage = 'Failed to send message';
+        let errorDetails = '';
+        
         try {
-          const errorData = await response.json()
-          errorMessage = errorData.message || errorData.error || errorMessage
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
           
           // Handle validation errors
           if (errorData.errors && Array.isArray(errorData.errors)) {
-            const validationErrors = errorData.errors.map((err: { msg?: string; message?: string }) => err.msg || err.message).join(', ')
-            errorMessage = `Validation error: ${validationErrors}`
+            const validationErrors = errorData.errors.map((err: { msg?: string; message?: string }) => err.msg || err.message).join(', ');
+            errorMessage = 'Please check your input';
+            errorDetails = validationErrors;
+          }
+          
+          // Handle specific status codes
+          if (response.status === 429) {
+            errorMessage = 'Too many requests';
+            errorDetails = 'Please wait a moment before trying again.';
+          } else if (response.status === 500) {
+            errorMessage = 'Server error';
+            errorDetails = 'Our server is experiencing issues. Please try again later.';
           }
         } catch {
           // If JSON parsing fails, use status text
-          errorMessage = response.statusText || `Server error (${response.status})`
+          errorMessage = response.statusText || `Server error (${response.status})`;
         }
-        throw new Error(errorMessage)
+        
+        throw new Error(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
       }
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (result.success) {
-        setSubmitStatus('success')
-        setSubmitMessage(result.message || 'Message sent successfully!')
-        setFormData({ name: '', email: '', message: '' })
+        setSubmitStatus('success');
+        setSubmitMessage(result.message || 'Thank you for your message! I\'ll get back to you soon.');
+        setFormData({ name: '', email: '', message: '' });
+        // Clear any field errors on successful submission
+        setErrors({ name: '', email: '', message: '' });
       } else {
-        throw new Error(result.message || 'Failed to send message')
+        throw new Error(result.message || 'Failed to send message');
       }
     } catch (error) {
-      setSubmitStatus('error')
-      let errorMessage = 'Failed to send message'
+      setSubmitStatus('error');
+      let errorMessage = 'Failed to send message';
       
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        errorMessage = 'Network error: Please check your internet connection and try again.'
+      if (error instanceof Error && error.name === 'AbortError') {
+        errorMessage = 'Request timed out';
+      } else if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = 'Network error: Please check your internet connection and try again.';
       } else if (error instanceof Error) {
-        errorMessage = error.message
+        errorMessage = error.message;
       }
       
-      setSubmitMessage(errorMessage)
+      setSubmitMessage(errorMessage);
+      
       // Log error for debugging (only in development)
       if (import.meta.env.DEV) {
-        console.error('Contact form submission error:', error)
+        console.error('Contact form submission error:', error);
+      }
+      
+      // Add subtle shake animation to indicate error
+      const formElement = document.querySelector('form');
+      if (formElement) {
+        formElement.classList.add('animate-shake');
+        setTimeout(() => {
+          formElement.classList.remove('animate-shake');
+        }, 1000);
       }
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -176,7 +227,7 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
               className={inputClasses}
               placeholder="Your full name"
             />
-            {errors.name && <span className="text-red-400 text-sm mt-1 block">{errors.name}</span>}
+            {errors.name && <span className="text-red-400 text-sm mt-1 block px-1">{errors.name}</span>}
           </div>
 
           <div>
@@ -193,8 +244,9 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
               onBlur={handleBlur}
               className={inputClasses}
               placeholder="your.email@example.com"
+              aria-describedby={errors.email ? "email-error" : undefined}
             />
-            {errors.email && <span className="text-red-400 text-sm mt-1 block">{errors.email}</span>}
+            {errors.email && <span id="email-error" className="text-red-400 text-sm mt-1 block px-1">{errors.email}</span>}
           </div>
         </div>
 
@@ -212,8 +264,9 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
             onBlur={handleBlur}
             className={`${inputClasses} resize-none`}
             placeholder="Tell me about your project, idea, or just say hello..."
+            aria-describedby={errors.message ? "message-error" : undefined}
           />
-          {errors.message && <span className="text-red-400 text-sm mt-1 block">{errors.message}</span>}
+          {errors.message && <span id="message-error" className="text-red-400 text-sm mt-1 block px-1">{errors.message}</span>}
         </div>
 
         {/* Status message display */}
@@ -233,19 +286,20 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full btn-primary flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed py-4"
+          whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+          whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+          className="w-full btn-primary flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed py-4 transition-all duration-300"
+          aria-busy={isSubmitting}
         >
           {isSubmitting ? (
             <>
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Sending Message...
+              <span>Sending Message...</span>
             </>
           ) : (
             <>
               <Send className="w-5 h-5" />
-              Send Message
+              <span>Send Message</span>
             </>
           )}
         </motion.button>

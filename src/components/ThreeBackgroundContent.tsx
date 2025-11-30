@@ -47,9 +47,9 @@ function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, sta
   }, [starCount, sphere]) // Dependencies: re-run if starCount changes
 
   useFrame((state, delta) => {
-    // Only update physics every 2nd frame to reduce CPU load
+    // Only update physics every N frames to reduce CPU load (configurable)
     frameCount.current += 1
-    if (frameCount.current % 2 !== 0) return
+    if (frameCount.current % STARFIELD_CONFIG.FRAME_SKIP_RATE !== 0) return
 
     if (!ref.current || !originalPositions.current || !velocities.current || !masses.current) return
     
@@ -83,7 +83,7 @@ function InteractiveStars({ starCount = STARFIELD_CONFIG.DEFAULT_STAR_COUNT, sta
       const distSq = dx * dx + dy * dy + dz * dz
       
       // Only calculate force if within reasonable distance (optimization)
-      if (distSq < 10000) { // 100^2 - only affect nearby stars
+      if (distSq < 2500) { // 50^2 - only affect nearby stars
         const distance = Math.sqrt(distSq)
         const safeDistance = Math.max(distance, STARFIELD_CONFIG.MIN_DISTANCE)
         const safeDistSq = safeDistance * safeDistance

@@ -15,7 +15,7 @@ export default defineConfig({
     include: ['three', '@react-three/fiber', '@react-three/drei'],
   },
   build: {
-    target: 'esnext',
+    target: 'es2020',
     minify: 'esbuild',
     rollupOptions: {
       output: {

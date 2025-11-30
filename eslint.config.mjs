@@ -67,7 +67,7 @@ export default [
     }
   },
   {
-    files: ['server.js'],
+    files: ['server.js', 'api/**/*.js'],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/unsupported-syntax */
 import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
@@ -18,6 +19,19 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
   const followerRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
   const [isKeyboardUser, setIsKeyboardUser] = useState(false)
+  const [, setIsVisible] = useState(true)
+
+  // Throttle function for mousemove events
+  const throttle = (func: (...args: any[]) => void, limit: number) => {
+    let inThrottle: boolean
+    return function(this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => inThrottle = false, limit)
+      }
+    }
+  }
 
   useEffect(() => {
     const cursor = cursorRef.current
@@ -31,28 +45,29 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
     let followerY = 0
 
     // Detect keyboard navigation
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Tab') {
         setIsKeyboardUser(true)
-        cursor.style.display = 'none'
-        follower.style.display = 'none'
-        glow.style.display = 'none'
+        cursor!.style.display = 'none'
+        follower!.style.display = 'none'
+        glow!.style.display = 'none'
       }
     }
 
-    const handleMouseMove = (e: MouseEvent): void => {
+    // Throttled mouse move handler
+    const throttledMouseMove = throttle((e: globalThis.MouseEvent): void => {
       // Show cursor when mouse moves (keyboard user switched to mouse)
       if (isKeyboardUser) {
         setIsKeyboardUser(false)
-        cursor.style.display = 'block'
-        follower.style.display = 'block'
-        glow.style.display = 'block'
+        cursor!.style.display = 'block'
+        follower!.style.display = 'block'
+        glow!.style.display = 'block'
       }
 
       mouseX = e.clientX
       mouseY = e.clientY
 
-      // Simple cursor movement
+      // Simple cursor movement with GSAP for smoothness
       gsap.to(cursor, {
         x: mouseX,
         y: mouseY,
@@ -66,7 +81,7 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
         duration: 0.2,
         ease: 'power2.out',
       })
-    }
+    }, 16) // ~60fps limit
 
     window.addEventListener('keydown', handleKeyDown)
 
@@ -84,17 +99,37 @@ const DynamicCursor: React.FC<DynamicCursorProps> = ({
       animationFrameId = requestAnimationFrame(animateFollower)
     }
 
-    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mousemove', throttledMouseMove)
     animationFrameId = requestAnimationFrame(animateFollower)
 
+    // Hide cursor when leaving window
+    const handleMouseLeave = () => {
+      setIsVisible(false)
+      if (cursor) cursor.style.opacity = '0'
+      if (follower) follower.style.opacity = '0'
+      if (glow) glow.style.opacity = '0'
+    }
+
+    const handleMouseEnter = () => {
+      setIsVisible(true)
+      if (cursor) cursor.style.opacity = '1'
+      if (follower) follower.style.opacity = '1'
+      if (glow) glow.style.opacity = '1'
+    }
+
+    document.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('mouseenter', handleMouseEnter)
+
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mousemove', throttledMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mouseenter', handleMouseEnter)
       window.removeEventListener('keydown', handleKeyDown)
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [cursorSize, followerSize])
+  }, [isKeyboardUser, cursorSize, followerSize])
 
   return (
     <>

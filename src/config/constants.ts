@@ -8,11 +8,11 @@ export const APP_CONFIG = {
   SITE_URL: import.meta.env.VITE_SITE_URL || 'https://vishwakarma-31-portfolio.vercel.app',
   
   // Social Media URLs
-  GITHUB_URL: import.meta.env.VITE_GITHUB_URL || 'https://github.com/vishwakarma-31',
-  LINKEDIN_URL: import.meta.env.VITE_LINKEDIN_URL || 'https://www.linkedin.com/in/aryan-vishwakarma-a264702a4/',
+  GITHUB_URL: import.meta.env.VITE_GITHUB_URL || 'https://github.com/Aryan2764',
+  LINKEDIN_URL: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com/in/aryan-vishwakarma-b77274257',
   
   // API URLs
-  API_URL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
+  API_URL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:3001'),
 } as const
 
 export const SOCIAL_LINKS = {

@@ -6,6 +6,18 @@ gsap.registerPlugin(ScrollTrigger)
 
 // Simplified and most effective animations only
 
+// Throttle function to limit animation updates
+const throttle = (func: (...args: any[]) => void, limit: number) => {
+  let inThrottle: boolean
+  return function(this: any, ...args: any[]) {
+    if (!inThrottle) {
+      func.apply(this, args)
+      inThrottle = true
+      setTimeout(() => inThrottle = false, limit)
+    }
+  }
+}
+
 export const useFadeInUp = (ref: RefObject<HTMLElement>, delay: number = 0): void => {
   useEffect(() => {
     if (!ref.current) return
@@ -85,32 +97,32 @@ export const useHoverEffect = (ref: RefObject<HTMLElement>, scale: number = 1.05
     const element = ref.current
     let animation: gsap.core.Tween | null = null
 
-    const handleMouseEnter = () => {
+    // Throttle mouse events to reduce CPU usage
+    const throttledMouseEnter = throttle(() => {
       animation = gsap.to(element, {
         scale: scale,
         duration: 0.3,
         ease: "power2.out"
       })
-    }
+    }, 16) // ~60fps limit
 
-    const handleMouseLeave = () => {
+    const throttledMouseLeave = throttle(() => {
       animation = gsap.to(element, {
         scale: 1,
         duration: 0.3,
         ease: "power2.out"
       })
-    }
+    }, 16) // ~60fps limit
 
-    element.addEventListener('mouseenter', handleMouseEnter)
-    element.addEventListener('mouseleave', handleMouseLeave)
+    element.addEventListener('mouseenter', throttledMouseEnter)
+    element.addEventListener('mouseleave', throttledMouseLeave)
 
     return () => {
-      element.removeEventListener('mouseenter', handleMouseEnter)
-      element.removeEventListener('mouseleave', handleMouseLeave)
+      element.removeEventListener('mouseenter', throttledMouseEnter)
+      element.removeEventListener('mouseleave', throttledMouseLeave)
       if (animation) {
         animation.kill()
       }
     }
   }, [ref, scale])
 }
-
