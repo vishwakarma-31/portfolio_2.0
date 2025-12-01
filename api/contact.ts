@@ -1,6 +1,19 @@
 /// <reference types="node" />
 import nodemailer from 'nodemailer';
 import { z } from 'zod';
+import { Request, Response } from 'express';
+
+// Helper function to escape HTML and prevent XSS
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, (m) => map[m]);
+}
 
 // Utility function to safely access environment variables
 const getEnvVar = (name: string, defaultValue?: string): string | undefined => {
@@ -97,7 +110,7 @@ function validateEnv() {
   return true;
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: Request, res: Response) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -129,18 +142,18 @@ export default async function handler(req: any, res: any) {
     const mailOptions = {
       from: getEnvVar('EMAIL_USER', ''),
       to: getEnvVar('RECIPIENT_EMAIL', getEnvVar('EMAIL_USER', '')),
-      subject: `Portfolio Contact: Message from ${name}`,
+      subject: `Portfolio Contact: Message from ${escapeHtml(name)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
             New Contact Form Submission
           </h2>
           <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+            <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
             <p><strong>Message:</strong></p>
             <div style="background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #007bff;">
-              ${message.replace(/\n/g, '<br>')}
+              ${escapeHtml(message).replace(/\n/g, '<br>')}
             </div>
           </div>
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 12px;">
@@ -164,12 +177,12 @@ export default async function handler(req: any, res: any) {
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8f9fa; padding: 20px; border-radius: 8px;">
           <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
             <h2 style="color: #007bff; margin-top: 0;">Thank You for Reaching Out!</h2>
-            <p>Hi <strong>${name}</strong>,</p>
+            <p>Hi <strong>${escapeHtml(name)}</strong>,</p>
             <p>Thank you for contacting me through my portfolio. I've received your message and will get back to you as soon as possible, typically within 24 hours.</p>
             
             <div style="background: #f1f8ff; padding: 15px; margin: 20px 0; border-radius: 4px; border-left: 4px solid #007bff;">
               <p><strong>Your message:</strong></p>
-              <p style="font-style: italic; margin: 10px 0;">"${message.replace(/\n/g, '<br>')}""</p>
+              <p style="font-style: italic; margin: 10px 0;">"${escapeHtml(message).replace(/\n/g, '<br>')}">"</p>
             </div>
             
             <p>In the meantime, feel free to check out my <a href="${getEnvVar('PORTFOLIO_URL', 'https://vishwakarma-31-portfolio.vercel.app')}" style="color: #007bff; text-decoration: none;">portfolio</a> or connect with me on <a href="${getEnvVar('LINKEDIN_URL', 'https://linkedin.com')}" style="color: #007bff; text-decoration: none;">LinkedIn</a>.</p>
