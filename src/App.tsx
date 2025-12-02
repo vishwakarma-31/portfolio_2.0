@@ -19,7 +19,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound'))
 const AppContent: React.FC = () => {
   return (
       <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">
-          {/* Interactive starfield background (site-wide) */}
+          {/* Interactive starfield background (site-wide) - Persistent during transitions */}
           <ThreeBackground />
 
           {/* Navigation - Layer 50 */}

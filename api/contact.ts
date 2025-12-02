@@ -136,7 +136,16 @@ export default async function handler(req: Request, res: Response) {
     const transporter = initializeTransporter();
 
     // Verify transporter configuration before sending
-    await transporter.verify();
+    try {
+      await transporter.verify();
+      console.log('SMTP connection verified successfully');
+    } catch (verifyError) {
+      console.error('SMTP verification failed:', verifyError);
+      return res.status(500).json({
+        success: false,
+        message: 'Email service configuration error. Please contact the site administrator.'
+      });
+    }
 
     // Email options
     const mailOptions = {
@@ -166,7 +175,16 @@ export default async function handler(req: Request, res: Response) {
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log('Contact form email sent successfully to:', getEnvVar('RECIPIENT_EMAIL'));
+    } catch (sendError) {
+      console.error('Failed to send contact form email:', sendError);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send message. Please try again later.'
+      });
+    }
 
     // Auto-reply to sender with improved template
     const autoReplyOptions = {
@@ -203,6 +221,7 @@ export default async function handler(req: Request, res: Response) {
     // Send auto-reply (don't fail if this fails)
     try {
       await transporter.sendMail(autoReplyOptions);
+      console.log('Auto-reply email sent successfully to:', email);
     } catch (autoReplyError) {
       console.warn('Auto-reply failed:', autoReplyError);
       // Continue with success response even if auto-reply fails

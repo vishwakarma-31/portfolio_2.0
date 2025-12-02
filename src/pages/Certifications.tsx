@@ -1,5 +1,4 @@
 import { Award, Calendar, ExternalLink } from 'lucide-react'
-import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
@@ -81,10 +80,7 @@ const Certifications = () => {
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-6">
@@ -93,7 +89,7 @@ const Certifications = () => {
           <p className="max-w-2xl mx-auto text-lg text-gray-300">
             Professional certifications and achievements in technology and development
           </p>
-        </motion.div>
+        </div>
 
         {/* Content Grid */}
         <div 
@@ -116,16 +112,14 @@ const Certifications = () => {
                       <Icon className="w-6 h-6 text-blue-400" />
                     </div>
                     {item.certificateUrl && (
-                      <motion.a
+                      <a
                         href={item.certificateUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
                         className="p-2 rounded-lg transition-all duration-300 text-gray-400 hover:text-cyan-400"
                       >
                         <ExternalLink className="w-4 h-4" />
-                      </motion.a>
+                      </a>
                     )}
                   </div>
 
@@ -153,16 +147,12 @@ const Certifications = () => {
                   {item.skills && (
                     <div className="flex flex-wrap gap-2">
                       {item.skills.map((tech, i) => (
-                        <motion.span
+                        <span
                           key={i}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: i * 0.05 }}
-                          whileHover={{ scale: 1.05 }}
                           className="px-2 py-1 text-xs rounded-full transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30"
                         >
                           {tech}
-                        </motion.span>
+                        </span>
                       ))}
                     </div>
                   )}

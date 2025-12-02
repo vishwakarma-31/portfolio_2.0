@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import React from 'react'
 
 interface UnifiedCardProps {
   children: React.ReactNode
@@ -24,13 +25,11 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   const animationClass = animationType ? `animation-${animationType}` : '';
 
   const baseClasses = `
-    relative overflow-hidden rounded-xl
-    backdrop-filter backdrop-blur-xl
+    border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-black/40 backdrop-blur-md rounded-xl
     transition-all duration-300 ease-out
     cursor-pointer group
     card-theme-dark
-    ${hoverEffects ? 'hover-lift' : ''}
-    ${glowEffect ? 'glow-border-enter' : ''}
+    ${hoverEffects ? 'hover:-translate-y-1' : ''}
     ${animationClass}
     ${className}
   `;
@@ -75,7 +74,6 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
       <div className={`
         absolute inset-0 rounded-xl border-2 border-transparent
         group-hover:border-cyan-400/30 transition-colors duration-300
-        ${glowEffect ? 'group-hover:shadow-lg group-hover:shadow-cyan-400/20' : ''}
       `} />
     </motion.div>
   );

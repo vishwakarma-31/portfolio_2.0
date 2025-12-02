@@ -1,5 +1,4 @@
 import { Briefcase, Calendar, MapPin } from 'lucide-react'
-import { motion } from 'framer-motion'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
@@ -66,10 +65,7 @@ const Experience = () => {
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-6">
@@ -78,7 +74,7 @@ const Experience = () => {
           <p className="max-w-2xl mx-auto text-lg text-gray-300">
             My professional journey and hands-on experience in software development
           </p>
-        </motion.div>
+        </div>
 
         {/* Content Grid */}
         <div 
@@ -144,20 +140,16 @@ const Experience = () => {
                     </div>
                   )}
 
-                  {/* Skills - Remove staggered transition delay */}
+                  {/* Skills - Removed staggered transition delay */}
                   {item.skills && (
                     <div className="flex flex-wrap gap-2">
                       {item.skills.map((tech, i) => (
-                        <motion.span
+                        <span
                           key={i}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3 }}
-                          whileHover={{ scale: 1.05 }}
                           className="px-2 py-1 text-xs rounded-full transition-all duration-200 bg-teal-500/20 text-teal-300 border border-teal-500/30 hover:bg-teal-500/30"
                         >
                           {tech}
-                        </motion.span>
+                        </span>
                       ))}
                     </div>
                   )}

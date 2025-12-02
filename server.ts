@@ -2,7 +2,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import contactHandler from './api/contact';
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +24,9 @@ const corsOptions = {
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Import contact handler
+import contactHandler from './api/contact.js';
 
 // API routes
 app.post('/api/contact', contactHandler);

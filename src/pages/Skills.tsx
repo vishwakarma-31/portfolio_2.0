@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
 import { SkillCategory } from '../types'
 import UnifiedCard from '../components/UnifiedCard'
 import {
@@ -15,8 +14,6 @@ import { Helmet } from 'react-helmet-async'
 
 const Skills = () => {
   const containerRef = useRef(null)
-  // Remove scroll-jacking hooks (useScroll, useTransform, useSpring)
-  // Remove parallax style props (y, opacity) from the main container
 
   const skillCategories: SkillCategory[] = [
     {
@@ -74,13 +71,8 @@ const Skills = () => {
         <title>Skills & Expertise - Aryan Vishwakarma</title>
         <meta name="description" content="Discover my technical skills and expertise in frontend development, backend technologies, databases, cloud services, and DevOps tools." />
       </Helmet>
-      {/* Remove parallax styling */}
       <div className="max-w-7xl mx-auto space-y-12 pb-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+        <div
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -89,7 +81,7 @@ const Skills = () => {
           <p className="text-gray-300">
             Technologies I work with
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories.map((category, index) => (
@@ -107,12 +99,8 @@ const Skills = () => {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="relative w-full overflow-hidden py-8 rounded-xl glow-border-enter bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg"
+        <div
+          className="relative w-full overflow-hidden py-8 rounded-xl border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-black/40 backdrop-blur-md"
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4">Tools & Technologies</h2>
@@ -120,27 +108,18 @@ const Skills = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
             {tools.map((tool, _index) => (
-              <motion.div
+              <div
                 key={tool.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                whileHover={{
-                  scale: 1.1,
-                  transition: { duration: 0.3 }
-                }}
-                className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 bg-gray-800/50 hover:bg-gray-700/80 backdrop-blur-sm transform hover:shadow-lg hover:shadow-blue-500/20"
+                className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-black/40 backdrop-blur-md"
               >
-                {/* Remove toy-like hover effects: Delete whileHover= rotate: 360  */}
                 <div>
                   <tool.icon className={`w-8 h-8 ${tool.color}`} />
                 </div>
                 <span className="font-medium">{tool.name}</span>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </main>
   )
@@ -148,7 +127,6 @@ const Skills = () => {
 
 const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ category }) => {
   const cardRef = useRef(null)
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" })
 
   return (
     <div 
@@ -156,7 +134,6 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
       className="p-6 h-full"
     >
       <div className="flex items-center gap-4 mb-4">
-        {/* Remove toy-like hover effects: Delete whileHover= rotate: 360  */}
         <div
           className="p-3 rounded-xl bg-gray-800/50"
         >
@@ -171,16 +148,13 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
       </div>
 
       <div className="space-y-6">
-        {/* Remove staggered delay logic: Remove delayOffset + index * 0.08 */}
         <SkillPillGroup
           title="Core Stack"
           items={category.coreSkills}
-          isInView={isInView}
         />
         <SkillPillGroup
           title="Toolkit"
           items={category.toolkit}
-          isInView={isInView}
           outlined
         />
       </div>
@@ -192,24 +166,20 @@ const SkillPillGroup: React.FC<{
   title: string;
   items: string[];
   outlined?: boolean;
-  isInView: boolean;
-}> = ({ title, items, outlined = false, isInView }) => {
+}> = ({ title, items, outlined = false }) => {
   return (
     <div className="space-y-3">
       <p className="text-xs uppercase tracking-[0.3em] text-gray-500">{title}</p>
       <div className="flex flex-wrap gap-2">
         {items.map((item, _index) => (
-          <motion.span
+          <span
             key={item}
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.3 }}
             className={`px-3 py-1.5 text-sm rounded-full border ${outlined ? 'bg-transparent text-gray-300' : 'text-white'} ${
               outlined ? 'border-gray-600 hover:border-cyan-400/60' : 'border-cyan-500/40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
             } hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300`}
           >
             {item}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
