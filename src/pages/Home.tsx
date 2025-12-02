@@ -1,7 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { MagneticButton } from '../components/MagneticButton'
+// Remove framer-motion imports that are only used for animations
 import SplineWrapper from '../components/SplineWrapper'
 import { AnimationService } from '../services/animationService'
 import { PerformanceService } from '../services/performanceService'
@@ -30,6 +29,8 @@ const Home = () => {
     ]
   }
 
+  // Remove parallax scroll logic
+  /*
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -42,6 +43,7 @@ const Home = () => {
   const springY = useSpring(y, { stiffness: 300, damping: 30 })
   const springOpacity = useSpring(opacity, { stiffness: 300, damping: 30 })
   const springScale = useSpring(scale, { stiffness: 300, damping: 30 })
+  */
 
   useEffect(() => {
     const operation = () => {
@@ -60,12 +62,15 @@ const Home = () => {
     performanceService.measureOperation('home-page-mount', operation)
   }, [performanceService])
 
+  // Remove floatingIcons array
+  /*
   const floatingIcons = [
     { Icon: Code, delay: 0, position: 'top-20 left-10', color: 'text-blue-400' },
     { Icon: Palette, delay: 1, position: 'top-32 right-20', color: 'text-purple-400' },
     { Icon: Database, delay: 2, position: 'bottom-32 left-20', color: 'text-green-400' },
     { Icon: Zap, delay: 3, position: 'bottom-20 right-10', color: 'text-yellow-400' },
   ]
+  */
 
   return (
     <main ref={containerRef} className="min-h-screen pt-16 pb-16 overflow-hidden relative z-10">
@@ -75,7 +80,8 @@ const Home = () => {
       </Helmet>
       {/* Background handled by interactive starfield on Home */}
 
-      {/* Floating Icons */}
+      {/* Remove floating icons */}
+      {/* 
       {floatingIcons.map(({ Icon, delay, position, color }, index) => (
         <motion.div
           key={index}
@@ -96,9 +102,10 @@ const Home = () => {
           <Icon className={`w-8 h-8 ${color} animate-pulse`} />
         </motion.div>
       ))}
+      */}
 
-      <motion.div
-        style={{ y: springY, opacity: springOpacity, scale: springScale }}
+      {/* Remove parallax styling */}
+      <div
         className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
       >
         <div className="text-center">
@@ -170,7 +177,7 @@ const Home = () => {
             </a>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Scroll Indicator */}
       {/* <motion.div
@@ -196,30 +203,18 @@ const Home = () => {
       {/* About Me Section */}
       <section className="min-h-screen flex items-center justify-center relative z-20 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
               About Me
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Passionate about creating digital experiences that matter
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Profile Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="relative w-80 h-80 mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full blur-xl opacity-30 animate-pulse"></div>
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-sm">
@@ -230,7 +225,8 @@ const Home = () => {
                     loading="lazy"
                   />
                 </div>
-                {/* Floating icons around image */}
+                {/* Remove spinning orbit animations */}
+                {/* 
                 <motion.div
                   animate={{
                     rotate: 360,
@@ -257,17 +253,12 @@ const Home = () => {
                 >
                   <Palette className="w-6 h-6 text-white" />
                 </motion.div>
+                */}
               </div>
-            </motion.div>
+            </div>
 
             {/* About Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <div className="glass-card p-8 rounded-2xl glow-border-enter">
                 <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I&apos;m Aryan!</h3>
                 <p className="text-lg leading-relaxed mb-6 text-gray-300">
@@ -277,30 +268,25 @@ const Home = () => {
                 {/* Skills highlights */}
                 <div className="flex flex-wrap gap-3 mb-6">
                   {profileData.skills.map((skill, index) => (
-                    <motion.span
+                    // Remove motion effects from skill tags
+                    <span
                       key={skill}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
-                      viewport={{ once: true }}
                       className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full text-sm font-medium border border-cyan-400/30"
                     >
                       {skill}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
 
                 {/* CTA buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     className="btn-primary flex items-center gap-3"
                     onClick={() => window.open('/Aryan_Resume.pdf', '_blank')}
                   >
                     <Download className="w-5 h-5" />
                     Download Resume
-                  </motion.button>
+                  </button>
                   {/* <motion.a
                     href="#contact"
                     whileHover={{ scale: 1.05 }}
@@ -311,37 +297,28 @@ const Home = () => {
                   </motion.a> */}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Stats Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
-          >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
             {profileData.stats.map((stat, index) => {
               const IconComponent = stat.icon === 'code' ? Code : 
                                   stat.icon === 'database' ? Database : 
                                   stat.icon === 'zap' ? Zap : Star
               return (
-                <motion.div
+                // Remove motion effects from stats cards
+                <div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                  viewport={{ once: true }}
                   className="text-center glass-card p-6 rounded-xl hover-lift glow-border-enter"
                 >
                   <IconComponent className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-gradient mb-2">{stat.number}</div>
                   <div className="text-sm font-medium text-gray-400">{stat.label}</div>
-                </motion.div>
+                </div>
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
     </main>

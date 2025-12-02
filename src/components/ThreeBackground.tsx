@@ -1,9 +1,11 @@
 import React, { Suspense, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const ThreeBackgroundContent = React.lazy(() => import('./ThreeBackgroundContent'))
 
 export default function ThreeBackground() {
   const [isMobile, setIsMobile] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -21,6 +23,9 @@ export default function ThreeBackground() {
       window.removeEventListener('resize', checkIsMobile)
     }
   }, [])
+
+  // Only render on the Home page
+  if (location.pathname !== '/') return null
 
   // Return null for mobile devices to save battery and performance
   if (isMobile) {
