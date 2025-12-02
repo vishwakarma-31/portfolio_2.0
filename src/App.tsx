@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import TransitionManager from './components/TransitionManager'
 import ThreeBackground from './components/ThreeBackground'
 import Navbar from './components/Navbar'
-import InteractiveCursorBackground from './components/InteractiveCursorBackground'
-import LoadingSpinner from './components/LoadingSpinner'
 
 import { HelmetProvider } from 'react-helmet-async'
 
@@ -23,15 +21,13 @@ const AppContent: React.FC = () => {
       <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">
           {/* Interactive starfield background (site-wide) */}
           <ThreeBackground />
-          {/* Cursor-reactive gradient/ripple layer */}
-          <InteractiveCursorBackground />
 
           {/* Navigation - Layer 50 */}
           <Navbar />
 
           {/* Page transitions and content - Layer 10 */}
           <TransitionManager>
-            <Suspense fallback={<LoadingSpinner />}>  
+            <Suspense fallback={null}>  
               <Routes>
                 <Route path="/skills" element={<Skills />} />
                 <Route path="/experience" element={<Experience />} />

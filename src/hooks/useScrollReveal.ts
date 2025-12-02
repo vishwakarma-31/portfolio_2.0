@@ -27,44 +27,24 @@ export const useScrollReveal = (options: ScrollRevealOptions = {}): ScrollReveal
   } = options;
 
   const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  // Immediately return true to make content visible by default
+  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (once) {
-            observer.unobserve(element);
-          }
-        } else if (!once) {
-          setIsVisible(false);
-        }
-      },
-      { threshold }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [threshold, once]);
-
+  // Removed the IntersectionObserver logic to disable scroll-triggered effects
+  
   const getInitialState = () => {
+    // Return the animate state instead of hidden state
     switch (direction) {
       case 'up':
-        return { opacity: 0, y: distance };
       case 'down':
-        return { opacity: 0, y: -distance };
+        return { opacity: 1, y: 0 };
       case 'left':
-        return { opacity: 0, x: distance };
       case 'right':
-        return { opacity: 0, x: -distance };
+        return { opacity: 1, x: 0 };
       case 'fade':
-        return { opacity: 0 };
+        return { opacity: 1 };
       default:
-        return { opacity: 0, y: distance };
+        return { opacity: 1, y: 0 };
     }
   };
 
@@ -104,7 +84,7 @@ export const useScrollReveal = (options: ScrollRevealOptions = {}): ScrollReveal
 
 // Simple card animation variants
 export const cardAnimationVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 1, y: 0 },
   visible: {
     opacity: 1,
     y: 0,

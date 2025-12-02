@@ -102,15 +102,15 @@ const Home = () => {
         className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
       >
         <div className="text-center">
-          <div className="mb-8 page-element animate-on-scroll">
-            <span className="hero-glow inline-block px-6 py-3 glass rounded-full text-sm font-medium text-cyan-400 mb-6 animate-glow">
+          <div className="mb-8">
+            <span className="hero-glow inline-block px-6 py-3 glass rounded-full text-sm font-medium text-cyan-400 mb-6">
               👋 Welcome to my portfolio
             </span>
           </div>
 
           {/* Name and 3D Robot Section */}
           <div className="flex flex-col lg:flex-row items-center justify-center mb-6">
-            <h1 className="hero-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent page-element animate-on-scroll stagger-1 lg:text-right">
+            <h1 className="hero-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent lg:text-right">
               <span className="hero-title-word">Hi,</span>{' '}
               <span className="hero-title-word">I&apos;m</span>{' '}
               <br className="lg:hidden" />
@@ -118,60 +118,56 @@ const Home = () => {
             </h1>
             
             {/* 3D Spline Robot */}
-            <motion.div
+            <div
               className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden"
             >
               <SplineWrapper
                 scene="/models/robot.splinecode"
                 className="w-96 h-96"
               />
-            </motion.div>
+            </div>
           </div>
 
-          <p className="hero-description text-xl text-gray-300 mb-8 max-w-2xl mx-auto page-element animate-on-scroll stagger-2">
+          <p className="hero-description text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             {profileData.description}
           </p>
 
-          <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-12 page-element animate-on-scroll stagger-3">
-            <MagneticButton>
+          <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div>
               <Link
                 to="/projects"
                 className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 inline-block"
               >
                 View My Work
               </Link>
-            </MagneticButton>
-            <MagneticButton>
+            </div>
+            <div>
               <Link
                 to="/contact"
                 className="border-2 border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-3 rounded-lg font-semibold transition-all duration-300 inline-block"
               >
                 Get In Touch
               </Link>
-            </MagneticButton>
+            </div>
           </div>
 
-          <div className="flex justify-center space-x-6 page-element animate-on-scroll stagger-4">
-            <motion.a
+          <div className="flex justify-center space-x-6">
+            <a
               href={SOCIAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
               className="text-gray-400 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
             >
               <Github size={24} />
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, rotate: -5 }}
-              whileTap={{ scale: 0.9 }}
               className="text-gray-400 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
             >
               <ExternalLink size={24} />
-            </motion.a>
+            </a>
           </div>
         </div>
       </motion.div>
