@@ -23,9 +23,10 @@ const Contact = () => {
               </div>
 
               <div className="space-y-6">
+                {/* Remove infinite pulse from Mail icon */}
                 <div className="flex items-center space-x-4 p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 animate-on-scroll stagger-1">
                   <div className="bg-gradient-to-br from-purple-500/30 to-pink-500/30 p-3 rounded-lg">
-                    <Mail className="w-6 h-6 text-purple-400 animate-pulse" />
+                    <Mail className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Email</h3>
@@ -35,9 +36,10 @@ const Contact = () => {
                   </div>
                 </div>
 
+                {/* Remove infinite pulse from MapPin icon */}
                 <div className="flex items-center space-x-4 p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 animate-on-scroll stagger-2">
                   <div className="bg-gradient-to-br from-pink-500/30 to-blue-500/30 p-3 rounded-lg">
-                    <MapPin className="w-6 h-6 text-pink-400 animate-pulse" />
+                    <MapPin className="w-6 h-6 text-pink-400" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Location</h3>

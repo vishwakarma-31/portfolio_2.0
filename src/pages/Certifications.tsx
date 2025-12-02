@@ -120,7 +120,7 @@ const Certifications = () => {
                         href={item.certificateUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, rotate: 12 }}
+                        whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="p-2 rounded-lg transition-all duration-300 text-gray-400 hover:text-cyan-400"
                       >
@@ -177,4 +177,3 @@ const Certifications = () => {
 }
 
 export default Certifications
-

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { SkillCategory } from '../types'
 import UnifiedCard from '../components/UnifiedCard'
 import {
@@ -15,14 +15,8 @@ import { Helmet } from 'react-helmet-async'
 
 const Skills = () => {
   const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-  const springY = useSpring(y, { stiffness: 300, damping: 30 })
+  // Remove scroll-jacking hooks (useScroll, useTransform, useSpring)
+  // Remove parallax style props (y, opacity) from the main container
 
   const skillCategories: SkillCategory[] = [
     {
@@ -61,34 +55,6 @@ const Skills = () => {
       coreSkills: ['AWS', 'Vercel', 'Railway', 'CI/CD Pipelines', 'Performance Optimization'],
       toolkit: ['Docker', 'Nginx', 'Monitoring', 'Infrastructure as Code', 'Security Hardening']
     },
-    // {
-    //   title: 'UI/UX Design',
-    //   icon: Palette,
-    //   color: 'text-pink-400',
-    //   bgColor: 'from-pink-500/20 to-rose-500/20',
-    //   skills: [
-    //     { name: 'Figma', icon: '🎯', level: 85 },
-    //     { name: 'Adobe XD', icon: '💎', level: 80 },
-    //     // { name: 'User Research', icon: '👥', level: 75 },
-    //     // { name: 'Prototyping', icon: '📱', level: 82 },
-    //     // { name: 'Design Systems', icon: '🎨', level: 78 },
-    //     // { name: 'Accessibility', icon: '♿', level: 85 }
-    //   ]
-    // },
-    // {
-    //   title: 'Mobile Development',
-    //   icon: Smartphone,
-    //   color: 'text-indigo-400',
-    //   bgColor: 'from-indigo-500/20 to-blue-500/20',
-    //   skills: [
-    //     { name: 'React Native', icon: '📱', level: 80 },
-    //     { name: 'Flutter', icon: '🦋', level: 75 },
-    //     { name: 'iOS Development', icon: '🍎', level: 70 },
-    //     { name: 'Android Development', icon: '🤖', level: 72 },
-    //     { name: 'Expo', icon: '⚡', level: 85 },
-    //     { name: 'Mobile UI/UX', icon: '🎨', level: 80 }
-    //   ]
-    // }
   ]
 
   const tools = [
@@ -97,9 +63,6 @@ const Skills = () => {
     { name: 'ECLIPSE IDE', icon: Palette, color: 'text-purple-400' },
     { name: 'JUPYTER NOTEBOOK', icon: Layers, color: 'text-blue-500' },
     { name: 'AWS', icon: Cloud, color: 'text-orange-400' },
-    // { name: 'Vercel', icon: Zap, color: 'text-black' },
-    // { name: 'Postman', icon: Globe, color: 'text-orange-500' },
-    // { name: 'Jest', icon: Shield, color: 'text-green-400' },
   ]
 
   return (
@@ -111,10 +74,8 @@ const Skills = () => {
         <title>Skills & Expertise - Aryan Vishwakarma</title>
         <meta name="description" content="Discover my technical skills and expertise in frontend development, backend technologies, databases, cloud services, and DevOps tools." />
       </Helmet>
-      <motion.div
-        style={{ y: springY, opacity }}
-        className="max-w-7xl mx-auto space-y-12 pb-8"
-      >
+      {/* Remove parallax styling */}
+      <div className="max-w-7xl mx-auto space-y-12 pb-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -158,37 +119,34 @@ const Skills = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
-            {tools.map((tool, index) => (
+            {tools.map((tool, _index) => (
               <motion.div
                 key={tool.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
                 whileHover={{
                   scale: 1.1,
-                  rotate: [0, -5, 5, 0],
                   transition: { duration: 0.3 }
                 }}
                 className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 bg-gray-800/50 hover:bg-gray-700/80 backdrop-blur-sm transform hover:shadow-lg hover:shadow-blue-500/20"
               >
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
+                {/* Remove toy-like hover effects: Delete whileHover= rotate: 360  */}
+                <div>
                   <tool.icon className={`w-8 h-8 ${tool.color}`} />
-                </motion.div>
+                </div>
                 <span className="font-medium">{tool.name}</span>
               </motion.div>
             ))}
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     </main>
   )
 }
 
-const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ category, index }) => {
+const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ category }) => {
   const cardRef = useRef(null)
   const isInView = useInView(cardRef, { once: true, margin: "-100px" })
 
@@ -198,13 +156,12 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
       className="p-6 h-full"
     >
       <div className="flex items-center gap-4 mb-4">
-        <motion.div
+        {/* Remove toy-like hover effects: Delete whileHover= rotate: 360  */}
+        <div
           className="p-3 rounded-xl bg-gray-800/50"
-          whileHover={{ rotate: 360 }}
-          transition={{ duration: 0.6 }}
         >
           <category.icon className={`w-8 h-8 ${category.color}`} />
-        </motion.div>
+        </div>
         <div>
           <h3 className="text-2xl font-bold text-slate-100">
             {category.title}
@@ -214,16 +171,15 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
       </div>
 
       <div className="space-y-6">
+        {/* Remove staggered delay logic: Remove delayOffset + index * 0.08 */}
         <SkillPillGroup
           title="Core Stack"
           items={category.coreSkills}
-          delayOffset={index * 0.1}
           isInView={isInView}
         />
         <SkillPillGroup
           title="Toolkit"
           items={category.toolkit}
-          delayOffset={index * 0.1 + 0.2}
           isInView={isInView}
           outlined
         />
@@ -235,20 +191,19 @@ const SkillCard: React.FC<{ category: SkillCategory; index: number }> = ({ categ
 const SkillPillGroup: React.FC<{
   title: string;
   items: string[];
-  delayOffset?: number;
   outlined?: boolean;
   isInView: boolean;
-}> = ({ title, items, delayOffset = 0, outlined = false, isInView }) => {
+}> = ({ title, items, outlined = false, isInView }) => {
   return (
     <div className="space-y-3">
       <p className="text-xs uppercase tracking-[0.3em] text-gray-500">{title}</p>
       <div className="flex flex-wrap gap-2">
-        {items.map((item, index) => (
+        {items.map((item, _index) => (
           <motion.span
             key={item}
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.3, delay: delayOffset + index * 0.08 }}
+            transition={{ duration: 0.3 }}
             className={`px-3 py-1.5 text-sm rounded-full border ${outlined ? 'bg-transparent text-gray-300' : 'text-white'} ${
               outlined ? 'border-gray-600 hover:border-cyan-400/60' : 'border-cyan-500/40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
             } hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300`}

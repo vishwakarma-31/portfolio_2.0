@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Variants } from 'framer-motion';
 
 export interface ScrollRevealOptions {
@@ -18,17 +18,13 @@ interface ScrollRevealReturn {
 
 export const useScrollReveal = (options: ScrollRevealOptions = {}): ScrollRevealReturn => {
   const {
-    threshold = 0.1,
     delay = 0,
     duration = 0.6,
-    distance = 30,
-    direction = 'up',
-    once = true
-  } = options;
+    direction = 'up'  } = options;
 
   const ref = useRef<HTMLElement>(null);
   // Immediately return true to make content visible by default
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible] = useState(true);
 
   // Removed the IntersectionObserver logic to disable scroll-triggered effects
   

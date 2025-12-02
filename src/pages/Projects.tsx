@@ -11,26 +11,15 @@ const Projects = () => {
     once: true
   });
 
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [projectData, setProjectData] = React.useState<Array<{
-    title: string
-    description: string
-    tags: string[]
-    links: { github: string; demo?: string }
-    image: string
-    featured: boolean
-  }>>([])
-
-  React.useEffect(() => {
-    // Simulate loading for better UX (remove if data is already available)
-    setIsLoading(true)
-    
+  // Remove isLoading state and useEffect with setTimeout
+  // Directly map and filter projects
+  const projectData = React.useMemo(() => {
     // Filter locally to get featured projects
     const featuredProjects = projects.filter(p => p.featured)
 
     // Map to component format
-    const formattedProjects = featuredProjects.map(project => ({
-      title: project.title, // Map 'name' to 'title' if needed, check src/data/projects.ts interface
+    return featuredProjects.map(project => ({
+      title: project.title,
       description: project.description,
       tags: project.tags,
       links: {
@@ -40,12 +29,6 @@ const Projects = () => {
       image: project.image,
       featured: project.featured
     }))
-
-    // Small delay to show loading state (optional, can be removed)
-    setTimeout(() => {
-      setProjectData(formattedProjects)
-      setIsLoading(false)
-    }, 100)
   }, [])
 
   return (
@@ -69,14 +52,8 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="w-16 h-16 border-4 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-400">Loading projects...</p>
-            </div>
-          </div>
-        ) : projectData.length === 0 ? (
+        {/* Remove isLoading check and directly render projects */}
+        {projectData.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-400 text-lg">No projects found.</p>
           </div>
@@ -114,16 +91,6 @@ const Projects = () => {
 
                   {/* Project Links */}
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    {/* <motion.a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                    </motion.a> */}
                     {project.links.demo && (
                       <motion.a
                         href={project.links.demo}
@@ -131,9 +98,7 @@ const Projects = () => {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        // className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition-colors"
                       >
-                        {/* <ExternalLink className="w-4 h-4" /> */}
                       </motion.a>
                     )}
                   </div>
@@ -149,14 +114,14 @@ const Projects = () => {
                     {project.description}
                   </p>
 
-                  {/* Tech Stack */}
+                  {/* Tech Stack - Remove staggered delay logic */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tech, i) => (
                       <motion.span
                         key={i}
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }}
+                        transition={{ duration: 0.3 }}
                         whileHover={{ scale: 1.05 }}
                         className="px-3 py-1 text-xs rounded-full transition-all duration-200 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30"
                       >

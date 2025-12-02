@@ -7,7 +7,7 @@ import { PerformanceService } from '../services/performanceService'
 import { personalInfo } from '../data/personal'
 import { SOCIAL_LINKS } from '../config/constants'
 
-import { Github, ExternalLink, Code, Palette, Database, Zap, Star, Download } from 'lucide-react'
+import { Github, ExternalLink, Code, Database, Zap, Star, Download } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 // ScrollTrigger plugin is registered globally in App.tsx
 
@@ -216,7 +216,7 @@ const Home = () => {
             {/* Profile Image */}
             <div className="relative">
               <div className="relative w-80 h-80 mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full blur-xl opacity-30"></div>
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-sm">
                   <img
                     src="/images/Aaryannn.jpg"
@@ -225,35 +225,6 @@ const Home = () => {
                     loading="lazy"
                   />
                 </div>
-                {/* Remove spinning orbit animations */}
-                {/* 
-                <motion.div
-                  animate={{
-                    rotate: 360,
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{
-                    rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center"
-                >
-                  <Code className="w-6 h-6 text-white" />
-                </motion.div>
-                <motion.div
-                  animate={{
-                    rotate: -360,
-                    scale: [1, 1.2, 1]
-                  }}
-                  transition={{
-                    rotate: { duration: 25, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg flex items-center justify-center"
-                >
-                  <Palette className="w-6 h-6 text-white" />
-                </motion.div>
-                */}
               </div>
             </div>
 
@@ -267,7 +238,7 @@ const Home = () => {
                 
                 {/* Skills highlights */}
                 <div className="flex flex-wrap gap-3 mb-6">
-                  {profileData.skills.map((skill, index) => (
+                  {profileData.skills.map((skill, _index) => (
                     // Remove motion effects from skill tags
                     <span
                       key={skill}
@@ -302,15 +273,14 @@ const Home = () => {
 
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
-            {profileData.stats.map((stat, index) => {
+            {profileData.stats.map((stat, _index) => {
               const IconComponent = stat.icon === 'code' ? Code : 
                                   stat.icon === 'database' ? Database : 
                                   stat.icon === 'zap' ? Zap : Star
               return (
-                // Remove motion effects from stats cards
                 <div
                   key={stat.label}
-                  className="text-center glass-card p-6 rounded-xl hover-lift glow-border-enter"
+                  className="text-center glass-card p-6 rounded-xl"
                 >
                   <IconComponent className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-gradient mb-2">{stat.number}</div>
