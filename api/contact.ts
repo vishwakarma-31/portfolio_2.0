@@ -138,19 +138,20 @@ export default async function handler(req: Request, res: Response) {
     // Verify transporter configuration before sending
     try {
       await transporter.verify();
-      console.log('SMTP connection verified successfully');
+      console.log('✅ SMTP connection verified successfully');
     } catch (verifyError) {
-      console.error('SMTP verification failed:', verifyError);
+      console.error('❌ SMTP verification failed:', verifyError);
       return res.status(500).json({
         success: false,
         message: 'Email service configuration error. Please contact the site administrator.'
       });
     }
 
-    // Email options
+    // Email options - Fixed "From" address to comply with Gmail policies
     const mailOptions = {
-      from: getEnvVar('EMAIL_USER', ''),
+      from: `"${name} (Portfolio)" <${getEnvVar('EMAIL_USER')}>`, // Fixed: Use authenticated account as sender
       to: getEnvVar('RECIPIENT_EMAIL', getEnvVar('EMAIL_USER', '')),
+      replyTo: email, // Set visitor's email as reply-to
       subject: `Portfolio Contact: Message from ${escapeHtml(name)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -170,16 +171,17 @@ export default async function handler(req: Request, res: Response) {
             <p>Timestamp: ${new Date().toLocaleString()}</p>
           </div>
         </div>
-      `,
-      replyTo: email
+      `
     };
 
     // Send email
     try {
-      await transporter.sendMail(mailOptions);
-      console.log('Contact form email sent successfully to:', getEnvVar('RECIPIENT_EMAIL'));
+      const info = await transporter.sendMail(mailOptions);
+      console.log('📧 Contact form email sent successfully!');
+      console.log('   Message ID:', info.messageId);
+      console.log('   Response:', info.response);
     } catch (sendError) {
-      console.error('Failed to send contact form email:', sendError);
+      console.error('❌ Failed to send contact form email:', sendError);
       return res.status(500).json({
         success: false,
         message: 'Failed to send message. Please try again later.'
@@ -188,7 +190,7 @@ export default async function handler(req: Request, res: Response) {
 
     // Auto-reply to sender with improved template
     const autoReplyOptions = {
-      from: getEnvVar('EMAIL_USER', ''),
+      from: `"Aryan Vishwakarma" <${getEnvVar('EMAIL_USER')}>`, // Fixed: Use authenticated account as sender
       to: email,
       subject: 'Thank you for contacting me!',
       html: `
@@ -220,10 +222,12 @@ export default async function handler(req: Request, res: Response) {
 
     // Send auto-reply (don't fail if this fails)
     try {
-      await transporter.sendMail(autoReplyOptions);
-      console.log('Auto-reply email sent successfully to:', email);
+      const info = await transporter.sendMail(autoReplyOptions);
+      console.log('✅ Auto-reply email sent successfully to:', email);
+      console.log('   Message ID:', info.messageId);
+      console.log('   Response:', info.response);
     } catch (autoReplyError) {
-      console.warn('Auto-reply failed:', autoReplyError);
+      console.warn('⚠️ Auto-reply failed:', autoReplyError);
       // Continue with success response even if auto-reply fails
     }
 
@@ -244,7 +248,7 @@ export default async function handler(req: Request, res: Response) {
       });
     }
 
-    console.error('Contact form error:', error);
+    console.error('❌ Contact form error:', error);
     
     // Check if the error is related to email configuration
     if (error.code === 'EAUTH' || error.code === 'EENVELOPE') {
