@@ -18,7 +18,6 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   index = 0,
   onClick,
   hoverEffects = true,
-  glowEffect = true,
 }) => {
 
   // Use animationType to avoid unused variable error (can be extended for future use)

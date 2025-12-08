@@ -2,75 +2,13 @@ import { Award, Calendar, ExternalLink } from 'lucide-react'
 import UnifiedCard from '../components/UnifiedCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
+import { certifications } from '../data/certification'
 
 const Certifications = () => {
   const { ref: containerRef } = useScrollReveal({
     threshold: 0.1,
     once: true
-  });
-
-  const certifications = [
-    {
-      title: 'JavaScript Certification',
-      company: 'Infosys SpringBoard',
-      period: '2025',
-      description: 'Proactively mastered core JavaScript concepts and best practices through the Infosys SpringBoard curriculum.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['JavaScript', 'ES6+', 'DOM Manipulation', 'Async Programming']
-    },
-    {
-      title: 'AWS Cloud Practitioner Essentials',
-      company: 'AWS',
-      period: '2024',
-      description: 'Developed a strong understanding of how to leverage the AWS Cloud to build secure, scalable, and cost-effective solutions.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://drive.google.com/file/d/1oKmAMkW8IK9nCcP0gqkmTb-CY35GxTe4/view?usp=drive_link',
-      skills: ['AWS Cloud', 'EC2', 'S3', 'Cloud Architecture']
-    },
-    {
-      title: 'HTML5 Certification',
-      company: 'Infosys SpringBoard',
-      period: '2025',
-      description: 'Certified in HTML5 and web fundamentals through the Infosys SpringBoard program.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['HTML5', 'Semantic HTML', 'Web Standards', 'Accessibility']
-    },
-    {
-      title: 'Introduction To Artificial Intelligence',
-      company: 'Coursera',
-      period: '2025',
-      description: 'Gained a solid understanding of fundamental AI principles, including machine learning, neural networks, and natural language processing.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['Machine Learning', 'Neural Networks', 'NLP', 'AI Ethics']
-    },
-    {
-      title: 'Oracle Cloud Infrastructure AI Foundations',
-      company: 'Oracle',
-      period: '2025',
-      description: 'Gained practical skills in leveraging OCI AI and Machine Learning services to build and deploy intelligent applications.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['OCI', 'AI Services', 'ML Deployment', 'Cloud AI']
-    },
-    {
-      title: 'Oracle Cloud Infrastructure DevOps Professional',
-      company: 'Oracle',
-      period: '2025',
-      description: 'Skilled in automating, deploying, and managing cloud-native applications with OCI services and DevOps best practices.',
-      icon: Award,
-      type: 'Certification',
-      certificateUrl: 'https://www.example.com/path-to-your-certificate.pdf',
-      skills: ['DevOps', 'CI/CD', 'Infrastructure as Code', 'Automation']
-    }
-  ]
+  })
 
   return (
     <main className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
@@ -97,10 +35,10 @@ const Certifications = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {certifications.map((item, index) => {
-            const Icon = item.icon
+            const Icon = Award
             return (
               <UnifiedCard
-                key={index}
+                key={item.id || index}
                 animationType="experience"
                 index={index}
                 className="h-full"

@@ -14,7 +14,7 @@ const PORT = typeof process !== 'undefined' && process.env && process.env.PORT ?
 
 // Configure CORS with restricted origins
 // eslint-disable-next-line no-undef
-const allowedOrigin = (typeof process !== 'undefined' && process.env && process.env.VITE_SITE_URL) || (typeof process !== 'undefined' && process.env && process.env.FRONTEND_URL) || 'http://localhost:3000';
+const allowedOrigin = (typeof process !== 'undefined' && process.env && process.env.VITE_SITE_URL) || (typeof process !== 'undefined' && process.env && process.env.FRONTEND_URL) || 'http://localhost:3001';
 const corsOptions = {
   origin: allowedOrigin,
   credentials: true,

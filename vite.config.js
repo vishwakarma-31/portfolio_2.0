@@ -29,7 +29,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 3000, // Changed from 5173 to avoid conflicts
+    port: 3000, // Changed to 3000 to avoid conflicts with backend
     // Proxy API requests to a separate server during development
     proxy: {
       '/api': {

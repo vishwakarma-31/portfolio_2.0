@@ -2,7 +2,7 @@
 // Centralized port configuration
 export const PORTS = {
   // eslint-disable-next-line no-undef
-  FRONTEND: typeof process !== 'undefined' && process.env && process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
+  FRONTEND: typeof process !== 'undefined' && process.env && process.env.PORT ? parseInt(process.env.PORT, 10) : 3001,
   // eslint-disable-next-line no-undef
   BACKEND: typeof process !== 'undefined' && process.env && process.env.BACKEND_PORT ? parseInt(process.env.BACKEND_PORT, 10) : 3001,
 };

@@ -1,6 +1,5 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { PerformanceService } from '../services/performanceService'
 import { personalInfo } from '../data/personal'
 import { SOCIAL_LINKS } from '../config/constants'
 
@@ -9,7 +8,6 @@ import { Helmet } from 'react-helmet-async'
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null)
-  const performanceService = useMemo(() => new PerformanceService(), [])
   // Map personalInfo to match expected structure
   const profileData = {
     name: personalInfo.name,
