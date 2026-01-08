@@ -11,48 +11,34 @@ const Experience = () => {
 
   const experiences = [
     {
-      title: 'Full Stack Developer',
-      company: 'Freelance',
+      title: 'React.js Developer Intern',
+      company: 'AIGETAI Pvt. Ltd.',
       location: 'Remote',
-      period: '2023 - Present',
-      description: 'Developing full-stack web applications using React, Node.js, and modern web technologies. Building responsive and scalable solutions for various clients.',
+      period: 'June 2025 - Dec 2025',
+      description: 'Completed a comprehensive internship focusing on React.js development. Demonstrated active engagement and competence in executing assigned software development tasks.',
       icon: Briefcase,
-      type: 'Work Experience',
-      skills: ['React', 'Node.js', 'TypeScript', 'MongoDB', 'AWS', 'REST APIs'],
+      type: 'Internship',
+      skills: ['React.js', 'JavaScript', 'Frontend Development', 'Web Development'],
       achievements: [
-        'Built 5+ full-stack applications',
-        'Improved application performance by 40%',
-        'Implemented CI/CD pipelines'
+        'Successfully completed 6-month internship tenure',
+        'Executed assigned tasks with high competence',
+        'Delivered satisfactory development services',
+        'Employee ID: 2590'
       ]
     },
     {
-      title: 'Web Development Intern',
-      company: 'Tech Solutions Inc.',
-      location: 'Kanpur, India',
-      period: '2023',
-      description: 'Worked on frontend development projects, collaborated with senior developers, and learned industry best practices in web development.',
+      title: 'Data Analytics Job Simulation',
+      company: 'Deloitte',
+      location: 'Remote',
+      period: 'Feb 2025 - March 2025',
+      description: 'Completed a practical job simulation involving real-world data scenarios. Gained hands-on experience in analyzing data sets and forensic technology applications.',
       icon: Briefcase,
-      type: 'Work Experience',
-      skills: ['HTML/CSS', 'JavaScript', 'React', 'Git', 'Agile'],
+      type: 'Job Simulation',
+      skills: ['Data Analysis', 'Forensic Technology', 'Data Visualization', 'Problem Solving'],
       achievements: [
-        'Developed responsive web interfaces',
-        'Participated in code reviews',
-        'Contributed to team projects'
-      ]
-    },
-    {
-      title: 'Machine Learning Project Developer',
-      company: 'Academic Projects',
-      location: 'Kanpur, India',
-      period: '2024',
-      description: 'Developed machine learning models for agricultural and security applications. Worked on data preprocessing, model training, and deployment.',
-      icon: Briefcase,
-      type: 'Project Experience',
-      skills: ['Python', 'Machine Learning', 'TensorFlow', 'Scikit-learn', 'Data Science'],
-      achievements: [
-        'Created Cropify ML recommendation system',
-        'Developed fingerprint detection system',
-        'Achieved 94%+ accuracy in ML models'
+        'Completed practical tasks in Data Analysis',
+        'Completed practical tasks in Forensic Technology',
+        'Verified participation via Forage'
       ]
     }
   ]
@@ -61,7 +47,7 @@ const Experience = () => {
     <main className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
       <Helmet>
         <title>Experience - Aryan Vishwakarma</title>
-        <meta name="description" content="Professional work experience and projects. Full Stack Developer with expertise in React, Node.js, Machine Learning, and modern web technologies." />
+        <meta name="description" content="Professional work experience and projects. React Developer Intern at AIGETAI and Data Analytics experience at Deloitte." />
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
