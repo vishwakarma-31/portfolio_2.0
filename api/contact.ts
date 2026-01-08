@@ -229,7 +229,7 @@ export default async function handler(req: Request, res: Response) {
       message: 'Message sent successfully! I\'ll get back to you soon.'
     });
 
-  } catch (error) {
+  } catch (error: unknown) {
     // Handle Zod validation errors
     if (error instanceof z.ZodError) {
       return res.status(400).json({
@@ -244,7 +244,7 @@ export default async function handler(req: Request, res: Response) {
     console.error('❌ Contact form error:', error);
     
     // Check if the error is related to email configuration
-    if (error.code === 'EAUTH' || error.code === 'EENVELOPE') {
+    if (typeof error === 'object' && error !== null && 'code' in error && ((error as { code: string }).code === 'EAUTH' || (error as { code: string }).code === 'EENVELOPE')) {
       res.status(500).json({
         success: false,
         message: 'Email service is currently unavailable. Please try again later or contact me directly.'
