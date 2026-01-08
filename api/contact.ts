@@ -1,7 +1,21 @@
 /// <reference types="node" />
 import nodemailer from 'nodemailer';
 import { z } from 'zod';
-import { Request, Response } from 'express';
+// Define simple types for Vercel API routes
+interface VercelRequest {
+  method?: string;
+  body: any;
+  headers: any;
+}
+
+interface VercelResponse {
+  status: (code: number) => {
+    json: (data: any) => void;
+    send: (data: any) => void;
+  };
+  setHeader: (name: string, value: string) => void;
+  getHeader: (name: string) => any;
+}
 
 // Helper function to escape HTML and prevent XSS
 function escapeHtml(text: string): string {
@@ -103,10 +117,10 @@ function validateEnv() {
   return true;
 }
 
-export default async function handler(req: Request, res: Response) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST requests
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
+    res.setHeader('Allow', 'POST');
     return res.status(405).json({ 
       success: false, 
       message: `Method ${req.method} not allowed` 
@@ -132,8 +146,8 @@ export default async function handler(req: Request, res: Response) {
     try {
       await transporter.verify();
       console.log('✅ SMTP connection verified successfully');
-    } catch (verifyError) {
-      console.error('❌ SMTP verification failed:', verifyError);
+    } catch (verifyError: unknown) {
+      console.error('❌ SMTP verification failed:', typeof verifyError === 'object' && verifyError !== null ? (verifyError as Error).message || verifyError : verifyError);
       return res.status(500).json({
         success: false,
         message: 'Email service configuration error. Please contact the site administrator.'
@@ -173,8 +187,8 @@ export default async function handler(req: Request, res: Response) {
       console.log('📧 Contact form email sent successfully!');
       console.log('   Message ID:', info.messageId);
       console.log('   Response:', info.response);
-    } catch (sendError) {
-      console.error('❌ Failed to send contact form email:', sendError);
+    } catch (sendError: unknown) {
+      console.error('❌ Failed to send contact form email:', typeof sendError === 'object' && sendError !== null ? (sendError as Error).message || sendError : sendError);
       return res.status(500).json({
         success: false,
         message: 'Failed to send message. Please try again later.'
@@ -219,8 +233,8 @@ export default async function handler(req: Request, res: Response) {
       console.log('✅ Auto-reply email sent successfully to:', email);
       console.log('   Message ID:', info.messageId);
       console.log('   Response:', info.response);
-    } catch (autoReplyError) {
-      console.warn('⚠️ Auto-reply failed:', autoReplyError);
+    } catch (autoReplyError: unknown) {
+      console.warn('⚠️ Auto-reply failed:', typeof autoReplyError === 'object' && autoReplyError !== null ? (autoReplyError as Error).message || autoReplyError : autoReplyError);
       // Continue with success response even if auto-reply fails
     }
 
