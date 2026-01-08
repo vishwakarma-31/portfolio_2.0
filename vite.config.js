@@ -5,7 +5,11 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), viteCompression()],
+  plugins: [react(), viteCompression({
+    algorithm: 'gzip',
+    ext: '.gz',
+    deleteOriginFile: false
+  })],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -17,12 +21,22 @@ export default defineConfig({
   build: {
     target: 'es2020',
     minify: 'esbuild',
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          three: ['three', '@react-three/fiber', '@react-three/drei'],
-          animations: ['framer-motion', 'gsap'],
-          react: ['react', 'react-dom']
+        manualChunks(id) {
+          if (id.includes('three') || id.includes('@react-three')) {
+            return 'three';
+          }
+          if (id.includes('framer-motion') || id.includes('gsap')) {
+            return 'animations';
+          }
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react';
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
       },
     },
