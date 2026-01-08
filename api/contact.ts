@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 import { z } from 'zod';
 // Define simple types for Vercel API routes
 interface VercelRequest {
@@ -255,7 +255,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    console.error('❌ Contact form error:', error);
+    console.error('❌ Contact form error:', typeof error === 'object' && error !== null ? (error as Error).message || error : error);
     
     // Check if the error is related to email configuration
     if (typeof error === 'object' && error !== null && 'code' in error && ((error as { code: string }).code === 'EAUTH' || (error as { code: string }).code === 'EENVELOPE')) {
