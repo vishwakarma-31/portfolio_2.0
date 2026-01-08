@@ -103,7 +103,7 @@ export default function ContactForm({ apiUrl = '/api/contact' }: ContactFormProp
 
     try {
       // Send to our backend API with timeout
-      const controller = new (window as any).AbortController();
+      const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
       
       const response = await window.fetch(apiUrl, {

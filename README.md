@@ -4,11 +4,11 @@
 
 <div align="center">
 
-![Portfolio Preview](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react)
-![Vite](https://img.shields.io/badge/Vite-7.1.5-646CFF?style=for-the-badge&logo=vite)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-3178C6?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.3-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.0.0-0055FF?style=for-the-badge&logo=framer)
+![Portfolio Preview](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?style=for-the-badge&logo=vite)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-3178C6?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.18-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.23.24-0055FF?style=for-the-badge&logo=framer)
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-000000?style=for-the-badge&logo=vercel)](https://vishwakarma-31-portfolio.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
@@ -151,20 +151,15 @@ portfolio_2.0/
 ├── public/                 # Static assets
 ├── src/
 │   ├── components/         # Reusable UI components
-│   ├── context/            # React context providers
+│   ├── config/             # App/site constants and URLs
 │   ├── data/               # Static data files
-│   ├── di/                 # Dependency injection container
-│   ├── domain/             # Domain entities and services
 │   ├── hooks/              # Custom React hooks
 │   ├── pages/              # Page components
-│   ├── repositories/       # Data access layer
-│   ├── services/           # Business logic services
-│   ├── stores/             # State management (Zustand)
 │   ├── types/              # TypeScript types
 │   ├── utils/              # Utility functions
 │   ├── App.tsx             # Main application component
 │   └── main.tsx            # Application entry point
-├── server.js               # Backend server
+├── server.ts               # Backend server
 ├── vite.config.js          # Vite configuration
 ├── tailwind.config.js      # Tailwind CSS configuration
 ├── tsconfig.json           # TypeScript configuration

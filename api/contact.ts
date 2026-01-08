@@ -17,10 +17,7 @@ function escapeHtml(text: string): string {
 
 // Utility function to safely access environment variables
 const getEnvVar = (name: string, defaultValue?: string): string | undefined => {
-  // Using typeof to avoid eslint errors
-  // eslint-disable-next-line no-undef
   if (typeof process !== 'undefined' && process.env && process.env[name]) {
-    // eslint-disable-next-line no-undef
     return process.env[name];
   }
   return defaultValue;
@@ -28,9 +25,7 @@ const getEnvVar = (name: string, defaultValue?: string): string | undefined => {
 
 // Utility function to safely access environment variables as boolean
 const getEnvVarAsBool = (name: string, defaultValue: boolean = false): boolean => {
-  // eslint-disable-next-line no-undef
   if (typeof process !== 'undefined' && process.env && process.env[name]) {
-    // eslint-disable-next-line no-undef
     return process.env[name]?.toLowerCase() === 'true';
   }
   return defaultValue;
@@ -38,9 +33,7 @@ const getEnvVarAsBool = (name: string, defaultValue: boolean = false): boolean =
 
 // Utility function to safely access environment variables as number
 const getEnvVarAsNumber = (name: string, defaultValue: number): number => {
-  // eslint-disable-next-line no-undef
   if (typeof process !== 'undefined' && process.env && process.env[name]) {
-    // eslint-disable-next-line no-undef
     const value = process.env[name];
     return value ? parseInt(value, 10) : defaultValue;
   }
@@ -202,7 +195,7 @@ export default async function handler(req: Request, res: Response) {
             
             <div style="background: #f1f8ff; padding: 15px; margin: 20px 0; border-radius: 4px; border-left: 4px solid #007bff;">
               <p><strong>Your message:</strong></p>
-              <p style="font-style: italic; margin: 10px 0;">"${escapeHtml(message).replace(/\n/g, '<br>')}">"</p>
+              <p style="font-style: italic; margin: 10px 0;">"${escapeHtml(message).replace(/\n/g, '<br>')}"</p>
             </div>
             
             <p>In the meantime, feel free to check out my <a href="${getEnvVar('PORTFOLIO_URL', 'https://vishwakarma-31-portfolio.vercel.app')}" style="color: #007bff; text-decoration: none;">portfolio</a> or connect with me on <a href="${getEnvVar('LINKEDIN_URL', 'https://linkedin.com')}" style="color: #007bff; text-decoration: none;">LinkedIn</a>.</p>

@@ -5,7 +5,7 @@ export const projects: Project[] = [
     id: 'cropify-ml',
     name: 'Cropify',
     title: 'AI-Powered Crop Recommendation System',
-    description: 'Developed an intelligent crop recommendation system that suggests optimal crops based on soil conditions, climate data, and environmental factors.',
+    description: 'AI-powered crop recommendation system using machine learning to analyze soil conditions, climate data, and environmental factors for optimal crop selection.',
     longDescription: 'Cropify leverages machine learning algorithms to analyze multiple agricultural parameters including soil type, pH levels, temperature, humidity, and rainfall patterns to provide farmers with data-driven crop recommendations. The system uses ensemble learning techniques combining Random Forest, SVM, and Neural Networks to achieve high prediction accuracy.',
     image: '/projects/Cropify.png',
     images: ['/projects/Cropify.png'],
@@ -17,8 +17,8 @@ export const projects: Project[] = [
     status: 'completed',
     timeline: '2024-03-31',
     technologies: {
-      frontend: ['React', 'Next.js', 'Tailwind CSS', 'Chart.js'],
-      backend: ['Python', 'Flask', 'FastAPI'],
+      frontend: ['Streamlit', 'HTML/CSS', 'Python'],
+      backend: ['Python', 'FastAPI'],
       database: ['MongoDB', 'PostgreSQL'],
       tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Jupyter', 'Docker']
     },
@@ -52,145 +52,145 @@ export const projects: Project[] = [
     id: 'trading-bot',
     name: 'Telegram Trading Bot',
     title: 'Generic Trading Bot',
-    description: 'A comprehensive trading bot system with real-time market analysis, automated trading, and administrative dashboard.',
-    longDescription: 'Built a complete trading bot system featuring real-time market analysis, automated trading, and comprehensive admin controls. The platform handles concurrent trades, prevents double-trading, and provides real-time updates.',
+    description: 'Automated trading bot integrated with Telegram for real-time market analysis, signal alerts, and trade execution management.',
+    longDescription: 'A robust trading automation tool that interfaces with financial APIs to monitor market trends. It sends real-time buy/sell signals via Telegram and features an administrative dashboard for configuring strategies, setting stop-losses, and monitoring portfolio performance.',
     image: '/projects/Trading_Bot.png',
     images: ['/projects/Trading_Bot.png'],
     github: 'https://github.com/vishwakarma-31/trading_bot',
     link: 'https://vishwakarma-31-trading-bot-uitrading-bot-ui-fyerl5.streamlit.app/',
-    tags: ['Next.js', 'React', 'Node.js', 'MongoDB', 'Stripe', 'Socket.io'],
+    tags: ['Python', 'Telethon', 'Algorithmic Trading', 'API Integration', 'Streamlit'],
     category: 'fullstack',
     featured: true,
     status: 'completed',
     timeline: '2024-07-31',
     technologies: {
-      frontend: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-      backend: ['Node.js', 'Express.js', 'Socket.io', 'JWT'],
+      frontend: ['Streamlit', 'Python', 'Plotly'],
+      backend: ['Python', 'Telethon', 'CCXT', 'FastAPI'],
       database: ['MongoDB', 'Redis'],
-      tools: ['Stripe API', 'Cloudinary', 'Vercel', 'Docker']
+      tools: ['Docker', 'Pandas', 'NumPy', 'Git', 'Telegram API']
     },
     features: [
-      'Real-time seat selection',
-      'Secure payment processing',
-      'User authentication & profiles',
-      'Admin dashboard',
-      'Movie & showtime management',
-      'Booking history & tickets',
-      'Email notifications',
-      'Mobile-responsive design'
+      'Real-time market data monitoring',
+      'Automated Buy/Sell execution',
+      'Telegram alerts and command interface',
+      'Strategy configuration dashboard',
+      'Portfolio performance tracking',
+      'Risk management (Stop-loss/Take-profit)'
     ],
     challenges: [
-      'Preventing concurrent booking conflicts',
-      'Real-time seat status updates',
-      'Payment security implementation',
-      'Complex state management',
-      'Database optimization for high traffic'
+      'Managing API rate limits and latency',
+      'Handling websocket disconnections',
+      'Ensuring atomic transactions',
+      'Securely managing API keys',
+      'Backtesting strategies against historical data'
     ],
     learnings: [
-      'Real-time application architecture',
-      'Payment gateway integration',
-      'Database transaction handling',
-      'WebSocket implementation',
-      'Production deployment strategies'
+      'Asynchronous programming with Python',
+      'Financial market mechanics and APIs',
+      'Telegram Bot API development',
+      'State management in real-time systems',
+      'Error handling in critical financial applications'
     ],
     metrics: {
-      users: '1000+ registered users',
+      users: 'Active traders',
       performance: '99.9% uptime',
-      accuracy: '100% booking accuracy'
+      accuracy: '< 100ms execution latency'
     }
   },
   {
     id: 'ai-interview',
     name: 'AI Interview',
     title: 'AI-Based Interview System',
-    description: 'Machine learning system designed to enhance interview efficiency by automating the evaluation of candidates using advanced natural language processing techniques.',
-    longDescription: 'Developed an intelligent interview system that evaluates candidates using natural language processing techniques to automate the interview process and provide objective assessments.',
+    description: 'Intelligent interview platform that automates candidate screening using NLP for verbal analysis and Computer Vision for proctoring.',
+    longDescription: 'An automated interview system designed to streamline the hiring process. It poses dynamic technical questions, transcribes responses in real-time, analyzes candidate sentiment and confidence via computer vision, and generates a comprehensive performance report for recruiters.',
     image: '/projects/AI_Interview.png',
     images: ['/projects/AI_InterviewN.png'],
     github: 'https://github.com/vishwakarma-31/AI-interview',
     link: 'https://ai-interview-kappa-one.vercel.app/',
-    tags: ['Machine Learning', 'Computer Vision', 'Python', 'OpenCV', 'Security'],
+    tags: ['Machine Learning', 'NLP', 'Computer Vision', 'OpenAI API', 'React'],
     category: 'ml',
     featured: true,
     status: 'completed',
     timeline: '2024-09-30',
     technologies: {
-      frontend: ['Streamlit', 'React', 'HTML/CSS'],
-      backend: ['Python', 'Flask', 'FastAPI'],
-      database: ['SQLite', 'PostgreSQL'],
-      tools: ['OpenCV', 'TensorFlow', 'Keras', 'Scikit-learn', 'PIL']
+      frontend: ['React', 'Tailwind CSS', 'MediaRecorder API'],
+      backend: ['Python', 'Flask', 'OpenAI API'],
+      database: ['PostgreSQL', 'Firebase'],
+      tools: ['OpenCV', 'Whisper AI', 'NLTK', 'Scikit-learn', 'Docker']
     },
     features: [
-      'Real-time fingerprint analysis',
-      'Multiple detection algorithms',
-      'Texture feature extraction',
-      'Deep learning classification',
-      'Security report generation',
-      'Batch processing capability'
+      'Speech-to-Text transcription',
+      'AI-driven question generation',
+      'Facial emotion/confidence analysis',
+      'Code editor for technical rounds',
+      'Automated scoring and feedback',
+      'Anti-cheating proctoring (gaze tracking)'
     ],
     challenges: [
-      'Handling various fingerprint qualities',
-      'Balancing false positive/negative rates',
-      'Real-time processing optimization',
-      'Training data collection and preparation'
+      'Minimizing audio transcription latency',
+      'Detecting subtle cheating behaviors',
+      'Prompt engineering for relevant questions',
+      'Handling diverse accents and video quality'
     ],
     learnings: [
-      'Advanced computer vision techniques',
-      'Biometric security principles',
-      'Deep learning for image classification',
-      'Security system integration'
+      'Integration of LLMs in production',
+      'Real-time audio/video processing',
+      'Prompt engineering strategies',
+      'Natural Language Understanding (NLU)',
+      'Building scalable assessment pipelines'
     ],
     metrics: {
-      accuracy: '96.8%',
-      performance: '< 1s processing time',
-      users: '200+ security tests conducted'
+      accuracy: '95% transcription accuracy',
+      performance: 'Real-time feedback generation',
+      users: '200+ mock interviews conducted'
     }
   },
   {
     id: 'jarvis',
     name: 'Jarvis',
     title: 'Personal Chat Bot - Jarvis',
-    description: 'A cutting-edge portfolio showcasing advanced web development skills, 3D graphics, animations, and modern web technologies. Built with React Three Fiber, GSAP, and modern React patterns.',
-    longDescription: 'Built a sophisticated portfolio showcasing advanced web development skills using React Three Fiber for 3D graphics, GSAP for animations, and modern React patterns. Features interactive 3D backgrounds, particle systems, and responsive design.',
+    description: 'A sophisticated AI virtual assistant capable of natural conversation, task automation, and system control, accessed via a modern web interface.',
+    longDescription: 'Jarvis is a personalized AI assistant built to handle daily tasks and queries. It utilizes Large Language Models to understand context and intent, wrapped in a futuristic web interface featuring 3D visualizations. It can manage schedules, answer complex queries, and simulate a human-like conversational partner.',
     image: '/projects/Jarvis.png',
     images: ['/projects/Jarvis.png'],
     github: 'https://github.com/vishwakarma-31/jarvis-ultimate',
     // link: 'https://vishwakarma-31-jarvis-ultimate.vercel.app',
-    tags: ['React', 'Three.js', 'GSAP', 'TypeScript', 'Tailwind'],
+    tags: ['React', 'GenAI', 'Three.js', 'Speech Recognition', 'Python'],
     category: 'web',
     featured: true,
     status: 'completed',
     timeline: '2024-08-31',
     technologies: {
-      frontend: ['React 18', 'Three.js', 'React Three Fiber', 'GSAP', 'Framer Motion'],
-      backend: ['Node.js', 'Express.js', 'Nodemailer'],
-      database: ['Local Storage'],
-      tools: ['Vite', 'Tailwind CSS', 'TypeScript', 'ESLint']
+      frontend: ['React 18', 'Three.js', 'React Three Fiber', 'Web Speech API'],
+      backend: ['Node.js', 'Express.js', 'OpenAI/Gemini API'],
+      database: ['MongoDB', 'Local Storage'],
+      tools: ['Vite', 'Tailwind CSS', 'LangChain', 'Socket.io']
     },
     features: [
-      'Interactive 3D backgrounds',
-      'Advanced particle systems',
-      'Smooth page transitions',
-      'Responsive design',
-      'Contact form integration',
-      'Performance optimization'
+      'Voice-activated commands',
+      'Interactive 3D avatar/interface',
+      'Context-aware conversational memory',
+      'Text-to-Speech synthesis',
+      'Integration with external APIs (Weather, News)',
+      'Customizable personality settings'
     ],
     challenges: [
-      '3D performance optimization',
-      'Mobile device compatibility',
-      'Complex animation coordination',
-      'Cross-browser compatibility'
+      'Reducing voice-to-response latency',
+      'Maintaining long-term conversation context',
+      'Synchronizing 3D animations with speech',
+      'Handling API rate limits and costs'
     ],
     learnings: [
-      '3D web graphics with Three.js',
-      'Advanced animation techniques',
-      'Performance optimization strategies',
-      'Modern React patterns'
+      'LLM integration and fine-tuning',
+      'Web Speech API implementation',
+      '3D web graphics optimization',
+      'WebSocket communication for streams',
+      'Designing conversational UIs'
     ],
     metrics: {
-      performance: '95+ Lighthouse score',
-      users: 'Portfolio visitors',
-      accuracy: '100% responsive design'
+      performance: '< 1.5s voice response time',
+      users: 'Personal use & Portfolio demo',
+      accuracy: '98% intent recognition'
     }
   }
 ];

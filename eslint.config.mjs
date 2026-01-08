@@ -15,6 +15,7 @@ export default [
         // Browser globals
         window: 'readonly',
         document: 'readonly',
+        navigator: 'readonly',
         console: 'readonly',
         localStorage: 'readonly',
         sessionStorage: 'readonly',
@@ -24,6 +25,7 @@ export default [
         clearInterval: 'readonly',
         requestAnimationFrame: 'readonly',
         cancelAnimationFrame: 'readonly',
+        AbortController: 'readonly',
         IntersectionObserver: 'readonly',
         HTMLElement: 'readonly',
         HTMLDivElement: 'readonly',
@@ -67,7 +69,7 @@ export default [
     }
   },
   {
-    files: ['server.js', 'api/**/*.js'],
+    files: ['server.ts', 'api/**/*.{js,ts}'],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',

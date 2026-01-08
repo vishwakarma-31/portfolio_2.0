@@ -19,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({
     { name: 'Education', path: '/education' },
     { name: 'Contact', path: '/contact' },
   ],
-  brandName = ' '
+  brandName = 'Aryan Vishwakarma'
 }) => {
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)

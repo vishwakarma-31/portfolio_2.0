@@ -12,6 +12,7 @@ const Skills = React.lazy(() => import('./pages/Skills'))
 const Experience = React.lazy(() => import('./pages/Experience'))
 const Certifications = React.lazy(() => import('./pages/Certifications'))
 const Projects = React.lazy(() => import('./pages/Projects'))
+const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail'))
 const Contact = React.lazy(() => import('./pages/Contact'))
 const Education = React.lazy(() => import('./pages/Education'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
@@ -33,6 +34,7 @@ const AppContent: React.FC = () => {
                 <Route path="/experience" element={<Experience />} />
                 <Route path="/certifications" element={<Certifications />} />
                 <Route path="/projects" element={<Projects />} />
+                <Route path="/project/:projectId" element={<ProjectDetail />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/education" element={<Education />} />
                 <Route path="/" element={<Home />} />

@@ -9,12 +9,10 @@ dotenv.config();
 const app = express();
 
 // Get port from environment variables with safe defaults
-// eslint-disable-next-line no-undef
 const PORT = typeof process !== 'undefined' && process.env && process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
 // Configure CORS with restricted origins
-// eslint-disable-next-line no-undef
-const allowedOrigin = (typeof process !== 'undefined' && process.env && process.env.VITE_SITE_URL) || (typeof process !== 'undefined' && process.env && process.env.FRONTEND_URL) || 'http://localhost:3001';
+const allowedOrigin = (typeof process !== 'undefined' && process.env && process.env.VITE_SITE_URL) || (typeof process !== 'undefined' && process.env && process.env.FRONTEND_URL) || 'http://localhost:5173';
 const corsOptions = {
   origin: allowedOrigin,
   credentials: true,
@@ -26,7 +24,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Import contact handler
-import contactHandler from './api/contact.js';
+import contactHandler from './api/contact';
 
 // API routes
 app.post('/api/contact', contactHandler);

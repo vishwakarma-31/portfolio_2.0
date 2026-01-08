@@ -7,10 +7,12 @@
     "dev": "vite --port 3000",
     "dev:api": "ts-node --esm server.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:api\"",
+    "dev:full": "npm run dev:all",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite preview",
+    "server": "npm run dev:api",
     "test:run": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
