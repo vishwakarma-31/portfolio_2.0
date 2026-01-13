@@ -6,7 +6,7 @@ export const personalInfo = {
   email: "work.aaryannn@gmail.com",
   github: SOCIAL_LINKS.github,
   linkedin: SOCIAL_LINKS.linkedin,
-  bio: "Passionate Full Stack Developer specializing in React, Node.js, and modern web technologies. Explore my projects in machine learning, web development, and innovative solutions.",
+  bio: "Full-Stack Engineer (React, TypeScript & Python) | Building Scalable Web Systems, Automation & AI Solutions",
   location: "Kanpur, Uttar Pradesh, India",
   availability: "Available for full-time positions"
 };

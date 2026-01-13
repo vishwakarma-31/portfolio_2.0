@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { personalInfo } from '../data/personal'
+import { aboutMe } from '../data/about'
 import { SOCIAL_LINKS } from '../config/constants'
 
 import { Github, ExternalLink, Code, Database, Zap, Star, Download } from 'lucide-react'
@@ -12,15 +13,10 @@ const Home = () => {
   const profileData = {
     name: personalInfo.name,
     title: personalInfo.title,
-    description: personalInfo.bio, // Map bio to description
-    about: personalInfo.bio, // Use bio for about as well
-    skills: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Git', 'GitHub', 'Docker', 'AWS', 'GraphQL', 'REST', 'HTML', 'CSS', 'Sass', 'Tailwind CSS', 'Bootstrap', 'Python', 'Java'],
-    stats: [
-      { number: '2+', label: 'Years Coding', icon: 'code' },
-      { number: '10+', label: 'Projects Built', icon: 'database' },
-      { number: '15+', label: 'Technologies', icon: 'zap' },
-      { number: '100%', label: 'Passion', icon: 'star' }
-    ]
+    description: personalInfo.bio, // Map bio to description (tagline under name)
+    about: aboutMe.detailedDescription, // Use about me description
+    skills: aboutMe.skills,
+    stats: aboutMe.stats
   }
 
   useEffect(() => {
@@ -131,7 +127,7 @@ const Home = () => {
             {/* About Content */}
             <div className="space-y-6">
               <div className="border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-black/40 backdrop-blur-md rounded-xl p-8">
-                <h3 className="text-2xl font-bold mb-4 text-gradient">Hello, I&apos;m Aryan!</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gradient">{aboutMe.introduction}</h3>
                 <p className="text-lg leading-relaxed mb-6 text-gray-300">
                   {profileData.about}
                 </p>
