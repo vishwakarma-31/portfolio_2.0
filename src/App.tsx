@@ -21,7 +21,9 @@ const AppContent: React.FC = () => {
   return (
       <div className="space-theme relative min-h-screen overflow-hidden bg-black text-white select-none">
           {/* Interactive starfield background (site-wide) - Persistent during transitions */}
-          <ThreeBackground />
+          <Suspense fallback={<div className="fixed inset-0 bg-black w-full h-full" /> /* Silent fallback for 3D background */}>
+            <ThreeBackground />
+          </Suspense>
 
           {/* Navigation - Layer 50 */}
           <Navbar />
