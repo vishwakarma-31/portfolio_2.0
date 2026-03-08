@@ -31,7 +31,7 @@ const Skills = () => {
       color: 'text-green-400',
       bgColor: 'from-green-500/20 to-emerald-500/20',
       summary: 'Building secure, scalable services with clean architecture and well-tested APIs.',
-      coreSkills: ['Node.js', 'Express.js', 'REST APIs', 'GraphQL', 'Authentication'],
+      coreSkills: ['Node.js', 'Express.js', 'REST APIs', 'Authentication'],
       toolkit: ['WebSockets', 'Microservices', 'Rate Limiting', 'Background Jobs', 'API Documentation']
     },
     {
@@ -40,7 +40,7 @@ const Skills = () => {
       color: 'text-purple-400',
       bgColor: 'from-purple-500/20 to-pink-500/20',
       summary: 'Designing data models that balance performance, integrity, and developer ergonomics.',
-      coreSkills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Data Modeling'],
+      coreSkills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis'],
       toolkit: ['Aggregation Pipelines', 'Prisma', 'Mongoose', 'ORM Optimization', 'DB Monitoring']
     },
     {
@@ -49,7 +49,7 @@ const Skills = () => {
       color: 'text-orange-400',
       bgColor: 'from-orange-500/20 to-red-500/20',
       summary: 'Owning the full lifecycle from deployment pipelines to observability and performance tuning.',
-      coreSkills: ['AWS', 'Vercel', 'Railway', 'CI/CD Pipelines', 'Performance Optimization'],
+      coreSkills: ['AWS', 'Vercel', 'Railway', 'CI/CD Pipelines'],
       toolkit: ['Docker', 'Nginx', 'Monitoring', 'Infrastructure as Code', 'Security Hardening']
     },
   ]
