@@ -5,7 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
-import 'reflect-metadata'
+
 import { validateEnv } from './utils/validateEnv'
 import { logger } from './utils/logger'
 

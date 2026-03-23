@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { personalInfo } from '../data/personal'
 import { aboutMe } from '../data/about'
@@ -19,18 +19,15 @@ const Home = () => {
     stats: aboutMe.stats
   }
 
-  useEffect(() => {
-    // Clean up any existing floating icon animations
-    return () => {
-      // Clear any existing animations
-    }
-  }, [])
+
 
   return (
     <main ref={containerRef} className="min-h-screen pt-16 pb-16 overflow-hidden relative z-10">
       <Helmet>
         <title>Aryan Vishwakarma - Full Stack Developer Portfolio</title>
         <meta name="description" content="Passionate Full Stack Developer specializing in React, Node.js, and modern web technologies. Explore my projects in machine learning, web development, and innovative solutions." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/" />
+        <meta property="og:url" content="https://vishwakarma-31-portfolio.vercel.app/" />
       </Helmet>
       
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -134,7 +131,7 @@ const Home = () => {
                 
                 {/* Skills highlights */}
                 <div className="flex flex-wrap gap-3 mb-6">
-                  {profileData.skills.map((skill, _index) => (
+                  {profileData.skills.map((skill) => (
                     <span
                       key={skill}
                       className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full text-sm font-medium border border-cyan-400/30"
@@ -160,7 +157,7 @@ const Home = () => {
 
           {/* Stats Section with glowing border effect */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
-            {profileData.stats.map((stat, _index) => {
+            {profileData.stats.map((stat) => {
               const IconComponent = stat.icon === 'code' ? Code : 
                                   stat.icon === 'database' ? Database : 
                                   stat.icon === 'zap' ? Zap : Star

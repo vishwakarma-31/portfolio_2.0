@@ -18,7 +18,7 @@ export const useProjectsStore = create<ProjectsState>()((set, get) => ({
   isLoading: false,
   error: null,
   
-  fetchProjects: async () => {
+  fetchProjects: () => {
     set({ isLoading: true, error: null })
     try {
       const featured = projects.filter(p => p.featured)

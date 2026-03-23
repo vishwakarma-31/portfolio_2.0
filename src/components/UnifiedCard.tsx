@@ -26,7 +26,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   const baseClasses = `
     border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-black/40 backdrop-blur-md rounded-xl
     transition-all duration-300 ease-out
-    cursor-pointer group
+    cursor-pointer group relative
     card-theme-dark
     ${hoverEffects ? 'hover:-translate-y-1' : ''}
     ${animationClass}

@@ -6,10 +6,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 const Projects = () => {
-  const { ref: containerRef } = useScrollReveal({
-    threshold: 0.1,
-    once: true
-  });
+  const { ref: containerRef } = useScrollReveal();
 
   // Directly map and filter projects without fake loading
   const projectData = React.useMemo(() => {
@@ -36,6 +33,8 @@ const Projects = () => {
       <Helmet>
         <title>Projects - Aryan Vishwakarma</title>
         <meta name="description" content="Explore my portfolio of projects showcasing expertise in React, Node.js, Machine Learning, and modern web technologies." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/projects" />
+        <meta property="og:url" content="https://vishwakarma-31-portfolio.vercel.app/projects" />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div

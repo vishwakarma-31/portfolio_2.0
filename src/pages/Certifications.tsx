@@ -5,16 +5,14 @@ import { Helmet } from 'react-helmet-async'
 import { certifications } from '../data/certification'
 
 const Certifications = () => {
-  const { ref: containerRef } = useScrollReveal({
-    threshold: 0.1,
-    once: true
-  })
+  const { ref: containerRef } = useScrollReveal()
 
   return (
     <main className="min-h-screen relative overflow-hidden pt-24 pb-16 relative z-10 text-slate-100">
       <Helmet>
         <title>Certifications - Aryan Vishwakarma</title>
         <meta name="description" content="Professional certifications and achievements in technology and development. AWS, JavaScript, HTML5, AI, and Oracle Cloud certifications." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/certifications" />
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}

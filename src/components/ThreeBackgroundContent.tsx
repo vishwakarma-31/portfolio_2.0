@@ -237,7 +237,7 @@ export default function ThreeBackgroundContent({ starCount = STARFIELD_CONFIG.DE
     
     // Additional performance check based on device memory (with type safety)
      
-    const isLowMemory = 'deviceMemory' in window.navigator && window.navigator.deviceMemory && (window.navigator.deviceMemory as number) < 4
+    const isLowMemory = 'deviceMemory' in window.navigator && (window.navigator as any).deviceMemory < 4
     
     if (isLowEnd || isLowMemory) {
       setPerformanceMode('low')

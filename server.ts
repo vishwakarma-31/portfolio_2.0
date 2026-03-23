@@ -27,7 +27,7 @@ app.use(express.json());
 import contactHandler from './api/contact';
 
 // API routes
-app.post('/api/contact', contactHandler);
+app.post('/api/contact', (req, res) => contactHandler(req as any, res as any));
 
 // Handle preflight requests
 app.options('/api/contact', cors(corsOptions));

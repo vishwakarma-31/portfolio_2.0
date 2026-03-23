@@ -6,7 +6,6 @@ const DYNAMIC_CACHE_NAME = `portfolio-dynamic-${CACHE_VERSION}`
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/models/robot.splinecode',
   '/manifest.json',
   '/robots.txt',
   '/sitemap.xml'

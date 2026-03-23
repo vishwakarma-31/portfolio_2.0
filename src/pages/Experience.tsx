@@ -4,10 +4,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Helmet } from 'react-helmet-async'
 
 const Experience = () => {
-  const { ref: containerRef } = useScrollReveal({
-    threshold: 0.1,
-    once: true
-  });
+  const { ref: containerRef } = useScrollReveal();
 
   const experiences = [
     {
@@ -48,6 +45,7 @@ const Experience = () => {
       <Helmet>
         <title>Experience - Aryan Vishwakarma</title>
         <meta name="description" content="Professional work experience and projects. React Developer Intern at AIGETAI and Data Analytics experience at Deloitte." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/experience" />
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}

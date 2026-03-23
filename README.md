@@ -1,22 +1,20 @@
-# 🚀 **Interactive Developer Portfolio**
-
-**Last Updated: October 14, 2025**
+# 🚀 **Aryan Vishwakarma — Interactive Developer Portfolio**
 
 <div align="center">
 
-![Portfolio Preview](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)
-![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?style=for-the-badge&logo=vite)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-3178C6?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.18-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.23.24-0055FF?style=for-the-badge&logo=framer)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-Black?style=for-the-badge&logo=three.js&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-000000?style=for-the-badge&logo=vercel)](https://vishwakarma-31-portfolio.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
 
-*A modern, interactive developer portfolio with 3D graphics, smooth animations, and full-stack capabilities.*
+*A modern, interactive developer portfolio showcasing 3D graphics, seamless scroll animations, and full-stack capabilities.*
 
-[🎬 View Live Demo](https://vishwakarma-31-portfolio.vercel.app/) • [📖 Documentation](#-documentation) • [🚀 Quick Start](#-getting-started)
+[🎮 View Live Demo](https://vishwakarma-31-portfolio.vercel.app/) • [📖 Features](#-features) • [🚀 Quick Start](#-getting-started)
 
 </div>
 
@@ -25,64 +23,40 @@
 ## 🌟 Features
 
 ### 🎨 Frontend Excellence
-- **Interactive 3D Elements**: Three.js powered starfield background with cursor-reactive physics
-- **Smooth Animations**: Framer Motion and GSAP for fluid page transitions and micro-interactions
-- **3D Character**: Spline 3D avatar with optimized lazy loading
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Modern UI**: Glassmorphism design with dark theme aesthetics
-- **Performance Optimized**: Code splitting, lazy loading, and bundle optimization
+- **Interactive 3D Elements**: Custom Three.js powered starfield background with cursor-reactive physics and smooth parallax.
+- **Fluid Animations**: Scroll-linked animations and micro-interactions powered by Framer Motion and GSAP.
+- **Glassmorphism UI**: Modern aesthetic utilizing backdrop-filters, dark themes, and dynamic neon glows.
+- **Performance Optimized**: Highly optimized asset delivery, code splitting, and fully responsive across all devices.
 
-### 🛠️ Full-Stack Capabilities
-- **Contact Form**: Secure email service with Nodemailer
-- **Rate Limiting**: Express-rate-limit for API protection
-- **Security**: Helmet.js, CORS protection, and input validation
-- **Environment Management**: Dotenv for secure configuration
+### 🛠️ Backend Integration
+- **Serverless-Ready API**: Express.js endpoints configured for contact form submissions.
+- **Secure Emailing**: Integrated NodeMailer for safe cross-origin communication.
+- **Security Layers**: Uses Helmet.js, rate limiting, and standard CORS protection to secure API routes.
 
-### 🚀 Developer Experience
-- **Vite Powered**: Lightning-fast development and build times
-- **TypeScript**: Type-safe development experience
-- **ESLint & Prettier**: Code quality and formatting standards
-- **Modular Architecture**: Clean, maintainable code structure
+### ⚙️ Developer Experience
+- **Vite Build System**: Lightning-fast Hot Module Replacement (HMR) and optimized production bundles.
+- **Strict TypeScript**: End-to-end type safety protecting data integrity.
+- **SEO Ready**: Configured `canonical` links, `robots.txt`, XML sitemaps, and detailed `application/ld+json` schema for maximum search-ability.
 
-## 🚀 Live Demo
+## 🛠️ Tech Stack
 
-🔗 **[View Live Portfolio](https://vishwakarma-31-portfolio.vercel.app/)**
+**Frontend:**
+- React 18
+- TypeScript
+- Tailwind CSS
+- Three.js / React Three Fiber
+- Framer Motion / GSAP
 
-## 🏗️ Project Status
-
-**Current Version:** 2.0.0  
-**Last Updated:** October 14, 2025  
-**Status:** ✅ Production Ready
-
-## 📦 Tech Stack
-
-### Frontend
-- **React 18** - Component-based UI library
-- **TypeScript** - Type-safe JavaScript
-- **Vite** - Next-generation frontend tooling
-- **Tailwind CSS** - Utility-first CSS framework
-- **Three.js** - 3D graphics library
-- **React Three Fiber** - React renderer for Three.js
-- **Framer Motion** - Production-ready motion library
-- **GSAP** - Professional-grade animation library
-- **Spline** - 3D design and animation tool
-
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web application framework
-- **Nodemailer** - Email sending library
-- **Dotenv** - Environment variable management
-
-### Development Tools
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
-- **Concurrently** - Run multiple commands simultaneously
+**Backend:**
+- Node.js / Express.js
+- Nodemailer
+- Vite (Dev Server & Build Pipeline)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- `npm` package manager
 
 ### Installation
 
@@ -101,144 +75,71 @@
    ```bash
    cp .env.example .env
    ```
-   Edit the `.env` file with your configuration:
-   ```env
-   # Email Configuration (for contact form)
-   EMAIL_USER=your-email@gmail.com
-   EMAIL_PASS=your_16_character_app_password
-   RECIPIENT_EMAIL=your-email@gmail.com
+   *Edit the `.env` file with your credentials (SMTP configurations, ports, etc.).*
 
-   # Frontend URL (for CORS)
-   FRONTEND_URL=http://localhost:5173
-
-   # Server Port
-   PORT=3001
-
-   # Vite Environment Variables
-   VITE_API_URL=http://localhost:3001
-   ```
-
-4. **Start the development server**
+4. **Start the development servers**
    ```bash
-   # Start frontend only
-   npm run dev
-   
-   # Start both frontend and backend
-   npm run dev:full
+   # Starts both the React frontend and Express backend concurrently
+   npm run dev:all
    ```
 
 ### Available Scripts
 
-```bash
-# Development
-npm run dev          # Start frontend development server
-npm run dev:full     # Start both frontend and backend servers
-npm run server       # Start backend server only
-
-# Production
-npm run build        # Build for production
-npm run preview      # Preview production build locally
-
-# Code Quality
-npm run lint         # Run ESLint
-npm run test:run     # Run tests (placeholder)
-```
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Starts only the Vite frontend server. |
+| `npm run dev:api` | Starts only the Node.js Express internal backend. |
+| `npm run dev:all` | Runs both frontend and backend concurrently. |
+| `npm run build` | Compiles TypeScript and creates an optimized production bundle. |
+| `npm run preview` | Serves the built production bundle locally. |
 
 ## 📁 Project Structure
 
-```
+```text
 portfolio_2.0/
-├── public/                 # Static assets
+├── public/                 # Static assets, sitemap, robots.txt, SW
 ├── src/
-│   ├── components/         # Reusable UI components
-│   ├── config/             # App/site constants and URLs
-│   ├── data/               # Static data files
-│   ├── hooks/              # Custom React hooks
-│   ├── pages/              # Page components
-│   ├── types/              # TypeScript types
-│   ├── utils/              # Utility functions
-│   ├── App.tsx             # Main application component
-│   └── main.tsx            # Application entry point
-├── server.ts               # Backend server
-├── vite.config.js          # Vite configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-├── tsconfig.json           # TypeScript configuration
-└── package.json            # Project dependencies and scripts
+│   ├── components/         # Reusable UI components (Cards, Forms, etc.)
+│   ├── data/               # Static site data (Projects, Skills, Experience)
+│   ├── hooks/              # Custom React animation and utility hooks
+│   ├── pages/              # Main routing pages (Home, Projects, etc.)
+│   ├── types/              # Global TypeScript interfaces
+│   ├── utils/              # Helper functions and environment validators
+│   ├── App.tsx             # Application router
+│   └── main.tsx            # React DOM entry point
+├── server.ts               # Express backend application
+├── vite.config.js          # Vite configuration & chunking
+└── tailwind.config.js      # Tailwind CSS theme configuration
 ```
 
-## 🎯 Key Components
+## 🔒 Security Posture
 
-### 3D Interactive Background
-The portfolio features a dynamic 3D starfield background powered by Three.js and React Three Fiber. Stars react to cursor movement with gravitational physics, creating an immersive experience.
-
-### Spline 3D Character
-A 3D avatar created with Spline and integrated using `@splinetool/react-spline`. The character is optimized with lazy loading to prevent blocking the main thread.
-
-### Magnetic Buttons
-Interactive buttons that follow cursor movement for enhanced user engagement.
-
-### Page Transitions
-Smooth, animated transitions between pages using Framer Motion.
-
-### Contact Form
-Secure contact form with email notifications and auto-replies, protected by rate limiting and input validation.
-
-## 🔐 Security
-
-This project implements:
-- Input validation & sanitization with express-validator
-- Rate limiting (5 requests/15min) with express-rate-limit
-- CORS protection with origin whitelisting
-- Helmet.js security headers
-- Content Security Policy (CSP)
-- Environment variable validation
-- XSS prevention with input escaping
+This repository follows standard web security practices:
+- Input validation & escaping via `express-validator`.
+- Request rate limiting (`express-rate-limit`) preventing API abuse.
+- Security header injection via `helmet`.
+- Restrictive CORS bridging protecting `.env` variables from unauthorized domains.
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+The portfolio is optimally configured for zero-config deployments using **Vercel**. 
 
-### Manual Deployment
-```bash
-# Build for production
-npm run build
+1. Connect your GitHub repository to [Vercel](https://vercel.com/).
+2. Load your environment variables into the Vercel project settings.
+3. Deploy! Vercel automatically maps `server.ts` routes via its serverless function compatibility.
 
-# Serve production build
-npm run preview
-```
+*(Manual deployment is fully supported via standard `npm run build` and serving the `./dist` folder).*
 
-## 📈 Performance
-
-- **Lighthouse Score**: 95+ on all metrics
-- **Bundle Optimization**: Code splitting and lazy loading
-- **3D Performance**: Optimized particle systems and animations
-- **Mobile Responsive**: Works on all device sizes
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 📈 Performance & SEO
+- **Lighthouse**: 95+ performance across Best Practices, Accessibility, and SEO.
+- **Search-Engine Indexed**: Embedded `Person` JSON-LD schema linking out to external authorities like LinkedIn and GitHub.
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📧 Contact
-
-**Aryan Vishwakarma** - [anujaryan81018@gmail.com](mailto:anujaryan81018@gmail.com)
-
-Project Link: [https://github.com/vishwakarma-31/portfolio_2.0](https://github.com/vishwakarma-31/portfolio_2.0)
-
 ---
 
 <p align="center">
-  Made with ❤️ and ☕ by Aryan Vishwakarma
+  Built by <strong>Aryan Vishwakarma</strong> • <a href="mailto:anujaryan81018@gmail.com">anujaryan81018@gmail.com</a>
 </p>

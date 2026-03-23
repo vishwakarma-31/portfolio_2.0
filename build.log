@@ -1,0 +1,55 @@
+
+> portfolio_2.0@0.0.0 build
+> vite build
+
+NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 2 modules transformed.
+[33mnode_modules/react-helmet-async/lib/index.module.js (1:7186): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react-helmet-async/lib/index.module.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+[33mnode_modules/react-helmet-async/lib/index.module.js (1:13561): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react-helmet-async/lib/index.module.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+
+✨ [vite-plugin-compression]:algorithm=gzip - compressed file successfully: 
+dist/D:/Projects/portfolio_2.0/assets/Certifications-CA2TX1J1.js.gz           10.12kb / gzip: 2.87kb
+dist/D:/Projects/portfolio_2.0/assets/Home-rBr2SnHU.js.gz                     12.76kb / gzip: 3.30kb
+dist/D:/Projects/portfolio_2.0/assets/Projects-B0JWFRts.js.gz                 5.95kb / gzip: 1.55kb
+dist/D:/Projects/portfolio_2.0/assets/Education-SOiSap2l.js.gz                6.66kb / gzip: 1.78kb
+dist/D:/Projects/portfolio_2.0/assets/Contact-CjNJNB3i.js.gz                  16.04kb / gzip: 3.86kb
+dist/D:/Projects/portfolio_2.0/assets/ProjectDetail-BbOzlfWr.js.gz            18.88kb / gzip: 2.45kb
+dist/D:/Projects/portfolio_2.0/assets/index-z80qTBxm.css.gz                   35.99kb / gzip: 6.84kb
+dist/D:/Projects/portfolio_2.0/assets/UnifiedCard-d-NBnu9V.js.gz              1.56kb / gzip: 0.70kb
+dist/D:/Projects/portfolio_2.0/assets/projects-yIODojqG.js.gz                 6.88kb / gzip: 2.74kb
+dist/D:/Projects/portfolio_2.0/assets/Experience-CEB8MMNf.js.gz               7.89kb / gzip: 1.98kb
+dist/D:/Projects/portfolio_2.0/assets/Skills-DYWUT6vw.js.gz                   9.70kb / gzip: 2.77kb
+dist/D:/Projects/portfolio_2.0/index.html.gz                                  4.54kb / gzip: 1.45kb
+dist/D:/Projects/portfolio_2.0/assets/ThreeBackgroundContent-DgKVCjx0.js.gz   7.02kb / gzip: 2.34kb
+dist/D:/Projects/portfolio_2.0/sw.js.gz                                       3.49kb / gzip: 1.06kb
+dist/D:/Projects/portfolio_2.0/assets/index-B3mK5x90.js.gz                    140.74kb / gzip: 49.91kb
+dist/D:/Projects/portfolio_2.0/assets/animations-CIGV3ffB.js.gz               186.29kb / gzip: 65.81kb
+dist/D:/Projects/portfolio_2.0/assets/three-DF8KX9ME.js.gz                    1355.06kb / gzip: 381.66kb
+
+
+[31m✗[39m Build failed in 3.28s
+[31merror during build:
+[31m[vite]: Rollup failed to resolve import "reflect-metadata" from "D:/Projects/portfolio_2.0/src/main.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`[31m
+    at viteLog (file:///D:/Projects/portfolio_2.0/node_modules/vite/dist/node/chunks/config.js:33635:57)
+    at file:///D:/Projects/portfolio_2.0/node_modules/vite/dist/node/chunks/config.js:33669:73
+    at onwarn (file:///D:/Projects/portfolio_2.0/node_modules/@vitejs/plugin-react/dist/index.js:76:7)
+    at file:///D:/Projects/portfolio_2.0/node_modules/vite/dist/node/chunks/config.js:33669:28
+    at onRollupLog (file:///D:/Projects/portfolio_2.0/node_modules/vite/dist/node/chunks/config.js:33664:63)
+    at onLog (file:///D:/Projects/portfolio_2.0/node_modules/vite/dist/node/chunks/config.js:33467:4)
+    at file:///D:/Projects/portfolio_2.0/node_modules/rollup/dist/es/shared/node-entry.js:21081:32
+    at Object.logger [as onLog] (file:///D:/Projects/portfolio_2.0/node_modules/rollup/dist/es/shared/node-entry.js:22968:9)
+    at ModuleLoader.handleInvalidResolvedId (file:///D:/Projects/portfolio_2.0/node_modules/rollup/dist/es/shared/node-entry.js:21712:26)
+    at file:///D:/Projects/portfolio_2.0/node_modules/rollup/dist/es/shared/node-entry.js:21670:26[39m

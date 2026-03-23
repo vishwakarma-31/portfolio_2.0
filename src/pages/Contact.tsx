@@ -8,6 +8,7 @@ const Contact = () => {
       <Helmet>
         <title>Contact - Aryan Vishwakarma</title>
         <meta name="description" content="Get in touch with Aryan Vishwakarma, a Full Stack Developer specializing in React, Node.js, and modern web technologies." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/contact" />
       </Helmet>
       <section className="w-full py-8 px-4 sm:px-6 lg:px-8 flex items-center">
         <div className="container mx-auto">

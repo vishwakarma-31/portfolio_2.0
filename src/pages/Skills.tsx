@@ -70,6 +70,7 @@ const Skills = () => {
       <Helmet>
         <title>Skills & Expertise - Aryan Vishwakarma</title>
         <meta name="description" content="Discover my technical skills and expertise in frontend development, backend technologies, databases, cloud services, and DevOps tools." />
+        <link rel="canonical" href="https://vishwakarma-31-portfolio.vercel.app/skills" />
       </Helmet>
       <div className="max-w-7xl mx-auto space-y-12 pb-8">
         <div

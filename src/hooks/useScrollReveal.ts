@@ -2,12 +2,9 @@ import { useRef, useState } from 'react';
 import { Variants } from 'framer-motion';
 
 export interface ScrollRevealOptions {
-  threshold?: number;
   delay?: number;
   duration?: number;
-  distance?: number;
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
-  once?: boolean;
 }
 
 interface ScrollRevealReturn {
