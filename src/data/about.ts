@@ -25,13 +25,12 @@ export const aboutMe = {
     'Sass',
     'Tailwind CSS',
     'Bootstrap',
-    'Python',
-    'Java'
+    'Python'
   ],
   stats: [
-    { number: '2+', label: 'Years Coding', icon: 'code' },
-    { number: '10+', label: 'Projects Built', icon: 'database' },
-    { number: '15+', label: 'Technologies', icon: 'zap' },
+    { number: '1+', label: 'Years Coding', icon: 'code' },
+    { number: '5+', label: 'Projects Built', icon: 'database' },
+    { number: '10+', label: 'Technologies', icon: 'zap' },
     { number: '100%', label: 'Passion', icon: 'star' }
   ]
 };

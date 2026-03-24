@@ -131,7 +131,7 @@ const Home = () => {
   const skillGroups = [
     { label: "Frontend", color: "cyan", skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "JavaScript"] },
     { label: "Backend", color: "purple", skills: ["Node.js", "Express", "Python", "REST", "GraphQL", "WebSockets"] },
-    { label: "Tools & Cloud", color: "blue", skills: ["MongoDB", "AWS", "Docker", "Git", "Java", "Linux"] }
+    { label: "Tools & Cloud", color: "blue", skills: ["MongoDB", "Docker", "Git"] }
   ];
 
   const getColorClasses = (color: string) => {
