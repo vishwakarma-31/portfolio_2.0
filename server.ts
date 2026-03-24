@@ -26,11 +26,25 @@ app.use(express.json());
 // Import contact handler
 import contactHandler from './api/contact';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Convert import.meta.url to __dirname equivalent in ES modules if needed, or just use process.cwd()
+const __dirname = path.resolve();
+
 // API routes
 app.post('/api/contact', (req, res) => contactHandler(req as any, res as any));
 
 // Handle preflight requests
 app.options('/api/contact', cors(corsOptions));
+
+// Serve static frontend files in production
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch-all route to serve React app for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // Start server
 app.listen(PORT, () => {
