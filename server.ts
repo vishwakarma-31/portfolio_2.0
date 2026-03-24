@@ -42,7 +42,7 @@ app.options('/api/contact', cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Catch-all route to serve React app for client-side routing
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
