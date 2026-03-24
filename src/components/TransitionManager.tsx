@@ -23,17 +23,15 @@ const TransitionManager: React.FC<TransitionManagerProps> = ({ children }) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.1 }} // Minimal transition time
-          className="page-content w-full min-h-screen"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -5 }}
+          transition={{ duration: 0.15, ease: 'easeOut' }} // Extremely fast and snappy
+          className="page-content w-full min-h-screen relative overflow-hidden"
         >
           {children}
         </motion.div>
       </AnimatePresence>
-      
-      {/* Remove the transition indicator for cleaner experience */}
     </div>
   )
 }

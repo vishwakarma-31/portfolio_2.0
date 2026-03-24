@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import type { NavItem } from '../types'
 
@@ -33,26 +33,34 @@ const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const { scrollYProgress } = useScroll()
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
+
   return (
     <>
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
           isScrolled
             ? 'bg-black/95 backdrop-blur-xl border-b border-cyan-400/30 shadow-2xl shadow-cyan-500/10'
             : 'bg-black/80 backdrop-blur-md border-b border-cyan-400/20'
         }`}
       >
+        {/* Scroll Progress Bar */}
+        <motion.div 
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-purple-400 origin-left z-[61]"
+          style={{ scaleX }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <motion.div
-              className="flex items-center"
+              className="flex items-center group overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link to="/" className="text-xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent hover:from-cyan-200 hover:to-blue-200 transition-all duration-300">
+              <Link to="/" className="text-xl font-bold bg-gradient-to-r from-cyan-300 via-white to-blue-300 bg-[length:200%_auto] animate-[gradient-shift_8s_ease_infinite] bg-clip-text text-transparent transition-all duration-300">
                 {brandName}
               </Link>
             </motion.div>
@@ -78,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       {location.pathname === item.path && (
                         <motion.div
                           layoutId="navbar-indicator"
-                          className="absolute inset-0 bg-gradient-to-r from-cyan-400/30 to-blue-400/30 rounded-lg"
+                          className="absolute inset-0 bg-gradient-to-r from-cyan-400/40 to-blue-400/40 rounded-lg border-b-2 border-cyan-400"
                           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
                       )}
