@@ -268,7 +268,7 @@ const Home = () => {
                   <div className="absolute inset-0 rounded-full bg-transparent animate-conic-spin" style={{ background: 'inherit' }} />
                   <div className="w-full h-full rounded-full overflow-hidden bg-black p-1 relative z-10">
                     <img
-                      src="/images/Aaryannn.jpg"
+                      src="/images/Aryan.jpeg"
                       alt={profileData.name}
                       className="w-full h-full object-cover rounded-full"
                       loading="lazy"

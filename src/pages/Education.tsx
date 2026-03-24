@@ -10,7 +10,7 @@ const Education = () => {
       degree: 'B.Tech in Information Technology',
       institution: 'Pranveer Singh Institute Of Technology',
       period: '2022 - 2026',
-      score: '6.2 CGPA',
+      score: '7 CGPA',
       location: 'Kanpur, India',
       description: 'Gained a solid foundation in computing concepts through hands-on labs, industry-oriented coursework, and collaborative projects. Core subjects include Operating Systems, OOPs, Big Data, and Machine Learning.'
     },
