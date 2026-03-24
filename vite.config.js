@@ -35,6 +35,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 3000, // Changed to 3000 to avoid conflicts with backend
+    allowedHosts: ['portfolio-2-0-zrkl.onrender.com', 'localhost'],
     // Proxy API requests to a separate server during development
     proxy: {
       '/api': {
@@ -43,6 +44,10 @@ export default defineConfig({
         secure: false,
       }
     }
-    // Vite automatically handles history API fallback for client-side routing
   },
+  preview: {
+    host: true,
+    port: 3000,
+    allowedHosts: ['portfolio-2-0-zrkl.onrender.com', 'localhost']
+  }
 })
